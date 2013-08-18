@@ -21,8 +21,7 @@ end
 
 # Load nanoc
 $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + '/../lib'))
-require 'nanoc'
-require 'nanoc/cli'
+require 'nanoc-core'
 
 # Load miscellaneous requirements
 require 'stringio'
@@ -139,12 +138,14 @@ EOS
     FileUtils.cd('tmp')
 
     # Let us get to the raw errors
-    Nanoc::CLI::ErrorHandler.disable
+    # TODO move this elsewhere
+    #Nanoc::CLI::ErrorHandler.disable
   end
 
   def teardown
     # Restore normal error handling
-    Nanoc::CLI::ErrorHandler.enable
+    # TODO move this elsewhere
+    #Nanoc::CLI::ErrorHandler.enable
 
     # Exit tmp
     FileUtils.cd(@orig_wd)

@@ -5,7 +5,7 @@ $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + '/lib'))
 require './test/gem_loader.rb'
 
 # Load nanoc
-require 'nanoc'
+require 'nanoc-core'
 
 # Load tasks
 Dir.glob('tasks/**/*.rake').each { |r| Rake.application.add_import r }
