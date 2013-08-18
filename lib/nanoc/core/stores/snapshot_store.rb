@@ -51,17 +51,21 @@ module Nanoc
       end
 
       def query(item_identifier, rep_name, snapshot_name)
-        key = [ item_identifier, rep_name, snapshot_name ]
+        item_identifier = item_identifier.to_s unless item_identifier.is_a?(String)
+        key = [ item_identifier.to_s, rep_name, snapshot_name ]
         @store.fetch(key)
       end
 
       def set(item_identifier, rep_name, snapshot_name, content)
-        key = [ item_identifier, rep_name, snapshot_name ]
+        item_identifier = item_identifier.to_s unless item_identifier.is_a?(String)
+        key = [ item_identifier.to_s, rep_name, snapshot_name ]
+        content.freeze
         @store[key] = content
       end
 
       def exist?(item_identifier, rep_name, snapshot_name)
-        key = [ item_identifier, rep_name, snapshot_name ]
+        item_identifier = item_identifier.to_s unless item_identifier.is_a?(String)
+        key = [ item_identifier.to_s, rep_name, snapshot_name ]
         @store.has_key?(key)
       end
 
@@ -82,6 +86,7 @@ module Nanoc
       end
 
       def query(item_identifier, rep_name, snapshot_name)
+        item_identifier = item_identifier.to_s unless item_identifier.is_a?(String)
         query = 'SELECT content FROM snapshots WHERE item_identifier = ? AND rep_name = ? AND snapshot_name = ?'
         rows = @db.execute(query, [ item_identifier.to_s, rep_name.to_s, snapshot_name.to_s ])
         raise "No row found" if rows.empty?
@@ -91,11 +96,13 @@ module Nanoc
       end
 
       def set(item_identifier, rep_name, snapshot_name, content)
+        item_identifier = item_identifier.to_s unless item_identifier.is_a?(String)
         query = 'INSERT OR REPLACE INTO snapshots (item_identifier, rep_name, snapshot_name, content) VALUES (?, ?, ?, ?)'
         @db.execute(query, [ item_identifier.to_s, rep_name.to_s, snapshot_name.to_s, content ])
       end
 
       def exist?(item_identifier, rep_name, snapshot_name)
+        item_identifier = item_identifier.to_s unless item_identifier.is_a?(String)
         query = 'SELECT COUNT(*) FROM snapshots WHERE item_identifier = ? AND rep_name = ? AND snapshot_name = ?'
         rows = @db.execute(query, [ item_identifier.to_s, rep_name.to_s, snapshot_name.to_s ])
         rows[0][0].to_i != 0
