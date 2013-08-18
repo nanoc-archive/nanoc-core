@@ -10,7 +10,7 @@ class Nanoc::ItemRepTest < Nanoc::TestCase
   end
 
   def new_snapshot_store
-    Nanoc::SnapshotStore::SQLite3.new
+    Nanoc::SnapshotStore::InMemory.new
   end
 
   def test_created_modified_compiled

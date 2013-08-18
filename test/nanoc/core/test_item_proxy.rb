@@ -5,7 +5,7 @@ class Nanoc::ItemProxyTest < Nanoc::TestCase
   def setup
     super
 
-    @snapshot_store = Nanoc::SnapshotStore::SQLite3.new
+    @snapshot_store = Nanoc::SnapshotStore::InMemory.new
     @content = Nanoc::TextualContent.new('blah blah blah', File.absolute_path('content/somefile.md'))
     @item = Nanoc::Item.new(@content, {}, '/index.md')
     @rep_1 = Nanoc::ItemRep.new(@item, :default, :snapshot_store => @snapshot_store)

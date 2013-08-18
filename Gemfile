@@ -16,6 +16,5 @@ group :test do
   gem 'rake'
   gem 'minitest'
   gem 'mocha'
-  gem 'sqlite3' # FIXME remove this (move to plugin)
   gem 'systemu'
 end
