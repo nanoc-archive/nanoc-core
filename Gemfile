@@ -2,8 +2,20 @@ source "http://rubygems.org"
 
 gemspec
 
-# TODO not strictly necessary, so remove
-gem 'sqlite3'
-
 # disabled until colorize/colored issue is fixed
 #gem 'coveralls', :require => false
+
+# When adding a group here, check .travis.yml’s `bundler_args`.
+
+group :doc do
+  gem 'kramdown'
+  gem 'yard'
+end
+
+group :test do
+  gem 'rake'
+  gem 'minitest'
+  gem 'mocha'
+  gem 'sqlite3' # FIXME remove this (move to plugin)
+  gem 'systemu'
+end
