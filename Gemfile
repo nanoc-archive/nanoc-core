@@ -2,7 +2,7 @@ source "http://rubygems.org"
 
 gemspec
 
-gem 'debugger'
+# TODO not strictly necessary, so remove
 gem 'sqlite3'
 
 # disabled until colorize/colored issue is fixed
