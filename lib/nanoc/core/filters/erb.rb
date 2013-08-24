@@ -1,11 +1,11 @@
-# encoding: utf-8                                                                                                           
+# encoding: utf-8
+
+require 'erb'
 
 module Nanoc::Filters
   class ERB < Nanoc::Filter
 
     identifier :erb
-
-    requires 'erb'
 
     # Runs the content through [ERB](http://ruby-doc.org/stdlib/libdoc/erb/rdoc/classes/ERB.html).
     #
@@ -25,7 +25,7 @@ module Nanoc::Filters
       context = ::Nanoc::Context.new(assigns)
 
       # Get binding
-      proc = assigns[:content] ? lambda { assigns[:content] } : nil 
+      proc = assigns[:content] ? lambda { assigns[:content] } : nil
       assigns_binding = context.get_binding(&proc)
 
       # Get result
@@ -34,7 +34,7 @@ module Nanoc::Filters
       erb = ::ERB.new(content, safe_level, trim_mode)
       erb.filename = filename
       erb.result(assigns_binding)
-    end 
+    end
 
-  end 
+  end
 end

@@ -272,7 +272,7 @@ module Nanoc
           else
             self.stored_content_at_snapshot(:last)
           end
-        result = filter.setup_and_run(source, filter_args)
+        result = filter.run(source, filter_args)
         if klass.to_binary?
           temporary_filenames[:last] = filter.output_filename
         else
@@ -332,7 +332,7 @@ module Nanoc
         if layout.content.binary?
           raise "cannot use binary layouts"
         end
-        content = filter.setup_and_run(layout.content.string, filter_args)
+        content = filter.run(layout.content.string, filter_args)
         self.set_stored_content_at_snapshot(:last, content)
       ensure
         # Notify end
