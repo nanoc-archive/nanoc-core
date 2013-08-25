@@ -23,7 +23,7 @@ Gem::Specification.new do |s|
   s.require_paths      = [ 'lib' ]
 
   s.rdoc_options     = [ '--main', 'README.md' ]
-  s.extra_rdoc_files = [ 'ChangeLog', 'LICENSE', 'README.md', 'NEWS.md' ]
+  s.extra_rdoc_files = [ 'LICENSE', 'README.md', 'NEWS.md' ]
 
   s.add_runtime_dependency('cri', '~> 2.3')
 
