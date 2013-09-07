@@ -103,7 +103,7 @@ EOS
   end
 
   def test_dsl_has_no_access_to_compiler
-    assert_raises(NameError) do
+    assert_raises(NameError, NoMethodError) do
       @compiler_dsl.instance_eval { compiler }
     end
   end
