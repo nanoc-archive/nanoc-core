@@ -39,8 +39,7 @@ class Nanoc::Filters::ERBTest < Nanoc::TestCase
     begin
       filter.run('<%= this isn\'t really ruby so it\'ll break, muahaha %>')
     rescue SyntaxError => e
-      e.message =~ /(.+?):\d+: /
-      assert_match 'item /foo/bar/baz/ (rep quux)', $1
+      assert_match 'item /foo/bar/baz/ (rep quux)', e.message
       raised = true
     end
     assert raised
