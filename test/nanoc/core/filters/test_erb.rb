@@ -66,6 +66,10 @@ class Nanoc::Filters::ERBTest < Nanoc::TestCase
   end
 
   def test_safe_level
+    if RUBY_ENGINE == 'rbx'
+      skip "$SAFE is not supported on Rubinius."
+    end
+
     # Set up
     filter = ::Nanoc::Filters::ERB.new
     File.write('moo', "one miiillion dollars")
