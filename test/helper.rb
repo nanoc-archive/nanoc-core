@@ -15,9 +15,8 @@ rescue => e
 end
 
 # Setup coverage
-# (disabled until colorize/colored issue is resolved)
-#require 'coveralls'
-#Coveralls.wear!
+require 'coveralls'
+Coveralls.wear!
 
 # Load nanoc
 $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + '/../lib'))
