@@ -58,8 +58,14 @@ end
 describe 'Array#checksum' do
 
   it 'should work' do
-    expectation = '78468f950645150238a26f5b8f2dde39a75a7028'
+    expectation = '1ef518dc64766269b6813ba8279852b92bb15b81'
     [ [ :foo, 123 ]].checksum.must_equal expectation
+  end
+
+  it 'should not reorder elements' do
+    a = [ 'Alan W.', 'Alice W.' ].checksum
+    b = [ 'Alice W.', 'Alan W.' ].checksum
+    a.wont_equal b
   end
 
 end

@@ -54,8 +54,8 @@ module Nanoc::HashExtensions
   #
   # @api private
   def checksum
-    array = self.to_a.sort_by { |kv| kv[0].to_s }
-    array.checksum
+    elements = self.sort.map { |e| e.respond_to?(:checksum) ? e.checksum : e }
+    "hash[#{elements.join(',')}]".checksum
   end
 
 end
