@@ -17,8 +17,8 @@ class Nanoc::GemTest < Nanoc::TestCase
     files_before = Set.new Dir['**/*']
     stdout = ''
     stderr = ''
-    status = systemu(
-      [ 'gem', 'build', 'nanoc-core.gemspec' ],
+    status, _ = systemu(
+      'gem build nanoc-core.gemspec',
       'stdin'  => '',
       'stdout' => stdout,
       'stderr' => stderr)
@@ -28,11 +28,7 @@ class Nanoc::GemTest < Nanoc::TestCase
     # Check new files
     diff = files_after - files_before
     assert_equal 1, diff.size
-    assert_match(/^nanoc-.*\.gem$/, diff.to_a[0])
-
-    # Check output
-    assert_match(/Successfully built RubyGem\n  Name: nanoc-core\n  Version: .*\n  File: nanoc-core-.*\.gem\n/, stdout)
-    assert_equal '', stderr
+    assert_equal "nanoc-core-#{Nanoc::VERSION}.gem", diff.to_a[0]
   ensure
     Dir['nanoc-core-*.gem'].each { |f| FileUtils.rm(f) }
   end
