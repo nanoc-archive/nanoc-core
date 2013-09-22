@@ -3,20 +3,19 @@
 # Set up gem loading (necessary for cri dependency)
 require File.dirname(__FILE__) + '/gem_loader.rb'
 
+# Setup coverage
+require 'coveralls'
+Coveralls.wear!
+
 # Load unit testing stuff
 begin
-  require 'minitest/unit'
-  require 'minitest/spec'
-  require 'minitest/mock'
+  require 'minitest/autorun'
   require 'mocha/setup'
+  require 'yard'
 rescue => e
   $stderr.puts "To run the nanoc unit tests, you need minitest and mocha."
   raise e
 end
-
-# Setup coverage
-require 'coveralls'
-Coveralls.wear!
 
 # Load nanoc
 $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + '/../lib'))
