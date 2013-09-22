@@ -59,7 +59,7 @@ class Nanoc::MemoizationTest < Nanoc::TestCase
 
   end
 
-  def test
+  def test_simple
     sample1a = Sample1.new(10)
     sample1b = Sample1.new(15)
     sample2a = Sample2.new(20)
