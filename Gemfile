@@ -2,8 +2,7 @@ source "http://rubygems.org"
 
 gemspec
 
-# disabled until colorize/colored issue is fixed
-#gem 'coveralls', :require => false
+gem 'coveralls', :require => false
 
 # When adding a group here, check .travis.yml’s `bundler_args`.
 
