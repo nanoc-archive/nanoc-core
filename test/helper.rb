@@ -26,28 +26,6 @@ require 'stringio'
 
 module Nanoc::TestHelpers
 
-  def if_have(*libs)
-    libs.each do |lib|
-      begin
-        require lib
-      rescue LoadError
-        skip "requiring #{lib} failed"
-        return
-      end
-    end
-
-    yield
-  end
-
-  def if_implemented
-    begin
-      yield
-    rescue NotImplementedError, NameError
-      skip $!
-      return
-    end
-  end
-
   def in_site(params={})
     # Build site name
     site_name = params[:name]
