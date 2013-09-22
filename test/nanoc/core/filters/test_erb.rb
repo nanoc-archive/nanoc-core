@@ -67,6 +67,8 @@ class Nanoc::Filters::ERBTest < Nanoc::TestCase
   def test_safe_level
     if RUBY_ENGINE == 'rbx'
       skip "$SAFE is not supported on Rubinius."
+    elsif RUBY_ENGINE == 'jruby'
+      skip "$SAFE is not supported on JRuby."
     end
 
     # Set up
