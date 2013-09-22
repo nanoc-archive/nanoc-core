@@ -87,13 +87,17 @@ class Nanoc::FilesystemToolsTest < Nanoc::TestCase
 
   def test_resolve_symlink_too_many
     File.write('foo', 'o hai')
-    File.symlink('foo', 'symlin-0')
+    File.symlink('foo', 'symlink-0')
     (1..7).each do |i|
       File.symlink("symlink-#{i-1}", "symlink-#{i}")
     end
 
+    # 5 is OK
+    Nanoc::FilesystemTools.resolve_symlink('symlink-5')
+
+    # More than 5 is not OK
     assert_raises Nanoc::FilesystemTools::MaxSymlinkDepthExceededError do
-      Nanoc::FilesystemTools.resolve_symlink('symlink-7')
+      Nanoc::FilesystemTools.resolve_symlink('symlink-6')
     end
   end
 
