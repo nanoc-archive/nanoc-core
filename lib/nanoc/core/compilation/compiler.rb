@@ -81,6 +81,7 @@ module Nanoc
       compile_reps(reps)
       dependency_tracker.stop
       store
+      prune
     ensure
       # Cleanup
       FileUtils.rm_rf(Nanoc::Filter::TMP_BINARY_ITEMS_DIR)
@@ -396,6 +397,15 @@ module Nanoc
       rep.forget_progress
       Nanoc::NotificationCenter.post(:compilation_failed, rep, e)
       raise e
+    end
+
+    def prune
+      if self.site.config[:prune][:auto_prune]
+        identifier = self.item_rep_writer.class.identifier
+        pruner_class = Nanoc::Pruner.named(identifier)
+        exclude = self.site.config.fetch(:prune, {}).fetch(:exclude, [])
+        pruner_class.new(self.site, :exclude => exclude).run
+      end
     end
 
     # Clears the list of dependencies for items that will be recompiled.

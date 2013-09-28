@@ -89,7 +89,7 @@ module Nanoc
       if @dry_run
         puts file
       else
-        Nanoc::CLI::Logger.instance.file(:high, :delete, file)
+        # TODO log file deletion
         FileUtils.rm(file)
       end
     end
@@ -98,7 +98,7 @@ module Nanoc
       if @dry_run
         puts dir
       else
-        Nanoc::CLI::Logger.instance.file(:high, :delete, dir)
+        # TODO log file deletion
         Dir.rmdir(dir)
       end
     end

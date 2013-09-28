@@ -317,4 +317,39 @@ class Nanoc::CompilerTest < Nanoc::TestCase
     end
   end
 
+  def test_prune_do_not_prune_by_default
+    in_site do
+      File.write('content/index.html', 'o hello')
+      File.write('output/crap', 'o hello')
+
+      compile_site_here
+
+      assert_equal [ 'output/crap', 'output/index.html' ], Dir['output/*'].sort
+    end
+  end
+
+  def test_prune_do_not_prune_if_config_says_no
+    in_site do
+      File.write('nanoc.yaml', "prune:\n  auto_prune: false")
+      File.write('content/index.html', 'o hello')
+      File.write('output/crap', 'o hello')
+
+      compile_site_here
+
+      assert_equal [ 'output/crap', 'output/index.html' ], Dir['output/*'].sort
+    end
+  end
+
+  def test_prune_prune_if_config_says_yes
+    in_site do
+      File.write('nanoc.yaml', "prune:\n  auto_prune: true")
+      File.write('content/index.html', 'o hello')
+      File.write('output/crap', 'o hello')
+
+      compile_site_here
+
+      assert_equal [ 'output/index.html' ], Dir['output/*'].sort
+    end
+  end
+
 end
