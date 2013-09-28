@@ -3,6 +3,10 @@
 class Nanoc::FilesystemToolsTest < Nanoc::TestCase
 
   def test_all_files_in_follows_symlinks_to_dirs
+    if 'jruby' == RUBY_ENGINE && '1.7.4' == JRUBY_VERSION
+      skip "Symlink behavior on JRuby is known to be broken (see https://github.com/jruby/jruby/issues/1036)"
+    end
+
     # Write sample files
     (0..15).each do |i|
       FileUtils.mkdir_p("dir#{i}")
@@ -48,6 +52,10 @@ class Nanoc::FilesystemToolsTest < Nanoc::TestCase
   end
 
   def test_all_files_in_relativizes_directory_names
+    if 'jruby' == RUBY_ENGINE && '1.7.4' == JRUBY_VERSION
+      skip "Symlink behavior on JRuby is known to be broken (see https://github.com/jruby/jruby/issues/1036)"
+    end
+
     FileUtils.mkdir('foo')
     FileUtils.mkdir('bar')
 
