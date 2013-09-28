@@ -56,8 +56,8 @@ require 'nanoc/core/entities/pattern'
 require 'nanoc/core/entities/site'
 require 'nanoc/core/entities/textual_content'
 
-# Load proxy classes
-require 'nanoc/core/proxies/item_proxy'
+# Load view classes
+require 'nanoc/core/views/item_view'
 
 # Load store classes
 require 'nanoc/core/store'

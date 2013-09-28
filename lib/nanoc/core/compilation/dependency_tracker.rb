@@ -55,8 +55,8 @@ module Nanoc
 
       # Register start of visits
       Nanoc::NotificationCenter.on(:visit_started, self) do |obj|
-        if obj.is_a?(Nanoc::ItemProxy)
-          raise 'Cannot depend on item proxies'
+        if obj.is_a?(Nanoc::ItemView)
+          raise 'Cannot depend on item views'
         end
 
         if !@stack.empty?

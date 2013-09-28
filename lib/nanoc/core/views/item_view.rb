@@ -2,7 +2,7 @@
 
 module Nanoc
 
-  class ItemProxy
+  class ItemView
 
     extend Forwardable
 
