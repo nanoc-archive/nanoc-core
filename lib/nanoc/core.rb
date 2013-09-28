@@ -42,6 +42,7 @@ require 'nanoc/core/helper/plugin_registry'
 require 'nanoc/core/helper/filesystem_tools'
 
 # Load entity classes
+require 'nanoc/core/entities/binary_content'
 require 'nanoc/core/entities/code_snippet'
 require 'nanoc/core/entities/content'
 require 'nanoc/core/entities/configuration'
@@ -53,6 +54,7 @@ require 'nanoc/core/entities/layout'
 require 'nanoc/core/entities/identifier'
 require 'nanoc/core/entities/pattern'
 require 'nanoc/core/entities/site'
+require 'nanoc/core/entities/textual_content'
 
 # Load proxy classes
 require 'nanoc/core/proxies/item_proxy'
