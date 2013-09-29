@@ -8,12 +8,15 @@ module Nanoc
 
     def_delegators :@item, :identifier, :[]
 
-    attr_reader :item
-
     # TODO document
     def initialize(item, item_rep_store)
       @item           = item
       @item_rep_store = item_rep_store
+    end
+
+    # @return [Nanoc::Item] The item this view is for
+    def resolve
+      @item
     end
 
     def inspect
