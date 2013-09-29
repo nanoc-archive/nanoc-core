@@ -17,7 +17,9 @@ module Nanoc
       @item_rep_store = item_rep_store
     end
 
-    # @return [Nanoc::Item] The item this view is for
+    # @return [Nanoc::Item] the item this view is for
+    #
+    # @api private
     def resolve
       @item
     end
@@ -31,8 +33,6 @@ module Nanoc
       @_reps ||= @item_rep_store.reps_for_item(@item)
     end
 
-    # Returns the rep with the given name.
-    #
     # @param [Symbol] rep_name The name of the representation to return
     #
     # @return [Nanoc::ItemRep] The representation with the given name

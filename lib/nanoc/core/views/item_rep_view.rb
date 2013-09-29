@@ -17,12 +17,14 @@ module Nanoc
       @item_rep_store = item_rep_store
     end
 
-    # @return [Nanoc::ItemRep] The item rep this view is for
+    # @return [Nanoc::ItemRep] the item rep this view is for
+    #
+    # @api private
     def resolve
       @item_rep
     end
 
-    # @return [Nanoc::ItemView] A view for the item for this rep
+    # @return [Nanoc::ItemView] a view for the item for this rep
     def item
       Nanoc::ItemView.new(self.resolve.item, item_rep_store)
     end
