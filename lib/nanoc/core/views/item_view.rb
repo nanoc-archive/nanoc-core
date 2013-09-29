@@ -2,13 +2,16 @@
 
 module Nanoc
 
+  # A wrapper around {Nanoc::Item} that provides restricted access. Item views
+  # should be used in assigns when filtering and layouting.
   class ItemView
 
     extend Forwardable
 
     def_delegators :@item, :identifier, :[]
 
-    # TODO document
+    # @param [Nanoc::Item] item
+    # @param [Nanoc::ItemRepStore] item_rep_store
     def initialize(item, item_rep_store)
       @item           = item
       @item_rep_store = item_rep_store
@@ -91,10 +94,7 @@ module Nanoc
       rep.path
     end
 
-    # TODO remove me
-    def content ; @item.content ; end
-
-    # TODO remove me
+    # TODO remove me (used in capturing helper)
     def forced_outdated=(bool) ; @item.forced_outdated = bool ; end
 
   end
