@@ -50,4 +50,12 @@ class Nanoc::ItemViewTest < Nanoc::TestCase
     end
   end
 
+  def test_path_with_default_snapshot
+    assert_equal 'default path at nil', @item_view.path
+  end
+
+  def test_path_with_custom_snapshot
+    assert_equal 'default path at :blargh', @item_view.path(:snapshot => :blargh)
+  end
+
 end

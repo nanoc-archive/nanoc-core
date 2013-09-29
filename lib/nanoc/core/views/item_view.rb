@@ -91,7 +91,7 @@ module Nanoc
       end
 
       # Get rep's path
-      rep.path
+      rep.path(params)
     end
 
     # TODO remove me (used in capturing helper)
