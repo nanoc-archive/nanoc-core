@@ -225,7 +225,9 @@ module Nanoc
         rep_names = matching_rules.map { |r| r.rep_name }.uniq
         rep_names.each do |rep_name|
           rep = ItemRep.new(item, rep_name, :snapshot_store => self.snapshot_store)
+          # FIXME paths_without_snapshot also includes paths with snapshots
           rep.paths_without_snapshot = self.rule_memory_calculator.write_paths_for(rep)
+          rep.paths = self.rule_memory_calculator.snapshot_write_paths_for(rep)
           reps << rep
         end
       end

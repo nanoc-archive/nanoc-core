@@ -93,6 +93,12 @@ module Nanoc
       new_rule_memory_for_rep(rep).select { |e| e[0] == :write }.map { |e| e[1].to_s }
     end
 
+    def snapshot_write_paths_for(rep)
+      new_rule_memory_for_rep(rep).
+        select { |e| e[0] == :write && e[2][:snapshot] }.
+        each_with_object({}) { |e, memo| memo[e[2][:snapshot]] = e[1].to_s }
+    end
+
     # @param [Nanoc::Item] obj The object for which to check the rule memory
     #
     # @return [Boolean] true if the rule memory for the given object has

@@ -72,6 +72,8 @@ EOS
       item = Nanoc::ItemView.new(site.items[0], compiler.item_rep_store)
       assert_equal 'stuff <%= "goes" %> here', item.compiled_content(snapshot: :foo)
       assert_equal 'stuff goes here',          item.compiled_content(snapshot: :last)
+      assert_equal '/foo.txt', item.path(snapshot: :foo)
+      assert_nil               item.path(snapshot: :last)
     end
   end
 
