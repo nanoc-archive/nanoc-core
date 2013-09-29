@@ -58,6 +58,7 @@ require 'nanoc/core/entities/textual_content'
 
 # Load view classes
 require 'nanoc/core/views/item_view'
+require 'nanoc/core/views/item_rep_view'
 
 # Load store classes
 require 'nanoc/core/store'

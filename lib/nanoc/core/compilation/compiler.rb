@@ -260,8 +260,8 @@ module Nanoc
 
       content_or_filename_assigns.merge({
         :item       => Nanoc::ItemView.new(rep.item, self.item_rep_store),
-        :rep        => rep,
-        :item_rep   => rep,
+        :rep        => Nanoc::ItemRepView.new(rep, self.item_rep_store),
+        :item_rep   => Nanoc::ItemRepView.new(rep, self.item_rep_store),
         :items      => Nanoc::ItemArray.new.tap { |a| site.items.each { |i| a << Nanoc::ItemView.new(i, self.item_rep_store) }},
         :layouts    => site.layouts,
         :config     => site.config,
