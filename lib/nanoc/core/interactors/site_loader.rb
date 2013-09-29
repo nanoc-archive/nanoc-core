@@ -13,7 +13,9 @@ module Nanoc
       :type            => 'filesystem',
       :items_root      => '/',
       :layouts_root    => '/',
-      :text_extensions => %w( css erb haml htm html js less markdown md php rb sass scss txt xhtml xml coffee hb handlebars mustache ms slim ).sort
+      :text_extensions => %w( css erb haml htm html js less markdown md php rb sass scss txt xhtml xml coffee hb handlebars mustache ms slim ).sort,
+      :content_dir     => 'content',
+      :layouts_dir     => 'layouts',
     }
 
     # The default configuration for a site. A site's configuration overrides

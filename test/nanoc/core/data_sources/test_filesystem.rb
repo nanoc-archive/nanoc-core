@@ -196,4 +196,38 @@ class Nanoc::DataSources::FilesystemTest < Nanoc::TestCase
     refute(File.directory?('lib/'))
   end
 
+  def test_items_in_custom_dirs
+    FileUtils.mkdir_p('foo')
+    File.write('foo/foo.html',      'stuff')
+    File.write('foo/foo.html.yaml', 'ugly: true')
+
+    begin
+      @data_source.config[:content_dir] = 'foo'
+      items = @data_source.items
+      assert_equal 1, items.size
+      assert_equal 'stuff',        items.first.content.string
+      assert_equal '/foo.html',    items.first.identifier.to_s
+      assert_equal({ ugly: true }, items.first.attributes)
+    ensure
+      @data_source.config[:content_dir] = 'content'
+    end
+  end
+
+  def test_layouts_in_custom_dirs
+    FileUtils.mkdir_p('foo')
+    File.write('foo/foo.html',      'stuff')
+    File.write('foo/foo.html.yaml', 'ugly: true')
+
+    begin
+      @data_source.config[:layouts_dir] = 'foo'
+      layouts = @data_source.layouts
+      assert_equal 1, layouts.size
+      assert_equal 'stuff',        layouts.first.content.string
+      assert_equal '/foo.html',    layouts.first.identifier.to_s
+      assert_equal({ ugly: true }, layouts.first.attributes)
+    ensure
+      @data_source.config[:layouts_dir] = 'layouts'
+    end
+  end
+
 end

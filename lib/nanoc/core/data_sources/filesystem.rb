@@ -33,6 +33,10 @@ module Nanoc::DataSources
   #
   # * `text_extensions` - a list of filename extensions that should be treated
   #   as textual items.
+  #
+  # * `content_dir` - the path to the items directory (default: `content`)
+  #
+  # * `layouts_dir` - the path to the layouts directory (default: `layouts`)
   class Filesystem < Nanoc::DataSource
 
     class EmbeddedMetadataParseError < ::Nanoc::Errors::GenericTrivial
@@ -79,12 +83,12 @@ module Nanoc::DataSources
 
     # See {Nanoc::DataSource#items}.
     def items
-      load_objects('content', 'item', Nanoc::Item)
+      load_objects(@config.fetch(:content_dir, 'content'), 'item', Nanoc::Item)
     end
 
     # See {Nanoc::DataSource#layouts}.
     def layouts
-      load_objects('layouts', 'layout', Nanoc::Layout)
+      load_objects(@config.fetch(:layouts_dir, 'layouts'), 'layout', Nanoc::Layout)
     end
 
     # See {Nanoc::DataSource#create_item}.
