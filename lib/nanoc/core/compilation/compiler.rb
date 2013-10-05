@@ -50,6 +50,8 @@ module Nanoc
     # FIXME ugly
     attr_accessor :item_rep_store
 
+    attr_reader :item_rep_writer
+
     # @group Public instance methods
 
     # Creates a new compiler fo the given site
@@ -59,17 +61,20 @@ module Nanoc
     # TODO document dependencies
     def initialize(site, dependencies={})
       @site = site
-      @dependency_tracker = dependencies[:dependency_tracker]
-      @rules_store        = dependencies[:rules_store]
+      @dependency_tracker     = dependencies[:dependency_tracker]
+      @rules_store            = dependencies[:rules_store]
+      @checksum_store         = dependencies[:checksum_store]
+      @compiled_content_cache = dependencies[:compiled_content_cache]
+      @rule_memory_store      = dependencies[:rule_memory_store]
+      @snapshot_store         = dependencies[:snapshot_store]
+      @item_rep_writer        = dependencies[:item_rep_writer]
     end
 
     # Compiles the site and writes out the compiled item representations.
     #
     def run
-      # Compile reps
       load
 
-      # Determine which reps need to be recompiled
       forget_dependencies_if_outdated(site.items)
 
       @dependency_tracker.start
@@ -85,45 +90,10 @@ module Nanoc
 
     # @group Private instance methods
 
-    # Load the helper data that is used for compiling the site.
-    #
-    # @api private
-    #
-    # @return [void]
+    # TODO remove me
     def load
-      return if @loaded || @loading
-      @loading = true
-
-      # Preprocess
       preprocess
       build_reps
-
-      # Load auxiliary stores
-      stores.each { |s| s.load }
-
-      @loaded = true
-    rescue => e
-      unload
-      raise e
-    ensure
-      @loading = false
-    end
-
-    # Undoes the effects of {#load}. Used when {#load} raises an exception.
-    #
-    # @api private
-    #
-    # @return [void]
-    def unload
-      return if @unloading
-      @unloading = true
-
-      stores.each { |s| s.unload }
-
-      self.item_rep_store = nil
-
-      @loaded = false
-      @unloading = false
     end
 
     # Store the modified helper data used for compiling the site.
@@ -134,17 +104,20 @@ module Nanoc
     def store
       # Calculate rule memory
       (reps + @site.layouts).each do |obj|
-        rule_memory_store[obj] = rule_memory_calculator[obj]
+        @rule_memory_store[obj] = rule_memory_calculator[obj]
       end
 
       # Calculate checksums
       self.objects.each do |obj|
-        checksum_store[obj] = obj.checksum
+        @checksum_store[obj] = obj.checksum
       end
-      checksum_store[self.rules_collection] = @rules_store.rule_data
+      @checksum_store[self.rules_collection] = @rules_store.rule_data
 
       # Store
-      stores.each { |s| s.store }
+      @checksum_store.store
+      @compiled_content_cache.store
+      @dependency_tracker.store
+      @rule_memory_store.store
     end
 
     # Runs the preprocessor.
@@ -169,19 +142,12 @@ module Nanoc
     # @api private
     def build_reps
       builder = Nanoc::ItemRepBuilder.new(
-        site.items, rules_collection, rule_memory_calculator, snapshot_store)
+        site.items, rules_collection, rule_memory_calculator, @snapshot_store)
       self.item_rep_store = builder.populated_item_rep_store
     end
 
-    def item_rep_writer
-      # TODO pass options the right way
-      # TODO make type customisable (:filesystem)
-      Nanoc::ItemRepWriter.named(:filesystem).new({ :output_dir => @site.config[:output_dir] })
-    end
-    memoize :item_rep_writer
-
     def write_rep(rep, path)
-      self.item_rep_writer.write(rep, path.to_s)
+      @item_rep_writer.write(rep, path.to_s)
     end
 
     # @param [Nanoc::ItemRep] rep The item representation for which the
@@ -214,26 +180,13 @@ module Nanoc
     def outdatedness_checker
       Nanoc::OutdatednessChecker.new(
         :site                   => self.site,
-        :checksum_store         => self.checksum_store,
+        :checksum_store         => @checksum_store,
         :dependency_tracker     => @dependency_tracker,
-        :item_rep_writer        => self.item_rep_writer,
+        :item_rep_writer        => @item_rep_writer,
         :item_rep_store         => self.item_rep_store,
         :rule_memory_calculator => self.rule_memory_calculator)
     end
     memoize :outdatedness_checker
-
-    # Returns the snapshot store, creating it if it does not exist yet. The
-    # `:store_type` site configuration variable will determine the snapshot
-    # store type.
-    #
-    # @return [Nanoc::SnapshotStore] The snapshot store
-    def snapshot_store
-      @snapshot_store ||= begin
-        name = @site.config.fetch(:store_type, :in_memory)
-        klass = Nanoc::SnapshotStore.named(name)
-        klass.new
-      end
-    end
 
     # @return [Array<Nanoc::ItemRep>] The site’s item representations
     def reps
@@ -305,10 +258,10 @@ module Nanoc
       # Assign raw paths for non-snapshot rules
       rep.paths_without_snapshot = self.rule_memory_calculator.write_paths_for(rep)
 
-      if !rep.item.forced_outdated? && !outdatedness_checker.outdated?(rep) && compiled_content_cache[rep]
+      if !rep.item.forced_outdated? && !outdatedness_checker.outdated?(rep) && @compiled_content_cache[rep]
         # Reuse content
         Nanoc::NotificationCenter.post(:cached_content_used, rep)
-        rep.content = compiled_content_cache[rep]
+        rep.content = @compiled_content_cache[rep]
       else
         # Recalculate content
         rep_proxy = Nanoc::ItemRepRulesProxy.new(rep, self)
@@ -317,7 +270,7 @@ module Nanoc
       end
 
       rep.compiled = true
-      compiled_content_cache[rep] = rep.content
+      @compiled_content_cache[rep] = rep.content
 
       Nanoc::NotificationCenter.post(:visit_ended,       rep.item)
       Nanoc::NotificationCenter.post(:processing_ended,  rep)
@@ -330,7 +283,7 @@ module Nanoc
 
     def prune
       if self.site.config[:prune][:auto_prune]
-        identifier = self.item_rep_writer.class.identifier
+        identifier = @item_rep_writer.class.identifier
         pruner_class = Nanoc::Pruner.named(identifier)
         exclude = self.site.config.fetch(:prune, {}).fetch(:exclude, [])
         pruner_class.new(self.site, :exclude => exclude).run
@@ -362,40 +315,11 @@ module Nanoc
     end
     memoize :preprocessor_context
 
-    # @return [CompiledContentCache] The compiled content cache
-    def compiled_content_cache
-      Nanoc::CompiledContentCache.new
-    end
-    memoize :compiled_content_cache
-
-    # @return [ChecksumStore] The checksum store
-    def checksum_store
-      Nanoc::ChecksumStore.new
-    end
-    memoize :checksum_store
-
-    # @return [RuleMemoryStore] The rule memory store
-    def rule_memory_store
-      Nanoc::RuleMemoryStore.new(:site => @site)
-    end
-    memoize :rule_memory_store
-
     # @return [RuleMemoryCalculator] The rule memory calculator
     def rule_memory_calculator
-      Nanoc::RuleMemoryCalculator.new(site, rules_collection, rule_memory_store)
+      Nanoc::RuleMemoryCalculator.new(site, rules_collection, @rule_memory_store)
     end
     memoize :rule_memory_calculator
-
-    # Returns all stores that can load/store data that can be used for
-    # compilation.
-    def stores
-      [
-        checksum_store,
-        compiled_content_cache,
-        @dependency_tracker,
-        rule_memory_store
-      ]
-    end
 
   end
 
