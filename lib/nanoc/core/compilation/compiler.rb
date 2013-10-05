@@ -341,7 +341,8 @@ module Nanoc
         rep.content = compiled_content_cache[rep]
       else
         # Recalculate content
-        rules_collection.compilation_rule_for(rep).apply_to(rep, :compiler => self)
+        rep_proxy = Nanoc::ItemRepRulesProxy.new(rep, self)
+        rules_collection.compilation_rule_for(rep).apply_to(rep_proxy, site)
         rep.snapshot(:last)
       end
 

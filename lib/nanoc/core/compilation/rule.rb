@@ -52,18 +52,14 @@ module Nanoc
 
     # Applies this rule to the given item rep.
     #
-    # @param [Nanoc::ItemRep] rep The item representation where this rule
-    #   should be applied to
+    # @param [Nanoc::ItemRepRulesProxy, Nanoc::ItemRepRecorderProxy] rep_proxy
+    #   A proxy for the item rep this rule should be applied to
     #
-    # @option params [Nanoc::Compiler] :compiler The compiler
-    #
-    # @raise [ArgumentError] if no compiler is passed
+    # @param [Nanoc::Site] site The site for this item rep
     #
     # @return [void]
-    def apply_to(rep, params={})
-      compiler = params[:compiler] or raise ArgumentError, "Required :compiler option is missing"
-      rep = Nanoc::ItemRepRulesProxy.new(rep, compiler) unless rep.is_proxy?
-      Nanoc::RuleContext.new(:rep => rep, :site => compiler.site).instance_eval &@block
+    def apply_to(rep_proxy, site)
+      Nanoc::RuleContext.new(rep: rep_proxy, site: site).instance_eval &@block
     end
 
   end
