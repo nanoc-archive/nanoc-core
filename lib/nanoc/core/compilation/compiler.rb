@@ -41,6 +41,7 @@ module Nanoc
     attr_reader :item_rep_store
     attr_reader :item_rep_writer
     attr_reader :outdatedness_checker
+    attr_reader :dependency_tracker
 
     # @group Public instance methods
 
@@ -179,12 +180,13 @@ module Nanoc
 
       rep.compiled = true
 
-      Nanoc::NotificationCenter.post(:visit_ended,       rep.item)
       Nanoc::NotificationCenter.post(:compilation_ended, rep)
     rescue => e
       rep.forget_progress
       Nanoc::NotificationCenter.post(:compilation_failed, rep, e)
       raise e
+    ensure
+      Nanoc::NotificationCenter.post(:visit_ended,       rep.item)
     end
 
     def can_use_cache?(rep)
