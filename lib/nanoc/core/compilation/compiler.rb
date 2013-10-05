@@ -176,9 +176,7 @@ module Nanoc
     #
     # @return [Nanoc::DependencyTracker] The dependency tracker for this site
     def dependency_tracker
-      dt = Nanoc::DependencyTracker.new(@site.items + @site.layouts)
-      dt.compiler = self
-      dt
+      Nanoc::DependencyTracker.new(@site.items + @site.layouts)
     end
     memoize :dependency_tracker
 

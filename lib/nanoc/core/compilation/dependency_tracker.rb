@@ -27,10 +27,6 @@ module Nanoc
     #   layouts that are being tracked by the dependency tracker
     attr_reader :objects
 
-    # @return [Nanoc::Compiler] The compiler that corresponds to this
-    #   dependency tracker
-    attr_accessor :compiler
-
     # Creates a new dependency tracker for the given items and layouts.
     #
     # @param [Array<Nanoc::Item, Nanoc::Layout>] objects The list of items
