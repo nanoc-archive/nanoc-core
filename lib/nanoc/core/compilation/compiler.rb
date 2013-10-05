@@ -66,7 +66,7 @@ module Nanoc
       load
 
       # Determine which reps need to be recompiled
-      forget_dependencies_if_outdated(items)
+      forget_dependencies_if_outdated(site.items)
 
       dependency_tracker.start
       compile_reps(reps)
@@ -155,7 +155,7 @@ module Nanoc
     # @return [void]
     def store
       # Calculate rule memory
-      (reps + layouts).each do |obj|
+      (reps + @site.layouts).each do |obj|
         rule_memory_store[obj] = rule_memory_calculator[obj]
       end
 
@@ -204,7 +204,7 @@ module Nanoc
     # @api private
     def build_reps
       builder = Nanoc::ItemRepBuilder.new(
-        items, rules_collection, rule_memory_calculator, snapshot_store)
+        site.items, rules_collection, rule_memory_calculator, snapshot_store)
       self.item_rep_store = builder.populated_item_rep_store
     end
 
@@ -275,18 +275,6 @@ module Nanoc
     end
 
   private
-
-    # @return [Array<Nanoc::Item>] The site’s items
-    def items
-      @site.items
-    end
-    memoize :items
-
-    # @return [Array<Nanoc::Layout>] The site’s layouts
-    def layouts
-      @site.layouts
-    end
-    memoize :layouts
 
     # Compiles the given representations.
     #
