@@ -54,7 +54,7 @@ module Nanoc
 
     # @group Public instance methods
 
-    # Creates a new compiler fo the given site
+    # Creates a new compiler for the given site
     #
     # @param [Nanoc::Site] site The site this compiler belongs to
     #
@@ -208,7 +208,7 @@ module Nanoc
       Nanoc::NotificationCenter.post(:processing_started,  rep)
       Nanoc::NotificationCenter.post(:visit_started,       rep.item)
 
-      # Calculate rule memory if we haven’t yet done do
+      # Calculate rule memory if we haven’t yet done so
       @rule_memory_calculator.new_rule_memory_for_rep(rep)
 
       # Assign raw paths for non-snapshot rules
