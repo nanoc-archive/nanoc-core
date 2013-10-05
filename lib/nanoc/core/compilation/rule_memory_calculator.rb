@@ -10,11 +10,11 @@ module Nanoc
 
     extend Nanoc::Memoization
 
-    # @option params [Nanoc::RulesCollection] rules_collection The rules
-    #   collection
-    def initialize(params={})
-      @compiler         = params.fetch(:compiler)         { raise ArgumentError, "Required :compiler option is missing" }
-      @rules_collection = params.fetch(:rules_collection) { raise ArgumentError, "Required :rules_collection option is missing" }
+    # TODO fix documentation
+    def initialize(site, rules_collection, rule_memory_store)
+      @site              = site
+      @rules_collection  = rules_collection
+      @rule_memory_store = rule_memory_store
     end
 
     # @param [#reference] obj The object to calculate the rule memory for
@@ -41,7 +41,7 @@ module Nanoc
     # @return [Array] The rule memory for the given item representation
     def new_rule_memory_for_rep(rep)
       recording_proxy = rep.to_recording_proxy
-      @rules_collection.compilation_rule_for(rep).apply_to(recording_proxy, @compiler.site)
+      @rules_collection.compilation_rule_for(rep).apply_to(recording_proxy, @site)
       make_rule_memory_serializable(recording_proxy.rule_memory)
     end
     memoize :new_rule_memory_for_rep
@@ -104,14 +104,9 @@ module Nanoc
     # @return [Boolean] true if the rule memory for the given object has
     # changed since the last compilation, false otherwise
     def rule_memory_differs_for(obj)
-      !rule_memory_store[obj].eql?(self[obj])
+      !@rule_memory_store[obj].eql?(self[obj])
     end
     memoize :rule_memory_differs_for
-
-    # @return [Nanoc::RuleMemoryStore] The rule memory store
-    def rule_memory_store
-      @compiler.rule_memory_store
-    end
 
   end
 
