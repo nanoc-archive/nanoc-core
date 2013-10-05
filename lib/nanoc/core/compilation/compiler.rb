@@ -138,7 +138,7 @@ module Nanoc
       @rules_store.rules_collection
     end
 
-  private
+  protected
 
     # Compiles the given representations.
     #
@@ -175,23 +175,16 @@ module Nanoc
       @rule_memory_calculator.new_rule_memory_for_rep(rep)
 
       # Assign raw paths for non-snapshot rules
+      # FIXME should be done in ItemRepBuilder
       rep.paths_without_snapshot = @rule_memory_calculator.write_paths_for(rep)
 
-      if !rep.item.forced_outdated? && !@outdatedness_checker.outdated?(rep) && @compiled_content_cache[rep]
-        # Reuse content
-        Nanoc::NotificationCenter.post(:cached_content_used, rep)
-        rep.content = @compiled_content_cache[rep]
+      if self.can_use_cache?(rep)
+        fill_rep_from_cache(rep)
       else
-        @dependency_tracker.forget_dependencies_for(rep.item)
-
-        # Recalculate content
-        rep_proxy = Nanoc::ItemRepRulesProxy.new(rep, self)
-        rules_collection.compilation_rule_for(rep).apply_to(rep_proxy, site)
-        rep.snapshot(:last)
+        fill_rep_by_recompiling(rep)
       end
 
       rep.compiled = true
-      @compiled_content_cache[rep] = rep.content
 
       Nanoc::NotificationCenter.post(:visit_ended,       rep.item)
       Nanoc::NotificationCenter.post(:compilation_ended, rep)
@@ -199,6 +192,25 @@ module Nanoc
       rep.forget_progress
       Nanoc::NotificationCenter.post(:compilation_failed, rep, e)
       raise e
+    end
+
+    def can_use_cache?(rep)
+      !rep.item.forced_outdated? &&
+        !@outdatedness_checker.outdated?(rep) &&
+        @compiled_content_cache[rep]
+    end
+
+    def fill_rep_from_cache(rep)
+      Nanoc::NotificationCenter.post(:cached_content_used, rep)
+      rep.content = @compiled_content_cache[rep]
+    end
+
+    def fill_rep_by_recompiling(rep)
+      @dependency_tracker.forget_dependencies_for(rep.item)
+      rep_proxy = Nanoc::ItemRepRulesProxy.new(rep, self)
+      rules_collection.compilation_rule_for(rep).apply_to(rep_proxy, site)
+      rep.snapshot(:last)
+      @compiled_content_cache[rep] = rep.content
     end
 
     def prune
