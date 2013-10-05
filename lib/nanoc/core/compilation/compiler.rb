@@ -185,9 +185,6 @@ module Nanoc
       if !content_dependency_graph.vertices.empty?
         raise Nanoc::Errors::RecursiveCompilation.new(content_dependency_graph.vertices)
       end
-    ensure
-      Nanoc::NotificationCenter.remove(:processing_started, self)
-      Nanoc::NotificationCenter.remove(:processing_ended,   self)
     end
 
     # Compiles the given item representation.
