@@ -156,34 +156,15 @@ module Nanoc
     #
     # @return [void]
     def compile_reps(reps)
-      content_dependency_graph = Nanoc::DirectedGraph.new(reps)
-
       # Assign snapshots
       reps.each do |rep|
         rep.snapshots = @rule_memory_calculator.snapshots_for(rep)
       end
 
-      # Attempt to compile all active reps
-      loop do
-        # Find rep to compile
-        break if content_dependency_graph.roots.empty?
-        rep = content_dependency_graph.roots.each { |e| break e }
-
-        begin
-          compile_rep(rep)
-          content_dependency_graph.delete_vertex(rep)
-          # TODO call store here for incremental compilation support
-        rescue Nanoc::Errors::UnmetDependency => e
-          content_dependency_graph.add_edge(e.rep, rep)
-          unless content_dependency_graph.vertices.include?(e.rep)
-            content_dependency_graph.add_vertex(e.rep)
-          end
-        end
-      end
-
-      # Check whether everything was compiled
-      if !content_dependency_graph.vertices.empty?
-        raise Nanoc::Errors::RecursiveCompilation.new(content_dependency_graph.vertices)
+      # Compile
+      Nanoc::ItemRepCompilationSelector.new(reps).each do |rep|
+        compile_rep(rep)
+        # TODO call store here for incremental compilation support
       end
     end
 

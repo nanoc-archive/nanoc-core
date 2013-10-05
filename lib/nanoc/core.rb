@@ -74,6 +74,7 @@ require 'nanoc/core/stores/item_rep_store'
 
 # Load interactor classes
 require 'nanoc/core/interactors/compiler_builder'
+require 'nanoc/core/interactors/item_rep_compilation_selector'
 require 'nanoc/core/interactors/site_loader'
 require 'nanoc/core/interactors/preprocessor'
 require 'nanoc/core/interactors/pruner'
