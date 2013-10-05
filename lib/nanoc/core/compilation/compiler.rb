@@ -69,6 +69,7 @@ module Nanoc
       @snapshot_store         = dependencies[:snapshot_store]
       @item_rep_writer        = dependencies[:item_rep_writer]
       @rule_memory_calculator = dependencies[:rule_memory_calculator]
+      @item_rep_store         = dependencies[:item_rep_store]
     end
 
     # Compiles the site and writes out the compiled item representations.
@@ -94,7 +95,6 @@ module Nanoc
     # TODO remove me
     def load
       preprocess
-      build_reps
     end
 
     # Store the modified helper data used for compiling the site.
@@ -135,16 +135,6 @@ module Nanoc
     # @api private
     def objects
       site.items + site.layouts + site.code_snippets + [ site.config ]
-    end
-
-    # Creates the representations of all items as defined by the compilation
-    # rules.
-    #
-    # @api private
-    def build_reps
-      builder = Nanoc::ItemRepBuilder.new(
-        site.items, rules_collection, @rule_memory_calculator, @snapshot_store)
-      @item_rep_store = builder.populated_item_rep_store
     end
 
     def write_rep(rep, path)
