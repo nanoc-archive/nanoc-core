@@ -47,13 +47,6 @@ module Nanoc
     # @return [Nanoc::Site] The site this compiler belongs to
     attr_reader :site
 
-    # The compilation stack. When the compiler begins compiling a rep or a
-    # layout, it will be placed on the stack; when it is done compiling the
-    # rep or layout, it will be removed from the stack.
-    #
-    # @return [Array] The compilation stack
-    attr_reader :stack
-
     # FIXME ugly
     attr_accessor :item_rep_store
 
@@ -64,8 +57,6 @@ module Nanoc
     # @param [Nanoc::Site] site The site this compiler belongs to
     def initialize(site)
       @site = site
-
-      @stack = []
     end
 
     # Compiles the site and writes out the compiled item representations.
@@ -150,8 +141,6 @@ module Nanoc
       @unloading = true
 
       stores.each { |s| s.unload }
-
-      @stack = []
 
       self.item_rep_store = nil
 
@@ -307,10 +296,6 @@ module Nanoc
     def compile_reps(reps)
       content_dependency_graph = Nanoc::DirectedGraph.new(reps)
 
-      # Listen to processing start/stop
-      Nanoc::NotificationCenter.on(:processing_started, self) { |obj| @stack.push(obj) }
-      Nanoc::NotificationCenter.on(:processing_ended,   self) { |obj| @stack.pop       }
-
       # Assign snapshots
       reps.each do |rep|
         rep.snapshots = self.rule_memory_calculator.snapshots_for(rep)
@@ -321,7 +306,6 @@ module Nanoc
         # Find rep to compile
         break if content_dependency_graph.roots.empty?
         rep = content_dependency_graph.roots.each { |e| break e }
-        @stack = []
 
         begin
           compile_rep(rep)
