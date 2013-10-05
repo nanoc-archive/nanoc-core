@@ -45,7 +45,6 @@ module Nanoc
 
       # Get compiled files
       compiler = Nanoc::CompilerBuilder.new.build(@site)
-      compiler.load
       writer = compiler.item_rep_writer
       compiled_files = compiler.item_rep_store.reps.
         flat_map { |r| r.paths_without_snapshot }.

@@ -77,7 +77,7 @@ module Nanoc
     # Compiles the site and writes out the compiled item representations.
     #
     def run
-      load
+      @preprocessor.run
 
       forget_dependencies_if_outdated(site.items)
 
@@ -93,11 +93,6 @@ module Nanoc
     end
 
     # @group Private instance methods
-
-    # TODO remove me
-    def load
-      preprocess
-    end
 
     # Store the modified helper data used for compiling the site.
     #
@@ -121,13 +116,6 @@ module Nanoc
       @compiled_content_cache.store
       @dependency_tracker.store
       @rule_memory_store.store
-    end
-
-    # Runs the preprocessor.
-    #
-    # @api private
-    def preprocess
-      @preprocessor.run
     end
 
     # Returns all objects managed by the site (items, layouts, code snippets,

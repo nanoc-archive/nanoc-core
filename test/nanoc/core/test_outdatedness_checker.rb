@@ -15,7 +15,6 @@ class Nanoc::OutdatednessCheckerTest < Nanoc::TestCase
     in_site(:name => 'foo') do
       site = site_here
       compiler = Nanoc::CompilerBuilder.new.build(site)
-      compiler.load
       outdatedness_checker = compiler.send :outdatedness_checker
       rep = compiler.item_rep_store.reps[0]
       assert_nil outdatedness_checker.outdatedness_reason_for(rep)
@@ -40,7 +39,6 @@ class Nanoc::OutdatednessCheckerTest < Nanoc::TestCase
     in_site(:name => 'foo') do
       site = site_here
       compiler = Nanoc::CompilerBuilder.new.build(site)
-      compiler.load
       outdatedness_checker = compiler.send :outdatedness_checker
       reps = compiler.item_rep_store.reps
       assert_equal 1, reps.size
@@ -65,7 +63,6 @@ class Nanoc::OutdatednessCheckerTest < Nanoc::TestCase
     in_site(:name => 'foo') do
       site = site_here
       compiler = Nanoc::CompilerBuilder.new.build(site)
-      compiler.load
       outdatedness_checker = compiler.send :outdatedness_checker
       reps = compiler.item_rep_store.reps
       assert_equal 1, reps.size
@@ -95,7 +92,6 @@ class Nanoc::OutdatednessCheckerTest < Nanoc::TestCase
     in_site(:name => 'foo') do
       site = site_here
       compiler = Nanoc::CompilerBuilder.new.build(site)
-      compiler.load
       outdatedness_checker = compiler.send :outdatedness_checker
       item = site.items.find { |i| i.identifier == '/new.html' }
       rep = compiler.item_rep_store.reps_for_item(item)[0]
@@ -122,7 +118,6 @@ class Nanoc::OutdatednessCheckerTest < Nanoc::TestCase
     in_site(:name => 'foo') do
       site = site_here
       compiler = Nanoc::CompilerBuilder.new.build(site)
-      compiler.load
       outdatedness_checker = compiler.send :outdatedness_checker
       reps = compiler.item_rep_store.reps
       assert_equal 1, reps.size
@@ -155,7 +150,6 @@ class Nanoc::OutdatednessCheckerTest < Nanoc::TestCase
     in_site(:name => 'foo') do
       site = site_here
       compiler = Nanoc::CompilerBuilder.new.build(site)
-      compiler.load
       outdatedness_checker = compiler.send :outdatedness_checker
       item = site.items.find { |i| i.identifier == '/a.html' }
       rep = compiler.item_rep_store.reps_for_item(item)[0]
@@ -191,7 +185,6 @@ class Nanoc::OutdatednessCheckerTest < Nanoc::TestCase
     in_site(:name => 'foo') do
       site = site_here
       compiler = Nanoc::CompilerBuilder.new.build(site)
-      compiler.load
       outdatedness_checker = compiler.send :outdatedness_checker
       item = site.items.find { |i| i.identifier == '/a.html' }
       rep = compiler.item_rep_store.reps_for_item(item)[0]
@@ -224,7 +217,6 @@ class Nanoc::OutdatednessCheckerTest < Nanoc::TestCase
     in_site(:name => 'foo') do
       site = site_here
       compiler = Nanoc::CompilerBuilder.new.build(site)
-      compiler.load
       outdatedness_checker = compiler.send :outdatedness_checker
       item = site.items.find { |i| i.identifier == '/a.html' }
       rep = compiler.item_rep_store.reps_for_item(item)[0]
@@ -259,7 +251,6 @@ class Nanoc::OutdatednessCheckerTest < Nanoc::TestCase
     in_site(:name => 'foo') do
       site = site_here
       compiler = Nanoc::CompilerBuilder.new.build(site)
-      compiler.load
       outdatedness_checker = compiler.send :outdatedness_checker
       item = site.items.find { |i| i.identifier == '/a.html' }
       rep = compiler.item_rep_store.reps_for_item(item)[0]
@@ -287,7 +278,6 @@ class Nanoc::OutdatednessCheckerTest < Nanoc::TestCase
     in_site(:name => 'foo') do
       site = site_here
       compiler = Nanoc::CompilerBuilder.new.build(site)
-      compiler.load
       outdatedness_checker = compiler.send :outdatedness_checker
       reps = compiler.item_rep_store.reps
       assert_equal 1, reps.size
@@ -313,7 +303,6 @@ class Nanoc::OutdatednessCheckerTest < Nanoc::TestCase
     in_site(:name => 'foo') do
       site = site_here
       compiler = Nanoc::CompilerBuilder.new.build(site)
-      compiler.load
       outdatedness_checker = compiler.send :outdatedness_checker
       reps = compiler.item_rep_store.reps
       assert_equal 1, reps.size
@@ -339,7 +328,6 @@ class Nanoc::OutdatednessCheckerTest < Nanoc::TestCase
     in_site(:name => 'foo') do
       site = site_here
       compiler = Nanoc::CompilerBuilder.new.build(site)
-      compiler.load
       outdatedness_checker = compiler.send :outdatedness_checker
       reps = compiler.item_rep_store.reps
       assert_equal 1, reps.size
@@ -374,7 +362,6 @@ class Nanoc::OutdatednessCheckerTest < Nanoc::TestCase
     FileUtils.cd('foo') do
       site = site_here
       compiler = Nanoc::CompilerBuilder.new.build(site)
-      compiler.load
       outdatedness_checker = compiler.send :outdatedness_checker
       reps = compiler.item_rep_store.reps
       assert_equal 1, reps.size
@@ -404,7 +391,6 @@ class Nanoc::OutdatednessCheckerTest < Nanoc::TestCase
     FileUtils.cd('foo') do
       site = site_here
       compiler = Nanoc::CompilerBuilder.new.build(site)
-      compiler.load
       outdatedness_checker = compiler.outdatedness_checker
       site.items.each do |item|
         assert_nil outdatedness_checker.outdatedness_reason_for(item)
@@ -435,7 +421,6 @@ class Nanoc::OutdatednessCheckerTest < Nanoc::TestCase
     FileUtils.cd('foo') do
       site = site_here
       compiler = Nanoc::CompilerBuilder.new.build(site)
-      compiler.load
       outdatedness_checker = compiler.outdatedness_checker
       site.items.each do |item|
         refute outdatedness_checker.outdated?(item), "item should not be outdated"
