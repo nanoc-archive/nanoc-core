@@ -55,8 +55,11 @@ module Nanoc
     # Creates a new compiler fo the given site
     #
     # @param [Nanoc::Site] site The site this compiler belongs to
-    def initialize(site)
+    #
+    # TODO document dependencies
+    def initialize(site, dependencies={})
       @site = site
+      @dependency_tracker = dependencies[:dependency_tracker]
     end
 
     # Compiles the site and writes out the compiled item representations.
@@ -68,9 +71,9 @@ module Nanoc
       # Determine which reps need to be recompiled
       forget_dependencies_if_outdated(site.items)
 
-      dependency_tracker.start
+      @dependency_tracker.start
       compile_reps(reps)
-      dependency_tracker.stop
+      @dependency_tracker.stop
       store
       prune
     ensure
@@ -169,17 +172,6 @@ module Nanoc
       stores.each { |s| s.store }
     end
 
-    # Returns the dependency tracker for this site, creating it first if it
-    # does not yet exist.
-    #
-    # @api private
-    #
-    # @return [Nanoc::DependencyTracker] The dependency tracker for this site
-    def dependency_tracker
-      Nanoc::DependencyTracker.new(@site.items + @site.layouts)
-    end
-    memoize :dependency_tracker
-
     # Runs the preprocessor.
     #
     # @api private
@@ -248,7 +240,7 @@ module Nanoc
       Nanoc::OutdatednessChecker.new(
         :site                   => self.site,
         :checksum_store         => self.checksum_store,
-        :dependency_tracker     => self.dependency_tracker,
+        :dependency_tracker     => @dependency_tracker,
         :item_rep_writer        => self.item_rep_writer,
         :item_rep_store         => self.item_rep_store,
         :rule_memory_calculator => self.rule_memory_calculator)
@@ -375,7 +367,7 @@ module Nanoc
     def forget_dependencies_if_outdated(items)
       items.each do |i|
         if self.item_rep_store.reps_for_item(i).any? { |r| outdatedness_checker.outdated?(r) }
-          dependency_tracker.forget_dependencies_for(i)
+          @dependency_tracker.forget_dependencies_for(i)
         end
       end
     end
@@ -421,7 +413,7 @@ module Nanoc
       [
         checksum_store,
         compiled_content_cache,
-        dependency_tracker,
+        @dependency_tracker,
         rule_memory_store
       ]
     end

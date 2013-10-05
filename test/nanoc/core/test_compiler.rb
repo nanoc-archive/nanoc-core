@@ -78,7 +78,7 @@ class Nanoc::CompilerTest < Nanoc::TestCase
   def test_load_should_be_idempotent
     in_site do
       site = site_here
-      compiler = Nanoc::Compiler.new(site)
+      compiler = Nanoc::CompilerBuilder.new(site).build
       def compiler.load_rules
         raise 'oh my gosh it is borken'
       end
@@ -96,10 +96,10 @@ class Nanoc::CompilerTest < Nanoc::TestCase
 
       site = site_here
 
-      compiler = Nanoc::Compiler.new(site)
+      compiler = Nanoc::CompilerBuilder.new(site).build
       compiler.run
 
-      compiler = Nanoc::Compiler.new(site)
+      compiler = Nanoc::CompilerBuilder.new(site).build
       compiler.run
 
       # At this point, even the already compiled items in the previous pass
