@@ -18,6 +18,7 @@ module Nanoc
       rule_memory_calculator = self.build_rule_memory_calculator(site, rules_store.rules_collection, rule_memory_store)
       item_rep_store         = self.build_item_rep_store(site.items, rules_store.rules_collection, rule_memory_calculator, snapshot_store)
       outdatedness_checker   = self.build_outdatedness_checker(site, checksum_store, dependency_tracker, item_rep_writer, item_rep_store, rule_memory_calculator)
+      preprocessor           = self.build_preprocessor(site, rules_store.rules_collection)
 
       Nanoc::Compiler.new(
         site,
@@ -30,7 +31,8 @@ module Nanoc
         item_rep_writer:        item_rep_writer,
         rule_memory_calculator: rule_memory_calculator,
         item_rep_store:         item_rep_store,
-        outdatedness_checker:   outdatedness_checker)
+        outdatedness_checker:   outdatedness_checker,
+        preprocessor:           preprocessor)
     end
 
     protected
@@ -92,6 +94,10 @@ module Nanoc
         :item_rep_writer        => item_rep_writer,
         :item_rep_store         => item_rep_store,
         :rule_memory_calculator => rule_memory_calculator)
+    end
+
+    def build_preprocessor(site, rules_collection)
+      Nanoc::Preprocessor.new(site, rules_collection)
     end
 
   end

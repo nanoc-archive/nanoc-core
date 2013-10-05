@@ -71,6 +71,7 @@ module Nanoc
       @rule_memory_calculator = dependencies[:rule_memory_calculator]
       @item_rep_store         = dependencies[:item_rep_store]
       @outdatedness_checker   = dependencies[:outdatedness_checker]
+      @preprocessor           = dependencies[:preprocessor]
     end
 
     # Compiles the site and writes out the compiled item representations.
@@ -126,8 +127,7 @@ module Nanoc
     #
     # @api private
     def preprocess
-      return if rules_collection.preprocessor.nil?
-      preprocessor_context.instance_eval(&rules_collection.preprocessor)
+      @preprocessor.run
     end
 
     # Returns all objects managed by the site (items, layouts, code snippets,
@@ -201,6 +201,7 @@ module Nanoc
         begin
           compile_rep(rep)
           content_dependency_graph.delete_vertex(rep)
+          # TODO call store here for incremental compilation support
         rescue Nanoc::Errors::UnmetDependency => e
           content_dependency_graph.add_edge(e.rep, rep)
           unless content_dependency_graph.vertices.include?(e.rep)
@@ -283,17 +284,6 @@ module Nanoc
         end
       end
     end
-
-    # Returns a preprocessor context, creating one if none exists yet.
-    def preprocessor_context
-      Nanoc::Context.new({
-        :site    => @site,
-        :config  => @site.config,
-        :items   => @site.items,
-        :layouts => @site.layouts
-      })
-    end
-    memoize :preprocessor_context
 
   end
 
