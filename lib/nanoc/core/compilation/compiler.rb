@@ -78,9 +78,6 @@ module Nanoc
     #
     def run
       @preprocessor.run
-
-      forget_dependencies_if_outdated(site.items)
-
       @dependency_tracker.start
       compile_reps(self.item_rep_store.reps)
       @dependency_tracker.stop
@@ -219,6 +216,8 @@ module Nanoc
         Nanoc::NotificationCenter.post(:cached_content_used, rep)
         rep.content = @compiled_content_cache[rep]
       else
+        @dependency_tracker.forget_dependencies_for(rep.item)
+
         # Recalculate content
         rep_proxy = Nanoc::ItemRepRulesProxy.new(rep, self)
         rules_collection.compilation_rule_for(rep).apply_to(rep_proxy, site)
@@ -243,20 +242,6 @@ module Nanoc
         pruner_class = Nanoc::Pruner.named(identifier)
         exclude = self.site.config.fetch(:prune, {}).fetch(:exclude, [])
         pruner_class.new(self.site, :exclude => exclude).run
-      end
-    end
-
-    # Clears the list of dependencies for items that will be recompiled.
-    #
-    # @param [Array<Nanoc::Item>] items The list of items for which to forget
-    #   the dependencies
-    #
-    # @return [void]
-    def forget_dependencies_if_outdated(items)
-      items.each do |i|
-        if self.item_rep_store.reps_for_item(i).any? { |r| @outdatedness_checker.outdated?(r) }
-          @dependency_tracker.forget_dependencies_for(i)
-        end
       end
     end
 
