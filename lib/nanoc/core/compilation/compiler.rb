@@ -48,7 +48,7 @@ module Nanoc
     attr_reader :site
 
     # FIXME ugly
-    attr_accessor :item_rep_store
+    attr_reader :item_rep_store
 
     attr_reader :item_rep_writer
 
@@ -68,6 +68,7 @@ module Nanoc
       @rule_memory_store      = dependencies[:rule_memory_store]
       @snapshot_store         = dependencies[:snapshot_store]
       @item_rep_writer        = dependencies[:item_rep_writer]
+      @rule_memory_calculator = dependencies[:rule_memory_calculator]
     end
 
     # Compiles the site and writes out the compiled item representations.
@@ -104,7 +105,7 @@ module Nanoc
     def store
       # Calculate rule memory
       (reps + @site.layouts).each do |obj|
-        @rule_memory_store[obj] = rule_memory_calculator[obj]
+        @rule_memory_store[obj] = @rule_memory_calculator[obj]
       end
 
       # Calculate checksums
@@ -142,8 +143,8 @@ module Nanoc
     # @api private
     def build_reps
       builder = Nanoc::ItemRepBuilder.new(
-        site.items, rules_collection, rule_memory_calculator, @snapshot_store)
-      self.item_rep_store = builder.populated_item_rep_store
+        site.items, rules_collection, @rule_memory_calculator, @snapshot_store)
+      @item_rep_store = builder.populated_item_rep_store
     end
 
     def write_rep(rep, path)
@@ -184,7 +185,7 @@ module Nanoc
         :dependency_tracker     => @dependency_tracker,
         :item_rep_writer        => @item_rep_writer,
         :item_rep_store         => self.item_rep_store,
-        :rule_memory_calculator => self.rule_memory_calculator)
+        :rule_memory_calculator => @rule_memory_calculator)
     end
     memoize :outdatedness_checker
 
@@ -209,7 +210,7 @@ module Nanoc
 
       # Assign snapshots
       reps.each do |rep|
-        rep.snapshots = self.rule_memory_calculator.snapshots_for(rep)
+        rep.snapshots = @rule_memory_calculator.snapshots_for(rep)
       end
 
       # Attempt to compile all active reps
@@ -253,10 +254,10 @@ module Nanoc
       Nanoc::NotificationCenter.post(:visit_started,       rep.item)
 
       # Calculate rule memory if we haven’t yet done do
-      self.rule_memory_calculator.new_rule_memory_for_rep(rep)
+      @rule_memory_calculator.new_rule_memory_for_rep(rep)
 
       # Assign raw paths for non-snapshot rules
-      rep.paths_without_snapshot = self.rule_memory_calculator.write_paths_for(rep)
+      rep.paths_without_snapshot = @rule_memory_calculator.write_paths_for(rep)
 
       if !rep.item.forced_outdated? && !outdatedness_checker.outdated?(rep) && @compiled_content_cache[rep]
         # Reuse content
@@ -314,12 +315,6 @@ module Nanoc
       })
     end
     memoize :preprocessor_context
-
-    # @return [RuleMemoryCalculator] The rule memory calculator
-    def rule_memory_calculator
-      Nanoc::RuleMemoryCalculator.new(site, rules_collection, @rule_memory_store)
-    end
-    memoize :rule_memory_calculator
 
   end
 

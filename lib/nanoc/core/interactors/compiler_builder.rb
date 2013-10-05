@@ -15,6 +15,7 @@ module Nanoc
       rule_memory_store      = self.build_rule_memory_store(site)
       snapshot_store         = self.build_snapshot_store(site.config)
       item_rep_writer        = self.build_item_rep_writer(site.config)
+      rule_memory_calculator = build_rule_memory_calculator(site, rules_store.rules_collection, rule_memory_store)
 
       Nanoc::Compiler.new(
         site,
@@ -24,7 +25,8 @@ module Nanoc
         compiled_content_cache: compiled_content_cache,
         rule_memory_store:      rule_memory_store,
         snapshot_store:         snapshot_store,
-        item_rep_writer:        item_rep_writer)
+        item_rep_writer:        item_rep_writer,
+        rule_memory_calculator: rule_memory_calculator)
     end
 
     protected
@@ -67,6 +69,10 @@ module Nanoc
       # TODO pass options the right way
       # TODO make type customisable (:filesystem)
       Nanoc::ItemRepWriter.named(:filesystem).new({ :output_dir => config[:output_dir] })
+    end
+
+    def build_rule_memory_calculator(site, rules_collection, rule_memory_store)
+      Nanoc::RuleMemoryCalculator.new(site, rules_collection, rule_memory_store)
     end
 
   end
