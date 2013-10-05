@@ -60,6 +60,7 @@ module Nanoc
     def initialize(site, dependencies={})
       @site = site
       @dependency_tracker = dependencies[:dependency_tracker]
+      @rules_store        = dependencies[:rules_store]
     end
 
     # Compiles the site and writes out the compiled item representations.
@@ -84,13 +85,6 @@ module Nanoc
 
     # @group Private instance methods
 
-    # @return [Nanoc::RulesCollection] The collection of rules to be used
-    #   for compiling this site
-    def rules_collection
-      Nanoc::RulesCollection.new
-    end
-    memoize :rules_collection
-
     # Load the helper data that is used for compiling the site.
     #
     # @api private
@@ -101,7 +95,6 @@ module Nanoc
       @loading = true
 
       # Preprocess
-      self.load_rules
       preprocess
       build_reps
 
@@ -114,24 +107,6 @@ module Nanoc
       raise e
     ensure
       @loading = false
-    end
-
-    # @return [Class<Nanoc::RulesStore>] The rules store class given in the
-    #   configuration file
-    # TODO document
-    def rules_store_class
-      identifier = @site.config.fetch(:rules_store_identifier, :filesystem)
-      Nanoc::RulesStore.named(identifier)
-    end
-
-    # TODO document
-    def rules_store
-      @_rules_store ||= self.rules_store_class.new(self.rules_collection)
-    end
-
-    # TODO document
-    def load_rules
-      self.rules_store.load_rules
     end
 
     # Undoes the effects of {#load}. Used when {#load} raises an exception.
@@ -166,7 +141,7 @@ module Nanoc
       self.objects.each do |obj|
         checksum_store[obj] = obj.checksum
       end
-      checksum_store[self.rules_collection] = self.rules_store.rule_data
+      checksum_store[self.rules_collection] = @rules_store.rule_data
 
       # Store
       stores.each { |s| s.store }
@@ -263,6 +238,10 @@ module Nanoc
     # @return [Array<Nanoc::ItemRep>] The site’s item representations
     def reps
       self.item_rep_store.reps
+    end
+
+    def rules_collection
+      @rules_store.rules_collection
     end
 
   private

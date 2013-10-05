@@ -75,21 +75,6 @@ class Nanoc::CompilerTest < Nanoc::TestCase
     end
   end
 
-  def test_load_should_be_idempotent
-    in_site do
-      site = site_here
-      compiler = Nanoc::CompilerBuilder.new(site).build
-      def compiler.load_rules
-        raise 'oh my gosh it is borken'
-      end
-
-      assert site.instance_eval { !@loaded }
-      assert_raises(RuntimeError) { compiler.load }
-      assert site.instance_eval { !@loaded }
-      assert_raises(RuntimeError) { compiler.load }
-    end
-  end
-
   def test_compile_should_recompile_all_reps
     in_site do
       File.write('content/foo.md', 'blah')
