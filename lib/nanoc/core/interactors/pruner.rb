@@ -44,7 +44,7 @@ module Nanoc
       require 'find'
 
       # Get compiled files
-      compiler = Nanoc::CompilerBuilder.new(@site).build
+      compiler = Nanoc::CompilerBuilder.new.build(@site)
       compiler.load
       writer = compiler.item_rep_writer
       compiled_files = compiler.item_rep_store.reps.

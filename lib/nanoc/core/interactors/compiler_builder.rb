@@ -7,25 +7,20 @@ module Nanoc
   # @api private
   class CompilerBuilder
 
-    def initialize(site)
-      @site = site
-    end
-
-    def build
-      dependency_tracker = self.build_dependency_tracker
-      rules_store        = self.build_rules_store(@site.config)
+    def build(site)
+      dependency_tracker = self.build_dependency_tracker(site)
+      rules_store        = self.build_rules_store(site.config)
 
       Nanoc::Compiler.new(
-        @site,
+        site,
         dependency_tracker: dependency_tracker,
         rules_store:        rules_store)
     end
 
     protected
 
-    def build_dependency_tracker
-      # TODO pass @site as param
-      Nanoc::DependencyTracker.new(@site.items + @site.layouts)
+    def build_dependency_tracker(site)
+      Nanoc::DependencyTracker.new(site.items + site.layouts)
     end
 
     def build_rules_store(config)

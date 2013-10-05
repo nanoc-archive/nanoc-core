@@ -59,7 +59,7 @@ EOS
 
       # Compile
       site = site_here
-      compiler = Nanoc::CompilerBuilder.new(site).build
+      compiler = Nanoc::CompilerBuilder.new.build(site)
       compiler.run
 
       # Check paths
@@ -93,7 +93,7 @@ EOS
       # Create other necessary stuff
       site = Nanoc::SiteLoader.new.load
       site.items << item
-      compiler = Nanoc::CompilerBuilder.new(site).build
+      compiler = Nanoc::CompilerBuilder.new.build(site)
       dsl = Nanoc::CompilerDSL.new(compiler.rules_collection)
 
       # Include rules

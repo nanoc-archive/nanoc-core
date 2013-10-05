@@ -81,10 +81,10 @@ class Nanoc::CompilerTest < Nanoc::TestCase
 
       site = site_here
 
-      compiler = Nanoc::CompilerBuilder.new(site).build
+      compiler = Nanoc::CompilerBuilder.new.build(site)
       compiler.run
 
-      compiler = Nanoc::CompilerBuilder.new(site).build
+      compiler = Nanoc::CompilerBuilder.new.build(site)
       compiler.run
 
       # At this point, even the already compiled items in the previous pass
