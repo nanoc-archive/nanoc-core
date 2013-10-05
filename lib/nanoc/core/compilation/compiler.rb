@@ -82,7 +82,7 @@ module Nanoc
       forget_dependencies_if_outdated(site.items)
 
       @dependency_tracker.start
-      compile_reps(reps)
+      compile_reps(self.item_rep_store.reps)
       @dependency_tracker.stop
       store
       prune
@@ -101,12 +101,12 @@ module Nanoc
     # @return [void]
     def store
       # Calculate rule memory
-      (reps + @site.layouts).each do |obj|
+      (self.item_rep_store.reps + @site.layouts).each do |obj|
         @rule_memory_store[obj] = @rule_memory_calculator[obj]
       end
 
       # Calculate checksums
-      self.objects.each do |obj|
+      (site.items + site.layouts + site.code_snippets + [ site.config ]).each do |obj|
         @checksum_store[obj] = obj.checksum
       end
       @checksum_store[self.rules_collection] = @rules_store.rule_data
@@ -116,14 +116,6 @@ module Nanoc
       @compiled_content_cache.store
       @dependency_tracker.store
       @rule_memory_store.store
-    end
-
-    # Returns all objects managed by the site (items, layouts, code snippets,
-    # site configuration and the rules).
-    #
-    # @api private
-    def objects
-      site.items + site.layouts + site.code_snippets + [ site.config ]
     end
 
     def write_rep(rep, path)
@@ -154,11 +146,6 @@ module Nanoc
         :site       => site,
         :_compiler  => self
       })
-    end
-
-    # @return [Array<Nanoc::ItemRep>] The site’s item representations
-    def reps
-      self.item_rep_store.reps
     end
 
     def rules_collection
