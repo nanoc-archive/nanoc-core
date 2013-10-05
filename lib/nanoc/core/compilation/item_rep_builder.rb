@@ -26,6 +26,8 @@ module Nanoc
         rep_names.each do |rep_name|
           rep = ItemRep.new(item, rep_name, :snapshot_store => @snapshot_store)
 
+          @rule_memory_calculator.new_rule_memory_for_rep(rep)
+
           # FIXME paths_without_snapshot also includes paths with snapshots
           rep.paths_without_snapshot = @rule_memory_calculator.write_paths_for(rep)
           rep.paths                  = @rule_memory_calculator.snapshot_write_paths_for(rep)

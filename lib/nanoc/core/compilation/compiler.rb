@@ -171,13 +171,6 @@ module Nanoc
       Nanoc::NotificationCenter.post(:compilation_started, rep)
       Nanoc::NotificationCenter.post(:visit_started,       rep.item)
 
-      # Calculate rule memory if we haven’t yet done so
-      @rule_memory_calculator.new_rule_memory_for_rep(rep)
-
-      # Assign raw paths for non-snapshot rules
-      # FIXME should be done in ItemRepBuilder
-      rep.paths_without_snapshot = @rule_memory_calculator.write_paths_for(rep)
-
       if self.can_use_cache?(rep)
         fill_rep_from_cache(rep)
       else
