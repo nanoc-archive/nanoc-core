@@ -59,16 +59,7 @@ module Nanoc
     #
     # @see ItemRep#compiled_content
     def compiled_content(params={})
-      # Get rep
-      rep_name = params.fetch(:rep, :default)
-      rep = self.reps.find { |r| r.name == rep_name }
-      if rep.nil?
-        raise Nanoc::Errors::Generic,
-          "No rep named #{rep_name.inspect} was found."
-      end
-
-      # Get rep's content
-      rep.compiled_content(params)
+      rep_for_params!(params).compiled_content(params)
     end
 
     # Returns the path from a given representation. This is a convenience
@@ -81,17 +72,20 @@ module Nanoc
     # @return [String] The path of the given rep ( or the default rep if no
     #   rep is specified)
     def path(params={})
+      rep_for_params!(params).path(params)
+    end
+
+    # TODO document
+    def rep_for_params!(params={})
       rep_name = params.fetch(:rep, :default)
 
-      # Get rep
       rep = self.reps.find { |r| r.name == rep_name }
       if rep.nil?
         raise Nanoc::Errors::Generic,
           "No rep named #{rep_name.inspect} was found."
       end
 
-      # Get rep's path
-      rep.path(params)
+      rep
     end
 
     # TODO remove me (used in capturing helper)
