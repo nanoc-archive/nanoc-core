@@ -32,8 +32,6 @@ module Nanoc
   #   been fetched (either successfully or with failure)
   class Compiler
 
-    extend Nanoc::Memoization
-
     # @group Accessors
 
     # @return [Nanoc::Site] The site this compiler belongs to
