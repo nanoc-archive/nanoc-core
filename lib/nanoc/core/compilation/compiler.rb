@@ -30,14 +30,6 @@ module Nanoc
   # * `visit_ended` — indicates that the compiler has finished visiting the
   #   item representation and that the requested attributes or content have
   #   been fetched (either successfully or with failure)
-  #
-  # * `processing_started` — indicates that the compiler has started
-  #   processing the specified object, which can be an item representation
-  #   (when it is compiled) or a layout (when it is used to lay out an item
-  #   representation or when it is used as a partial)
-  #
-  # * `processing_ended` — indicates that the compiler has finished processing
-  #   the specified object.
   class Compiler
 
     extend Nanoc::Memoization
@@ -179,7 +171,6 @@ module Nanoc
     # @return [void]
     def compile_rep(rep)
       Nanoc::NotificationCenter.post(:compilation_started, rep)
-      Nanoc::NotificationCenter.post(:processing_started,  rep)
       Nanoc::NotificationCenter.post(:visit_started,       rep.item)
 
       # Calculate rule memory if we haven’t yet done so
@@ -205,7 +196,6 @@ module Nanoc
       @compiled_content_cache[rep] = rep.content
 
       Nanoc::NotificationCenter.post(:visit_ended,       rep.item)
-      Nanoc::NotificationCenter.post(:processing_ended,  rep)
       Nanoc::NotificationCenter.post(:compilation_ended, rep)
     rescue => e
       rep.forget_progress
