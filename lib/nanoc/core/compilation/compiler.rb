@@ -66,7 +66,6 @@ module Nanoc
       @checksum_store         = dependencies[:checksum_store]
       @compiled_content_cache = dependencies[:compiled_content_cache]
       @rule_memory_store      = dependencies[:rule_memory_store]
-      @snapshot_store         = dependencies[:snapshot_store]
       @item_rep_writer        = dependencies[:item_rep_writer]
       @rule_memory_calculator = dependencies[:rule_memory_calculator]
       @item_rep_store         = dependencies[:item_rep_store]
