@@ -10,8 +10,8 @@ module Nanoc
     extend Nanoc::Memoization
 
     def initialize(params={})
-      @compiler = params[:compiler] or raise ArgumentError,
-        'Nanoc::OutdatednessChecker#initialize needs a :compiler parameter'
+      @site = params[:site] or raise ArgumentError,
+        'Nanoc::OutdatednessChecker#initialize needs a :site parameter'
       @checksum_store = params[:checksum_store] or raise ArgumentError,
         'Nanoc::OutdatednessChecker#initialize needs a :checksum_store parameter'
       @dependency_tracker = params[:dependency_tracker] or raise ArgumentError,
@@ -20,6 +20,8 @@ module Nanoc
         'Nanoc::OutdatednessChecker#initialize needs a :item_rep_writer parameter'
       @item_rep_store = params[:item_rep_store] or raise ArgumentError,
         'Nanoc::OutdatednessChecker#initialize needs a :item_rep_store parameter'
+      @rule_memory_calculator = params[:rule_memory_calculator] or raise ArgumentError,
+        'Nanoc::OutdatednessChecker#initialize needs a :rule_memory_calculator parameter'
 
       @basic_outdatedness_reasons = {}
       @outdatedness_reasons = {}
@@ -91,9 +93,9 @@ module Nanoc
             Nanoc::OutdatednessReasons::NotWritten
           elsif obj.paths_without_snapshot.any? { |p| !@item_rep_writer.exist?(p) }
             Nanoc::OutdatednessReasons::NotWritten
-          elsif @compiler.site.code_snippets.any? { |cs| object_modified?(cs) }
+          elsif @site.code_snippets.any? { |cs| object_modified?(cs) }
             Nanoc::OutdatednessReasons::CodeSnippetsModified
-          elsif object_modified?(@compiler.site.config)
+          elsif object_modified?(@site.config)
             Nanoc::OutdatednessReasons::ConfigurationModified
           else
             nil
@@ -146,7 +148,7 @@ module Nanoc
       return false if processed.include?(obj)
 
       # Calculate
-      is_outdated = dependency_tracker.objects_causing_outdatedness_of(obj).any? do |other|
+      is_outdated = @dependency_tracker.objects_causing_outdatedness_of(obj).any? do |other|
         other.nil? || basic_outdated?(other) || outdated_due_to_dependencies?(other, processed.merge([obj]))
       end
 
@@ -163,7 +165,7 @@ module Nanoc
     # @return [Boolean] true if the rule memory for the given item
     #   represenation has changed, false otherwise
     def rule_memory_differs_for(obj)
-      self.rule_memory_calculator.rule_memory_differs_for(obj)
+      @rule_memory_calculator.rule_memory_differs_for(obj)
     end
     memoize :rule_memory_differs_for
 
@@ -172,7 +174,7 @@ module Nanoc
     # @return [Boolean] false if either the new or the old checksum for the
     #   given object is not available, true if both checksums are available
     def checksums_available?(obj)
-      !!checksum_store[obj] && obj.checksum
+      !!@checksum_store[obj] && obj.checksum
     end
     memoize :checksums_available?
 
@@ -181,7 +183,7 @@ module Nanoc
     # @return [Boolean] false if the old and new checksums for the given
     #   object differ, true if they are identical
     def checksums_identical?(obj)
-      checksum_store[obj] == obj.checksum
+      @checksum_store[obj] == obj.checksum
     end
     memoize :checksums_identical?
 
@@ -193,26 +195,6 @@ module Nanoc
       !checksums_available?(obj) || !checksums_identical?(obj)
     end
     memoize :object_modified?
-
-    # @return [Nanoc::ChecksumStore] The checksum store
-    def checksum_store
-      @checksum_store
-    end
-
-    # TODO document
-    def rule_memory_calculator
-      @compiler.rule_memory_calculator
-    end
-
-    # @return [Nanoc::RulesCollection] The rules collection
-    def rules_collection
-      @compiler.rules_collection
-    end
-
-    # @return [Nanoc::DependencyTracker] The dependency tracker
-    def dependency_tracker
-      @dependency_tracker
-    end
 
   end
 

@@ -248,11 +248,12 @@ module Nanoc
     # @return [Nanoc::OutdatednessChecker] The outdatedness checker
     def outdatedness_checker
       Nanoc::OutdatednessChecker.new(
-        :compiler           => self,
-        :checksum_store     => self.checksum_store,
-        :dependency_tracker => self.dependency_tracker,
-        :item_rep_writer    => self.item_rep_writer,
-        :item_rep_store     => self.item_rep_store)
+        :site                   => self.site,
+        :checksum_store         => self.checksum_store,
+        :dependency_tracker     => self.dependency_tracker,
+        :item_rep_writer        => self.item_rep_writer,
+        :item_rep_store         => self.item_rep_store,
+        :rule_memory_calculator => self.rule_memory_calculator)
     end
     memoize :outdatedness_checker
 
