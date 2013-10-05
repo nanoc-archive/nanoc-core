@@ -49,8 +49,8 @@ module Nanoc
 
     # FIXME ugly
     attr_reader :item_rep_store
-
     attr_reader :item_rep_writer
+    attr_reader :outdatedness_checker
 
     # @group Public instance methods
 
@@ -70,6 +70,7 @@ module Nanoc
       @item_rep_writer        = dependencies[:item_rep_writer]
       @rule_memory_calculator = dependencies[:rule_memory_calculator]
       @item_rep_store         = dependencies[:item_rep_store]
+      @outdatedness_checker   = dependencies[:outdatedness_checker]
     end
 
     # Compiles the site and writes out the compiled item representations.
@@ -167,18 +168,6 @@ module Nanoc
       })
     end
 
-    # @return [Nanoc::OutdatednessChecker] The outdatedness checker
-    def outdatedness_checker
-      Nanoc::OutdatednessChecker.new(
-        :site                   => self.site,
-        :checksum_store         => @checksum_store,
-        :dependency_tracker     => @dependency_tracker,
-        :item_rep_writer        => @item_rep_writer,
-        :item_rep_store         => self.item_rep_store,
-        :rule_memory_calculator => @rule_memory_calculator)
-    end
-    memoize :outdatedness_checker
-
     # @return [Array<Nanoc::ItemRep>] The site’s item representations
     def reps
       self.item_rep_store.reps
@@ -249,7 +238,7 @@ module Nanoc
       # Assign raw paths for non-snapshot rules
       rep.paths_without_snapshot = @rule_memory_calculator.write_paths_for(rep)
 
-      if !rep.item.forced_outdated? && !outdatedness_checker.outdated?(rep) && @compiled_content_cache[rep]
+      if !rep.item.forced_outdated? && !@outdatedness_checker.outdated?(rep) && @compiled_content_cache[rep]
         # Reuse content
         Nanoc::NotificationCenter.post(:cached_content_used, rep)
         rep.content = @compiled_content_cache[rep]
@@ -289,7 +278,7 @@ module Nanoc
     # @return [void]
     def forget_dependencies_if_outdated(items)
       items.each do |i|
-        if self.item_rep_store.reps_for_item(i).any? { |r| outdatedness_checker.outdated?(r) }
+        if self.item_rep_store.reps_for_item(i).any? { |r| @outdatedness_checker.outdated?(r) }
           @dependency_tracker.forget_dependencies_for(i)
         end
       end
