@@ -5,9 +5,8 @@ module Nanoc
   # TODO use this instead of ItemRepViewForRuleProcessing when filtering
   # TODO renaem this to ItemRepViewForFiltering
 
-  # A wrapper around {Nanoc::Itemrep} that provides restricted access. Item rep
-  # views should be used in assigns when filtering and layouting.
-  class ItemRepView
+  # A wrapper around {Nanoc::ItemRep} that provides restricted access during filtering.
+  class ItemRepViewForFiltering
 
     extend Forwardable
 
