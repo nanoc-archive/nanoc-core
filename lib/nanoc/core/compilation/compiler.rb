@@ -50,18 +50,18 @@ module Nanoc
     # @param [Nanoc::Site] site The site this compiler belongs to
     #
     # TODO document dependencies
-    def initialize(site, dependencies={})
+    def initialize(site, dependencies)
       @site = site
-      @dependency_tracker     = dependencies[:dependency_tracker]
-      @rules_store            = dependencies[:rules_store]
-      @checksum_store         = dependencies[:checksum_store]
-      @compiled_content_cache = dependencies[:compiled_content_cache]
-      @rule_memory_store      = dependencies[:rule_memory_store]
-      @item_rep_writer        = dependencies[:item_rep_writer]
-      @rule_memory_calculator = dependencies[:rule_memory_calculator]
-      @item_rep_store         = dependencies[:item_rep_store]
-      @outdatedness_checker   = dependencies[:outdatedness_checker]
-      @preprocessor           = dependencies[:preprocessor]
+      @dependency_tracker     = dependencies.fetch(:dependency_tracker)
+      @rules_store            = dependencies.fetch(:rules_store)
+      @checksum_store         = dependencies.fetch(:checksum_store)
+      @compiled_content_cache = dependencies.fetch(:compiled_content_cache)
+      @rule_memory_store      = dependencies.fetch(:rule_memory_store)
+      @item_rep_writer        = dependencies.fetch(:item_rep_writer)
+      @rule_memory_calculator = dependencies.fetch(:rule_memory_calculator)
+      @item_rep_store         = dependencies.fetch(:item_rep_store)
+      @outdatedness_checker   = dependencies.fetch(:outdatedness_checker)
+      @preprocessor           = dependencies.fetch(:preprocessor)
     end
 
     # Compiles the site and writes out the compiled item representations.
