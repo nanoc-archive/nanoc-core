@@ -7,10 +7,9 @@ class Nanoc::DataSources::FilesystemTest < Nanoc::TestCase
 
     @old_pwd = Dir.getwd
     create_site_here
-    site = Nanoc::SiteLoader.new.load
     FileUtils.cd('content')
     config = Nanoc::SiteLoader::DEFAULT_DATA_SOURCE_CONFIG
-    @data_source = Nanoc::DataSources::Filesystem.new(site, nil, nil, config)
+    @data_source = Nanoc::DataSources::Filesystem.new(nil, nil, config)
   end
 
   def teardown

@@ -17,8 +17,7 @@ module Nanoc
   # reference count goes from 1 to 0, the data source will be unloaded
   # ({#down} will be called).
   #
-  # The {#setup} method is used for setting up a site's data source for the
-  # first time.
+  # The {#setup} method is used for setting up a data source for the first time.
   #
   # @abstract Subclasses should at least implement {#items} and {#layouts}. If
   #   the data source should support creating items and layouts using the
@@ -41,9 +40,7 @@ module Nanoc
 
     extend Nanoc::PluginRegistry::PluginMethods
 
-    # Creates a new data source for the given site.
-    #
-    # @param [Nanoc::Site] site The site this data source belongs to.
+    # Creates a new data source.
     #
     # @param [String] items_root The prefix that should be given to all items
     #   returned by the #items method (comparable to mount points for
@@ -54,8 +51,7 @@ module Nanoc
     #   for filesystems in Unix-ish OSes).
     #
     # @param [Hash] config The configuration for this data source.
-    def initialize(site, items_root, layouts_root, config)
-      @site         = site
+    def initialize(items_root, layouts_root, config)
       @items_root   = items_root
       @layouts_root = layouts_root
       @config       = config
@@ -149,8 +145,8 @@ module Nanoc
     def sync
     end
 
-    # Returns the list of items (represented by {Nanoc::Item}) in this site.
-    # The default implementation simply returns an empty array.
+    # Returns the list of items (represented by {Nanoc::Item}). The default
+    # implementation simply returns an empty array.
     #
     # Subclasses should not prepend `items_root` to the item's identifiers, as
     # this will be done automatically.
@@ -163,8 +159,8 @@ module Nanoc
       []
     end
 
-    # Returns the list of layouts (represented by {Nanoc::Layout}) in this
-    # site. The default implementation simply returns an empty array.
+    # Returns the list of layouts (represented by {Nanoc::Layout}). The default
+    # implementation simply returns an empty array.
     #
     # Subclasses should prepend `layout_root` to the layout's identifiers,
     # since this is not done automatically.

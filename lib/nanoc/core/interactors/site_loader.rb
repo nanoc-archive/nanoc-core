@@ -84,7 +84,6 @@ module Nanoc
 
           # Create data source
           data_source_class.new(
-            self,
             data_source_hash[:items_root],
             data_source_hash[:layouts_root],
             data_source_hash.merge(data_source_hash[:config] || {})
