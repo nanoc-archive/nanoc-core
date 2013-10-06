@@ -82,19 +82,28 @@ module Nanoc
     def basic_outdatedness_reason_for(obj)
       case obj.type
         when :item_rep
+          # rules
           if rule_memory_differs_for(obj)
             Nanoc::OutdatednessReasons::RulesModified
+
+          # source
           elsif !checksums_available?(obj.item)
             Nanoc::OutdatednessReasons::NotEnoughData
           elsif !checksums_identical?(obj.item)
             Nanoc::OutdatednessReasons::SourceModified
+
+          # target
           elsif (obj.raw_path && !@item_rep_writer.exist?(obj.raw_path))
             # FIXME this is not tested!
             Nanoc::OutdatednessReasons::NotWritten
           elsif obj.paths_without_snapshot.any? { |p| !@item_rep_writer.exist?(p) }
             Nanoc::OutdatednessReasons::NotWritten
+
+          # code snippets
           elsif @site.code_snippets.any? { |cs| object_modified?(cs) }
             Nanoc::OutdatednessReasons::CodeSnippetsModified
+
+          # config
           elsif object_modified?(@site.config)
             Nanoc::OutdatednessReasons::ConfigurationModified
           else
@@ -107,8 +116,11 @@ module Nanoc
           end
           nil
         when :layout
+          # rules
           if rule_memory_differs_for(obj)
             Nanoc::OutdatednessReasons::RulesModified
+
+          # source
           elsif !checksums_available?(obj)
             Nanoc::OutdatednessReasons::NotEnoughData
           elsif !checksums_identical?(obj)
