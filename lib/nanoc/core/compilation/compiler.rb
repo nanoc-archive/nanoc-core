@@ -93,7 +93,7 @@ module Nanoc
       end
 
       # Calculate checksums
-      (site.items + site.layouts + site.code_snippets + [ site.config ]).each do |obj|
+      (site.items.to_a + site.layouts + site.code_snippets + [ site.config ]).each do |obj|
         @checksum_store[obj] = obj.checksum
       end
       @checksum_store[self.rules_collection] = @rules_store.rule_data
@@ -127,7 +127,7 @@ module Nanoc
         :item       => Nanoc::ItemView.new(rep.item, self.item_rep_store),
         :rep        => Nanoc::ItemRepView.new(rep, self.item_rep_store),
         :item_rep   => Nanoc::ItemRepView.new(rep, self.item_rep_store),
-        :items      => Nanoc::ItemArray.new.tap { |a| site.items.each { |i| a << Nanoc::ItemView.new(i, self.item_rep_store) }},
+        :items      => Nanoc::ItemCollection.new.tap { |a| site.items.each { |i| a << Nanoc::ItemView.new(i, self.item_rep_store) }},
         :layouts    => site.layouts,
         :config     => site.config,
         :site       => site,

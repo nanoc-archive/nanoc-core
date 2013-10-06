@@ -40,8 +40,8 @@ class Nanoc::SiteTest < Nanoc::TestCase
       site = Nanoc::SiteLoader.new.load
 
       # Check
-      assert_equal 1,      site.data_sources.size
-      assert_equal '/foo', site.items[0].identifier.to_s
+      assert_equal 1,          site.data_sources.size
+      assert_equal [ '/foo' ], site.items.map { |i| i.identifier.to_s }
     end
   end
 

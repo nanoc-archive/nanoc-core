@@ -105,7 +105,7 @@ module Nanoc
 
     def items
       @_items ||= begin
-        array = Nanoc::ItemArray.new
+        array = Nanoc::ItemCollection.new
         data_sources.each do |ds|
           items_in_ds = ds.items
           items_in_ds.each do |i|
