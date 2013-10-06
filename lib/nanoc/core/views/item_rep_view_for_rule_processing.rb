@@ -9,7 +9,7 @@ module Nanoc
   #
   # The API provided by item representation proxies allows layout identifiers
   # to be given as literals instead of as references to {Nanoc::Layout}.
-  class ItemRepRulesProxy
+  class ItemRepViewForRuleProcessing
 
     extend Forwardable
 
@@ -78,19 +78,6 @@ module Nanoc
 
     def snapshot(snapshot, params={})
       @item_rep.snapshot(snapshot, params)
-    end
-
-    # Returns true because this item is already a proxy, and therefore doesn’t
-    # need to be wrapped anymore.
-    #
-    # @api private
-    #
-    # @return [true]
-    #
-    # @see Nanoc::ItemRep#is_proxy?
-    # @see Nanoc::ItemRepRecorderProxy#is_proxy?
-    def is_proxy?
-      true
     end
 
   private

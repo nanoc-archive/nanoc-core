@@ -52,7 +52,7 @@ module Nanoc
 
     # Applies this rule to the given item rep.
     #
-    # @param [Nanoc::ItemRepRulesProxy, Nanoc::ItemRepRecorderProxy] rep_proxy
+    # @param [Nanoc::ItemRepViewForRuleProcessing, Nanoc::ItemRepViewForRecording] rep_proxy
     #   A proxy for the item rep this rule should be applied to
     #
     # @param [Nanoc::Site] site The site for this item rep

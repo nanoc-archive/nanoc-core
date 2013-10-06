@@ -237,7 +237,7 @@ module Nanoc
     # This method is supposed to be called only in a compilation rule block
     # (see {Nanoc::CompilerDSL#compile}).
     #
-    # @see Nanoc::ItemRepRulesProxy#filter
+    # @see Nanoc::ItemRepViewForRuleProcessing#filter
     #
     # @param [Symbol] filter_name The name of the filter to run the item
     #   representations' content through
@@ -299,7 +299,7 @@ module Nanoc
     # This method is supposed to be called only in a compilation rule block
     # (see {Nanoc::CompilerDSL#compile}).
     #
-    # @see Nanoc::ItemRepRulesProxy#layout
+    # @see Nanoc::ItemRepViewForRuleProcessing#layout
     #
     # @param [Nanoc::Layout] layout The layout to use
     #
@@ -366,22 +366,9 @@ module Nanoc
     #
     # @api private
     #
-    # @return [Nanoc::ItemRepRecorderProxy] The recording proxy
-    def to_recording_proxy
-      Nanoc::ItemRepRecorderProxy.new(self)
-    end
-
-    # Returns false because this item is not yet a proxy, and therefore does
-    # need to be wrapped in a proxy during compilation.
-    #
-    # @api private
-    #
-    # @return [false]
-    #
-    # @see Nanoc::ItemRepRecorderProxy#is_proxy?
-    # @see Nanoc::ItemRepRulesProxy#is_proxy?
-    def is_proxy?
-      false
+    # @return [Nanoc::ItemRepViewForRecording] The recording proxy
+    def to_view_for_recording
+      Nanoc::ItemRepViewForRecording.new(self)
     end
 
     # Returns an object that can be used for uniquely identifying objects.

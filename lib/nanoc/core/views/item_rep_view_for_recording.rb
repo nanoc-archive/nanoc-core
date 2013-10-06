@@ -14,7 +14,7 @@ module Nanoc
   # may not need to be recompiled.
   #
   # @api private
-  class ItemRepRecorderProxy
+  class ItemRepViewForRecording
 
     extend Forwardable
 
@@ -48,14 +48,14 @@ module Nanoc
 
     # @return [void]
     #
-    # @see Nanoc::ItemRepRulesProxy#filter, Nanoc::ItemRep#filter
+    # @see Nanoc::ItemRepViewForRuleProcessing#filter, Nanoc::ItemRep#filter
     def filter(name, args={})
       @rule_memory << [ :filter, name, args ]
     end
 
     # @return [void]
     #
-    # @see Nanoc::ItemRepRulesProxy#layout, Nanoc::ItemRep#layout
+    # @see Nanoc::ItemRepViewForRuleProcessing#layout, Nanoc::ItemRep#layout
     def layout(layout_identifier, extra_filter_args=nil)
       if extra_filter_args
         @rule_memory << [ :layout, layout_identifier, extra_filter_args ]
@@ -86,17 +86,6 @@ module Nanoc
     # @return [{}]
     def content
       {}
-    end
-
-    # Returns true because this item is already a proxy, and therefore doesn’t
-    # need to be wrapped anymore.
-    #
-    # @return [true]
-    #
-    # @see Nanoc::ItemRep#is_proxy?
-    # @see Nanoc::ItemRepRulesProxy#is_proxy?
-    def is_proxy?
-      true
     end
 
     # TODO document

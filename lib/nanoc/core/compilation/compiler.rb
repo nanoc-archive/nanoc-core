@@ -202,8 +202,8 @@ module Nanoc
 
     def fill_rep_by_recompiling(rep)
       @dependency_tracker.forget_dependencies_for(rep.item)
-      rep_proxy = Nanoc::ItemRepRulesProxy.new(rep, self)
-      rules_collection.compilation_rule_for(rep).apply_to(rep_proxy, site)
+      rep_view = Nanoc::ItemRepViewForRuleProcessing.new(rep, self)
+      rules_collection.compilation_rule_for(rep).apply_to(rep_view, site)
       rep.snapshot(:last)
       @compiled_content_cache[rep] = rep.content
     end

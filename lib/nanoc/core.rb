@@ -59,6 +59,8 @@ require 'nanoc/core/entities/textual_content'
 # Load view classes
 require 'nanoc/core/views/item_view'
 require 'nanoc/core/views/item_rep_view'
+require 'nanoc/core/views/item_rep_view_for_recording'
+require 'nanoc/core/views/item_rep_view_for_rule_processing'
 
 # Load store classes
 require 'nanoc/core/store'
@@ -85,8 +87,6 @@ require 'nanoc/core/compilation/compiler_dsl'
 require 'nanoc/core/compilation/dependency_tracker'
 require 'nanoc/core/compilation/filter'
 require 'nanoc/core/compilation/item_rep_builder'
-require 'nanoc/core/compilation/item_rep_recorder_proxy'
-require 'nanoc/core/compilation/item_rep_rules_proxy'
 require 'nanoc/core/compilation/outdatedness_checker'
 require 'nanoc/core/compilation/outdatedness_reasons'
 require 'nanoc/core/compilation/rule'

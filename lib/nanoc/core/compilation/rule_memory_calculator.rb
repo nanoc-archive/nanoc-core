@@ -40,9 +40,9 @@ module Nanoc
     #
     # @return [Array] The rule memory for the given item representation
     def new_rule_memory_for_rep(rep)
-      recording_proxy = rep.to_recording_proxy
-      @rules_collection.compilation_rule_for(rep).apply_to(recording_proxy, @site)
-      make_rule_memory_serializable(recording_proxy.rule_memory)
+      view_for_recording = rep.to_view_for_recording
+      @rules_collection.compilation_rule_for(rep).apply_to(view_for_recording, @site)
+      make_rule_memory_serializable(view_for_recording.rule_memory)
     end
     memoize :new_rule_memory_for_rep
 
