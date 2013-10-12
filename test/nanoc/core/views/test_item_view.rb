@@ -15,51 +15,65 @@ class Nanoc::ItemViewTest < Nanoc::TestCase
     def @rep_1.path(params={}) ; "default path at #{params[:snapshot].inspect}" ; end
     def @rep_2.path(params={}) ; "foo path at #{params[:snapshot].inspect}" ; end
     @item_rep_store = Nanoc::ItemRepStore.new([ @rep_1, @rep_2 ])
-    @item_view = Nanoc::ItemView.new(@item, @item_rep_store)
+    @subject = Nanoc::ItemView.new(@item, @item_rep_store)
+  end
+
+  def test_resolve
+    assert_equal @item, @subject.resolve
+  end
+
+  def test_reps
+    # FIXME return as item rep views
+    assert_equal [ @rep_1, @rep_2 ].to_set, @subject.reps.to_set
+  end
+
+  def test_rep_named
+    # FIXME return as item rep view
+    assert_equal @rep_2, @subject.rep_named(:foo)
   end
 
   def test_compiled_content_with_default_rep_and_default_snapshot
-    assert_equal 'default content at nil', @item_view.compiled_content
+    assert_equal 'default content at nil', @subject.compiled_content
   end
 
   def test_compiled_content_with_custom_rep_and_default_snapshot
-    assert_equal 'foo content at nil', @item_view.compiled_content(:rep => :foo)
+    assert_equal 'foo content at nil', @subject.compiled_content(:rep => :foo)
   end
 
   def test_compiled_content_with_default_rep_and_custom_snapshot
-    assert_equal 'default content at :blah', @item_view.compiled_content(:snapshot => :blah)
+    assert_equal 'default content at :blah', @subject.compiled_content(:snapshot => :blah)
   end
 
   def test_compiled_content_with_custom_nonexistant_rep
     assert_raises(Nanoc::Errors::Generic) do
-      @item_view.compiled_content(:rep => :lkasdhflahgwfe)
+      @subject.compiled_content(:rep => :lkasdhflahgwfe)
     end
   end
 
   def test_path_with_default_rep
-    assert_equal 'default path at nil', @item_view.path
+    assert_equal 'default path at nil', @subject.path
   end
 
   def test_path_with_custom_rep
-    assert_equal 'foo path at nil', @item_view.path(:rep => :foo)
+    assert_equal 'foo path at nil', @subject.path(:rep => :foo)
   end
 
   def test_path_with_custom_nonexistant_rep
     assert_raises(Nanoc::Errors::Generic) do
-      assert_equal 'foo path at nil', @item_view.path(:rep => :sdfklgh)
+      assert_equal 'foo path at nil', @subject.path(:rep => :sdfklgh)
     end
   end
 
   def test_path_with_default_snapshot
-    assert_equal 'default path at nil', @item_view.path
+    assert_equal 'default path at nil', @subject.path
   end
 
   def test_path_with_custom_snapshot
-    assert_equal 'default path at :blargh', @item_view.path(:snapshot => :blargh)
+    assert_equal 'default path at :blargh', @subject.path(:snapshot => :blargh)
   end
 
   def test_binary
-    refute @item_view.binary?
+    refute @subject.binary?
   end
 
 end

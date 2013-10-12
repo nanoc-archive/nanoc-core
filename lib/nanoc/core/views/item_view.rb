@@ -29,11 +29,13 @@ module Nanoc
       "<Nanoc::Item* identifier=#{@item.identifier.to_s.inspect}>"
     end
 
+    # FIXME return as item rep views
     # @return [Enumerable<Nanoc::ItemRep>] This item’s collection of item reps
     def reps
       @_reps ||= @item_rep_store.reps_for_item(@item)
     end
 
+    # FIXME return as item rep views
     # @param [Symbol] rep_name The name of the representation to return
     #
     # @return [Nanoc::ItemRep] The representation with the given name
