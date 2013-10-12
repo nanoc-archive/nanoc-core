@@ -25,7 +25,7 @@ module Nanoc
 
     # @return [Nanoc::ItemView] a view for the item for this rep
     def item
-      Nanoc::ItemView.new(self.resolve.item, item_rep_store)
+      Nanoc::ItemView.new(self.resolve.item, @item_rep_store)
     end
 
     def inspect
