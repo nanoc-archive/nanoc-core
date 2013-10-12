@@ -7,7 +7,7 @@ class Nanoc::IdentifierTest < Nanoc::TestCase
   end
 
   def test_examples
-    YARD.parse(File.dirname(__FILE__) + '/../../../lib/nanoc/core/entities/identifier.rb')
+    YARD.parse(File.dirname(__FILE__) + '/../../../../lib/nanoc/core/entities/identifier.rb')
 
     assert_examples_correct 'Nanoc::Identifier#parent'
     assert_examples_correct 'Nanoc::Identifier#match?'
