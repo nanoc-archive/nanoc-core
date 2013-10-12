@@ -23,13 +23,13 @@ class Nanoc::ItemViewTest < Nanoc::TestCase
   end
 
   def test_reps
-    # FIXME return as item rep views
-    assert_equal [ @rep_1, @rep_2 ].to_set, @subject.reps.to_set
+    expected = [ @rep_1, @rep_2 ].to_set
+    assert_equal expected, @subject.reps.to_set.map { |r| r.resolve }.to_set
   end
 
   def test_rep_named
-    # FIXME return as item rep view
-    assert_equal @rep_2, @subject.rep_named(:foo)
+    refute_equal @rep_2, @subject.rep_named(:foo)
+    assert_equal @rep_2, @subject.rep_named(:foo).resolve
   end
 
   def test_compiled_content_with_default_rep_and_default_snapshot

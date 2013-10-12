@@ -7,6 +7,7 @@ module Nanoc
   class ItemView
 
     extend Forwardable
+    extend Nanoc::Memoization
 
     # TODO do not delegate #[] (do dependency tracking in view)
     def_delegators :@item, :identifier, :[], :binary?
@@ -29,16 +30,17 @@ module Nanoc
       "<Nanoc::Item* identifier=#{@item.identifier.to_s.inspect}>"
     end
 
-    # FIXME return as item rep views
-    # @return [Enumerable<Nanoc::ItemRep>] This item’s collection of item reps
+    # @return [Enumerable<Nanoc::ItemRepViewForFiltering>] This item’s collection of item reps
     def reps
-      @_reps ||= @item_rep_store.reps_for_item(@item)
+      @item_rep_store.reps_for_item(@item).map do |item_rep|
+        Nanoc::ItemRepViewForFiltering.new(item_rep, @item_rep_store)
+      end
     end
+    memoize :reps
 
-    # FIXME return as item rep views
     # @param [Symbol] rep_name The name of the representation to return
     #
-    # @return [Nanoc::ItemRep] The representation with the given name
+    # @return [Nanoc::ItemRepViewForFiltering] The representation with the given name
     def rep_named(rep_name)
       self.reps.find { |r| r.name == rep_name }
     end
