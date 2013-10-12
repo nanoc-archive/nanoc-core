@@ -2,9 +2,6 @@
 
 module Nanoc
 
-  # TODO use this instead of ItemRepViewForRuleProcessing when filtering
-  # TODO renaem this to ItemRepViewForFiltering
-
   # A wrapper around {Nanoc::ItemRep} that provides restricted access during filtering.
   class ItemRepViewForFiltering
 
