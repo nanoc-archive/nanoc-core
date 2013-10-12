@@ -13,6 +13,7 @@ module Nanoc
 
     extend Forwardable
 
+    # TODO do not delegate :item (return item view instead)
     def_delegators :@item_rep, :item, :name, :binary, :binary?, :compiled_content, :has_snapshot?, :raw_path, :path
 
     # @param [Nanoc::ItemRep] item_rep The item representation that this
@@ -42,8 +43,8 @@ module Nanoc
     #
     # @return [void]
     def filter(name, args={})
-      set_assigns
-      @item_rep.filter(name, args)
+      assigns = @compiler.assigns_for(@item_rep)
+      @item_rep.filter(name, args, assigns)
     end
 
     # Lays out the item using the given layout. This method will replace the
@@ -59,13 +60,12 @@ module Nanoc
     #
     # @return [void]
     def layout(layout_identifier, extra_filter_args={})
-      set_assigns
-
       layout = layout_with_identifier(layout_identifier)
       filter_name, filter_args = @compiler.rules_collection.filter_for_layout(layout)
       filter_args = filter_args.merge(extra_filter_args)
 
-      @item_rep.layout(layout, filter_name, filter_args)
+      assigns = @compiler.assigns_for(@item_rep)
+      @item_rep.layout(layout, filter_name, filter_args, assigns)
     end
 
     def write(path, params={})
@@ -81,10 +81,6 @@ module Nanoc
     end
 
   private
-
-    def set_assigns
-      @item_rep.assigns = @compiler.assigns_for(@item_rep)
-    end
 
     def layouts
       @compiler.site.layouts

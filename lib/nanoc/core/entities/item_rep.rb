@@ -20,11 +20,6 @@ module Nanoc
       # @return [Nanoc::SnapshotStore] The snapshot store to store content in
       attr_accessor :snapshot_store
 
-      # @return [Hash] A hash containing the assigns that will be used in the
-      #   next filter or layout operation. The keys (symbols) will be made
-      #   available during the next operation.
-      attr_accessor :assigns
-
       # @return [Boolean] true if this representation has already been
       #   compiled during the current or last compilation session; false
       #   otherwise
@@ -125,7 +120,6 @@ module Nanoc
       @raw_paths  = {}
       @paths_without_snapshot = []
       @paths      = {}
-      @assigns    = {}
       @snapshots  = []
       @content    = { :last => @item.content }
       initialize_content
@@ -245,8 +239,10 @@ module Nanoc
     # @param [Hash] filter_args The filter arguments that should be passed to
     #   the filter's #run method
     #
+    # @param [Hash] assigns
+    #
     # @return [void]
-    def filter(filter_name, filter_args={})
+    def filter(filter_name, filter_args, assigns)
       # Get filter class
       klass = filter_named(filter_name)
       raise Nanoc::Errors::UnknownFilter.new(filter_name) if klass.nil?
@@ -309,8 +305,10 @@ module Nanoc
     # @param [Hash] filter_args The filter arguments that should be passed to
     #   the filter's #run method
     #
+    # @param [Hash] assigns
+    #
     # @return [void]
-    def layout(layout, filter_name, filter_args)
+    def layout(layout, filter_name, filter_args, assigns)
       # Check whether item can be laid out
       raise Nanoc::Errors::CannotLayoutBinaryItem.new(self) if self.snapshot_binary?(:last)
 

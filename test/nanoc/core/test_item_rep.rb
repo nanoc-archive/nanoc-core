@@ -98,13 +98,11 @@ class Nanoc::ItemRepTest < Nanoc::TestCase
     snapshot_store.set('/', :foo, :last, item.content.string)
 
     # Filter once
-    item_rep.assigns = {}
-    item_rep.filter(:erb)
+    item_rep.filter(:erb, {}, {})
     assert_equal(%[<%= "blah" %>], snapshot_store.query('/', :foo, :last))
 
     # Filter twice
-    item_rep.assigns = {}
-    item_rep.filter(:erb)
+    item_rep.filter(:erb, {}, {})
     assert_equal(%[blah], snapshot_store.query('/', :foo, :last))
   end
 
@@ -124,8 +122,7 @@ class Nanoc::ItemRepTest < Nanoc::TestCase
     snapshot_store.set('/', :foo, :last, item.content.string)
 
     # Layout
-    item_rep.assigns = {}
-    item_rep.layout(layout, :erb, {})
+    item_rep.layout(layout, :erb, {}, {})
     assert_equal(%[blah], snapshot_store.query('/', :foo, :last))
   end
 
@@ -148,11 +145,10 @@ class Nanoc::ItemRepTest < Nanoc::TestCase
     snapshot_store.set('/', :foo, :last, item.content.string)
 
     # Filter while taking snapshots
-    item_rep.assigns = {}
     item_rep.snapshot(:foo)
-    item_rep.filter(:erb)
+    item_rep.filter(:erb, {}, {})
     item_rep.snapshot(:bar)
-    item_rep.filter(:erb)
+    item_rep.filter(:erb, {}, {})
     item_rep.snapshot(:qux)
 
     # Check snapshots
@@ -169,7 +165,6 @@ class Nanoc::ItemRepTest < Nanoc::TestCase
 
     # Create rep
     rep = Nanoc::ItemRep.new(item, :foo, :snapshot_store => self.new_snapshot_store)
-    def rep.assigns ; {} ; end
 
     # Create fake filter
     def rep.filter_named(name)
@@ -182,7 +177,7 @@ class Nanoc::ItemRepTest < Nanoc::TestCase
     end
 
     # Run
-    rep.filter(:foo)
+    rep.filter(:foo, {}, {})
 
     # Check
     assert rep.snapshot_binary?(:last)
@@ -210,7 +205,7 @@ class Nanoc::ItemRepTest < Nanoc::TestCase
 
     # Run
     assert_raises ::Nanoc::Errors::CannotUseBinaryFilter do
-      rep.filter(:foo)
+      rep.filter(:foo, {}, {})
     end
   end
 
@@ -225,7 +220,9 @@ class Nanoc::ItemRepTest < Nanoc::TestCase
     create_textual_filter
 
     assert rep.snapshot_binary?(:last)
-    assert_raises(Nanoc::Errors::CannotUseTextualFilter) { rep.filter(:text_filter) }
+    assert_raises(Nanoc::Errors::CannotUseTextualFilter) do
+      rep.filter(:text_filter, {}, {})
+    end
   end
 
   def test_converted_binary_rep_can_be_layed_out
@@ -236,7 +233,6 @@ class Nanoc::ItemRepTest < Nanoc::TestCase
     item = create_binary_item
     snapshot_store = self.new_snapshot_store
     rep = Nanoc::ItemRep.new(item, :foo, :snapshot_store => snapshot_store)
-    rep.assigns = { :content => 'meh' }
 
     # Create filter
     Class.new(::Nanoc::Filter) do
@@ -248,8 +244,8 @@ class Nanoc::ItemRepTest < Nanoc::TestCase
     end
 
     # Run and check
-    rep.filter(:binary_to_text)
-    rep.layout(layout, :erb, {})
+    rep.filter(:binary_to_text, {}, {})
+    rep.layout(layout, :erb, {}, { :content => 'meh' })
     assert_equal('blah meh', snapshot_store.query(item.identifier, :foo, :last))
   end
 
@@ -261,7 +257,6 @@ class Nanoc::ItemRepTest < Nanoc::TestCase
     )
     item.stubs(:site).returns(site)
     rep = create_rep_for(item, :foo)
-    rep.assigns = {}
     create_textual_filter
 
     assert rep.snapshot_binary?(:last)
@@ -274,7 +269,7 @@ class Nanoc::ItemRepTest < Nanoc::TestCase
         end
       end
     end
-    rep.filter(:binary_to_text)
+    rep.filter(:binary_to_text, {}, {})
     assert !rep.snapshot_binary?(:last)
 
     def rep.filter_named(name)
@@ -285,7 +280,7 @@ class Nanoc::ItemRepTest < Nanoc::TestCase
         end
       end
     end
-    rep.filter(:text_filter)
+    rep.filter(:text_filter, {}, {})
     assert !rep.snapshot_binary?(:last)
   end
 
@@ -298,7 +293,6 @@ class Nanoc::ItemRepTest < Nanoc::TestCase
     )
     item.stubs(:site).returns(site)
     rep = create_rep_for(item, :foo)
-    rep.assigns = {}
     create_binary_filter
 
     assert rep.snapshot_binary?(:last)
@@ -310,9 +304,11 @@ class Nanoc::ItemRepTest < Nanoc::TestCase
         end
       end
     end
-    rep.filter(:binary_to_text)
+    rep.filter(:binary_to_text, {}, {})
     refute rep.snapshot_binary?(:last)
-    assert_raises(Nanoc::Errors::CannotUseBinaryFilter) { rep.filter(:binary_filter) }
+    assert_raises(Nanoc::Errors::CannotUseBinaryFilter) do
+      rep.filter(:binary_filter, {}, {})
+    end
   end
 
   def test_new_content_should_be_frozen
@@ -329,7 +325,7 @@ class Nanoc::ItemRepTest < Nanoc::TestCase
     def rep.filter_named(name) ; @filter_class ; end
 
     assert_raises_frozen_error do
-      rep.filter(:whatever)
+      rep.filter(:whatever, {}, {})
     end
   end
 
@@ -347,8 +343,8 @@ class Nanoc::ItemRepTest < Nanoc::TestCase
     def rep.filter_named(name) ; @filter_class ; end
 
     assert_raises_frozen_error do
-      rep.filter(:erb)
-      rep.filter(:whatever)
+      rep.filter(:erb, {}, {})
+      rep.filter(:whatever, {}, {})
     end
   end
 
