@@ -58,4 +58,8 @@ class Nanoc::ItemViewTest < Nanoc::TestCase
     assert_equal 'default path at :blargh', @item_view.path(:snapshot => :blargh)
   end
 
+  def test_binary
+    refute @item_view.binary?
+  end
+
 end

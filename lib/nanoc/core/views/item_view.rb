@@ -8,7 +8,8 @@ module Nanoc
 
     extend Forwardable
 
-    def_delegators :@item, :identifier, :[]
+    # TODO do not delegate #[] (do dependency tracking in view)
+    def_delegators :@item, :identifier, :[], :binary?
 
     # @param [Nanoc::Item] item
     # @param [Nanoc::ItemRepStore] item_rep_store
