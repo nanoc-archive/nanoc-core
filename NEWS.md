@@ -24,6 +24,7 @@ Changed:
 * The filesystem data source metadata section now start with three dashes, not five
 * Identifiers are now paths that include the extension
 * The Rules DSL now uses globs (as well as regular expressions, like before)
+* Only `nanoc.yaml` can be used as the configuration filename
 
 ## 3.6.6 (???)
 

@@ -8,12 +8,6 @@ class Nanoc::SiteTest < Nanoc::TestCase
     end
   end
 
-  def test_initialize_with_dir_with_config_yaml
-    File.write('config.yaml', 'output_dir: public_html')
-    site = Nanoc::SiteLoader.new.load
-    assert_equal 'public_html', site.config[:output_dir]
-  end
-
   def test_initialize_with_dir_with_nanoc_yaml
     File.write('nanoc.yaml', 'output_dir: public_html')
     site = Nanoc::SiteLoader.new.load

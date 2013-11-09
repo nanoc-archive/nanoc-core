@@ -30,6 +30,8 @@ module Nanoc
       :prune              => { :auto_prune => false, :exclude => [ '.git', '.hg', '.svn', 'CVS' ] }
     }
 
+    CONFIG_FILENAME = 'nanoc.yaml'
+
     # @return [Nanoc::Site] A new site based on the current working directory
     def load
       # Load
@@ -54,15 +56,7 @@ module Nanoc
     #
     # @api private
     def self.cwd_is_nanoc_site?
-      !self.config_filename_for_cwd.nil?
-    end
-
-    # @return [String] filename of the nanoc config file in the current working directory, or nil if there is none
-    #
-    # @api private
-    def self.config_filename_for_cwd
-      filenames = %w( nanoc.yaml config.yaml )
-      filenames.find { |f| File.file?(f) }
+      File.file?(CONFIG_FILENAME)
     end
 
   protected
@@ -132,14 +126,13 @@ module Nanoc
     def config
       @_config ||= begin
         # Find config file
-        filename = self.class.config_filename_for_cwd
-        if filename.nil?
+        unless self.class.cwd_is_nanoc_site?
           raise Nanoc::Errors::GenericTrivial,
-            'Could not find nanoc.yaml or config.yaml in the current working directory'
+            "Could not find #{CONFIG_FILENAME} in the current working directory"
         end
 
         # Load
-        config = YAML.load_file(filename).symbolize_keys_recursively
+        config = YAML.load_file(CONFIG_FILENAME).symbolize_keys_recursively
         config = DEFAULT_CONFIG.merge(config)
         config[:data_sources] = config[:data_sources].map do |dsc|
           DEFAULT_DATA_SOURCE_CONFIG.merge(dsc)
