@@ -73,7 +73,7 @@ module Nanoc
       @data_sources ||= begin
         config[:data_sources].map do |data_source_hash|
           # Get data source class
-          data_source_class = Nanoc::DataSource.named(data_source_hash[:type])
+          data_source_class = Nanoc::DataSource.named(data_source_hash[:type].to_sym)
           raise Nanoc::Errors::UnknownDataSource.new(data_source_hash[:type]) if data_source_class.nil?
 
           # Create data source

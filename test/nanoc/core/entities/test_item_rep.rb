@@ -435,10 +435,10 @@ private
   end
 
   def create_filter(type)
-    filter_klass = Class.new(Nanoc::Filter)
-    filter_klass.type(type)
-    Nanoc::Filter.register filter_klass, "#{type}_filter".to_sym
-    filter_klass
+    Class.new(Nanoc::Filter).tap do |klass|
+      klass.type       type
+      klass.identifier "#{type}_filter".to_sym
+    end
   end
 
 end

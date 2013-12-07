@@ -2,6 +2,9 @@ source "http://rubygems.org"
 
 gemspec
 
+# TODO move this out of the Gemfile
+gem 'ddplugin', :github => 'ddfreyne/ddplugin'
+
 gem 'coveralls', :require => false
 
 # When adding a group here, check .travis.yml’s `bundler_args`.

@@ -15,6 +15,9 @@ module Nanoc
 
 end
 
+# Load external libraries
+require 'ddplugin'
+
 # Load general requirements
 require 'digest'
 require 'enumerator'
@@ -38,7 +41,6 @@ require 'nanoc/core/helper/context'
 require 'nanoc/core/helper/directed_graph'
 require 'nanoc/core/helper/memoization'
 require 'nanoc/core/helper/notification_center'
-require 'nanoc/core/helper/plugin_registry'
 require 'nanoc/core/helper/filesystem_tools'
 
 # Load entity classes

@@ -1,7 +1,14 @@
+GIT
+  remote: git://github.com/ddfreyne/ddplugin.git
+  revision: 542e46194b8e534da874c5a5f1a174af6ce1230b
+  specs:
+    ddplugin (0.1)
+
 PATH
   remote: .
   specs:
     nanoc-core (4.0.0a1)
+      ddplugin
 
 GEM
   remote: http://rubygems.org/
@@ -38,6 +45,7 @@ PLATFORMS
 
 DEPENDENCIES
   coveralls
+  ddplugin!
   kramdown
   minitest
   mocha

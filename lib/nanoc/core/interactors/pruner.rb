@@ -6,7 +6,7 @@ module Nanoc
   # that are not managed by nanoc.
   class Pruner
 
-    extend Nanoc::PluginRegistry::PluginMethods
+    extend DDPlugin::Plugin
 
     # @return [Nanoc::Site] The site this pruner belongs to
     attr_reader :site

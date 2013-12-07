@@ -5,7 +5,7 @@ module Nanoc
   # Stores compiled item rep snapshots.
   class SnapshotStore
 
-    extend Nanoc::PluginRegistry::PluginMethods
+    extend DDPlugin::Plugin
 
     # Fetches the content for the given snapshot.
     #

@@ -6,7 +6,7 @@ module Nanoc
   # TODO merge pruner into this and make pruner part of base
   class ItemRepWriter
 
-    extend Nanoc::PluginRegistry::PluginMethods
+    extend DDPlugin::Plugin
 
     def initialize(config)
       @config = config

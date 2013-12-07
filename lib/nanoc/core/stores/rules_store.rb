@@ -7,7 +7,7 @@ module Nanoc
   # @abstract Subclasses must implement {#load_rules}.
   class RulesStore
 
-    extend Nanoc::PluginRegistry::PluginMethods
+    extend DDPlugin::Plugin
 
     # @return [RulesCollction] The rules collection
     attr_reader :rules_collection

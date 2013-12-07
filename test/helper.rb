@@ -3,6 +3,10 @@
 # Set up gem loading (necessary for cri dependency)
 require File.dirname(__FILE__) + '/gem_loader.rb'
 
+# Load bundler
+require 'bundler'
+Bundler.require
+
 # Setup coverage
 require 'coveralls'
 Coveralls.wear!

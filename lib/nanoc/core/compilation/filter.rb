@@ -37,7 +37,7 @@ module Nanoc
     # @return [Hash]
     attr_reader :assigns
 
-    extend Nanoc::PluginRegistry::PluginMethods
+    extend DDPlugin::Plugin
 
     class << self
 
