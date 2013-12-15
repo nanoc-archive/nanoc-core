@@ -9,7 +9,7 @@ module Nanoc::HashExtensions
   # @return [Hash] The converted hash
   def symbolize_keys_recursively
     hash = {}
-    self.each_pair do |key, value|
+    each_pair do |key, value|
       new_key   = key.respond_to?(:to_sym) ? key.to_sym : key
       new_value = value.respond_to?(:symbolize_keys_recursively) ? value.symbolize_keys_recursively : value
       hash[new_key] = new_value
@@ -23,7 +23,7 @@ module Nanoc::HashExtensions
   #
   # @return [Hash] The converted hash
   def stringify_keys_recursively
-    inject({}) do |hash, (key, value)|
+    reduce({}) do |hash, (key, value)|
       hash.merge(key.to_s => value.respond_to?(:stringify_keys_recursively) ? value.stringify_keys_recursively : value)
     end
   end

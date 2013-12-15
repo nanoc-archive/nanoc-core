@@ -2,6 +2,11 @@
 
 class Nanoc::FilesystemToolsTest < Nanoc::TestCase
 
+  def setup
+    super
+    skip_unless_have_symlink
+  end
+
   def test_all_files_in_follows_symlinks_to_dirs
     if 'jruby' == RUBY_ENGINE && '1.7.4' == JRUBY_VERSION
       skip "Symlink behavior on JRuby is known to be broken (see https://github.com/jruby/jruby/issues/1036)"

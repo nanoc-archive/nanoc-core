@@ -27,8 +27,11 @@ require 'nanoc-core'
 
 # Load miscellaneous requirements
 require 'stringio'
+require 'tmpdir'
 
 module Nanoc::TestHelpers
+
+  LIB_DIR = File.expand_path(File.dirname(__FILE__) + '/../lib')
 
   def in_site(params={})
     # Build site name
@@ -108,14 +111,17 @@ EOS
 
     # Go quiet
     unless ENV['QUIET'] == 'false'
+      @orig_stdout = $stdout
+      @orig_stderr = $stderr
+
       $stdout = StringIO.new
       $stderr = StringIO.new
     end
 
     # Enter tmp
-    FileUtils.mkdir_p('tmp')
+    @tmp_dir = Dir.mktmpdir('nanoc-test')
     @orig_wd = FileUtils.pwd
-    FileUtils.cd('tmp')
+    FileUtils.cd(@tmp_dir)
 
     # Let us get to the raw errors
     # TODO move this elsewhere
@@ -129,12 +135,12 @@ EOS
 
     # Exit tmp
     FileUtils.cd(@orig_wd)
-    FileUtils.rm_rf('tmp')
+    FileUtils.rm_rf(@tmp_dir)
 
     # Go unquiet
     unless ENV['QUIET'] == 'false'
-      $stdout = STDOUT
-      $stderr = STDERR
+      $stdout = @orig_stdout
+      $stderr = @orig_stderr
     end
   end
 
@@ -200,6 +206,39 @@ EOS
   def assert_raises_frozen_error
     error = assert_raises(RuntimeError, TypeError) { yield }
     assert_match(/(^can't modify frozen |^unable to modify frozen object$)/, error.message)
+  end
+
+  def with_env_vars(hash, &block)
+    orig_env_hash = ENV.to_hash
+    hash.each_pair { |k,v| ENV[k] = v }
+    yield
+  ensure
+    orig_env_hash.each_pair { |k,v| ENV[k] = v }
+  end
+
+  def on_windows?
+    Nanoc.on_windows?
+  end
+
+  def have_command?(cmd)
+    which, null = on_windows? ? ["where", "NUL"] : ["which", "/dev/null"]
+    system("#{which} #{cmd} > #{null} 2>&1")
+  end
+
+  def have_symlink?
+    File.symlink nil, nil
+  rescue NotImplementedError
+    return false
+  rescue
+    return true
+  end
+
+  def skip_unless_have_command(cmd)
+    skip "Could not find external command \"#{cmd}\"" unless have_command?(cmd)
+  end
+
+  def skip_unless_have_symlink
+    skip "Symlinks are not supported by Ruby on Windows" unless have_symlink?
   end
 
 end

@@ -68,7 +68,7 @@ module Nanoc
 
     def freeze
       @items.freeze
-      self.build_mapping
+      build_mapping
       super
     end
 
@@ -96,7 +96,7 @@ module Nanoc
     alias_method :slice, :[]
     alias_method :at,    :[]
 
-    protected
+  protected
 
     def item_with_identifier(identifier)
       if self.frozen?

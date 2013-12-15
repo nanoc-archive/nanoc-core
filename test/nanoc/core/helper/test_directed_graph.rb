@@ -282,7 +282,7 @@ class Nanoc::DirectedGraphTest < Nanoc::TestCase
   end
 
   def test_example
-    YARD.parse(File.dirname(__FILE__) + '/../../../../lib/nanoc/core/helper/directed_graph.rb')
+    YARD.parse(LIB_DIR + '/nanoc/core/helper/directed_graph.rb')
     assert_examples_correct 'Nanoc::DirectedGraph'
   end
 

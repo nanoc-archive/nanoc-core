@@ -57,7 +57,7 @@ module Nanoc
 
         if !@stack.empty?
           Nanoc::NotificationCenter.post(:dependency_created, @stack.last, obj)
-          self.record_dependency(@stack.last, obj)
+          record_dependency(@stack.last, obj)
         end
         @stack.push(obj)
       end

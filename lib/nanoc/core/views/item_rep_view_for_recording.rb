@@ -67,7 +67,7 @@ module Nanoc
     # @return [void]
     #
     # @see Nanoc::ItemRep#snapshot
-    def snapshot(snapshot_name, params={})
+    def snapshot(snapshot_name, params = {})
       self.ensure_snapshot_unique(snapshot_name)
       @rule_memory << [ :snapshot, snapshot_name, params ]
     end

@@ -1,4 +1,13 @@
 GIT
+  remote: git://github.com/bbatsov/rubocop.git
+  revision: 5fb62c86b622d29c204ae66a33fa7f7abee02263
+  specs:
+    rubocop (0.15.0)
+      parser (~> 2.0)
+      powerpack (~> 0.0.6)
+      rainbow (>= 1.1.4)
+
+GIT
   remote: git://github.com/ddfreyne/ddplugin.git
   revision: 542e46194b8e534da874c5a5f1a174af6ce1230b
   specs:
@@ -13,6 +22,7 @@ PATH
 GEM
   remote: http://rubygems.org/
   specs:
+    ast (1.1.0)
     coveralls (0.7.0)
       multi_json (~> 1.3)
       rest-client
@@ -26,6 +36,11 @@ GEM
     mocha (0.14.0)
       metaclass (~> 0.0.1)
     multi_json (1.8.0)
+    parser (2.0.0)
+      ast (~> 1.1)
+      slop (~> 3.4, >= 3.4.5)
+    powerpack (0.0.9)
+    rainbow (1.1.4)
     rake (10.1.0)
     rest-client (1.6.7)
       mime-types (>= 1.16)
@@ -33,6 +48,7 @@ GEM
       multi_json (~> 1.0)
       simplecov-html (~> 0.7.1)
     simplecov-html (0.7.1)
+    slop (3.4.7)
     systemu (2.5.2)
     term-ansicolor (1.2.2)
       tins (~> 0.8)
@@ -51,5 +67,6 @@ DEPENDENCIES
   mocha
   nanoc-core!
   rake
+  rubocop!
   systemu
   yard

@@ -21,15 +21,15 @@ module Nanoc
     #
     # @return [Array] The calculated rule memory for the given object
     def [](obj)
-      result = case obj.type
+      result =
+        case obj.type
         when :item_rep
           self.new_rule_memory_for_rep(obj)
         when :layout
           self.new_rule_memory_for_layout(obj)
         else
-          raise RuntimeError,
-            "Do not know how to calculate the rule memory for #{obj.inspect}"
-      end
+          raise "Do not know how to calculate the rule memory for #{obj.inspect}"
+        end
 
       result
     end

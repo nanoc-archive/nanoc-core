@@ -19,7 +19,7 @@ class Nanoc::ContextTest < Nanoc::TestCase
   end
 
   def test_example
-    YARD.parse(File.dirname(__FILE__) + '/../../../../lib/nanoc/core/helper/context.rb')
+    YARD.parse(LIB_DIR + '/nanoc/core/helper/context.rb')
     assert_examples_correct 'Nanoc::Context#initialize'
   end
 

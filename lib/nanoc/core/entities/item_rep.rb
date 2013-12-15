@@ -141,10 +141,10 @@ module Nanoc
     #
     # @return [String] The compiled content at the given snapshot (or the
     #   default snapshot if no snapshot is specified)
-    def compiled_content(params={})
+    def compiled_content(params = {})
       # Notify
-      Nanoc::NotificationCenter.post(:visit_started, self.item)
-      Nanoc::NotificationCenter.post(:visit_ended,   self.item)
+      Nanoc::NotificationCenter.post(:visit_started, item)
+      Nanoc::NotificationCenter.post(:visit_ended,   item)
 
       # Get name of last pre-layout snapshot
       snapshot = params.fetch(:snapshot, :last)
@@ -199,9 +199,9 @@ module Nanoc
     #   path should be returned
     #
     # @return [String] The item rep’s path
-    def raw_path(params={})
-      Nanoc::NotificationCenter.post(:visit_started, self.item)
-      Nanoc::NotificationCenter.post(:visit_ended,   self.item)
+    def raw_path(params = {})
+      Nanoc::NotificationCenter.post(:visit_started, item)
+      Nanoc::NotificationCenter.post(:visit_ended,   item)
 
       snapshot_name = params[:snapshot] || :last
       @raw_paths[snapshot_name]
@@ -216,9 +216,9 @@ module Nanoc
     #   path should be returned
     #
     # @return [String] The item rep’s path
-    def path(params={})
-      Nanoc::NotificationCenter.post(:visit_started, self.item)
-      Nanoc::NotificationCenter.post(:visit_ended,   self.item)
+    def path(params = {})
+      Nanoc::NotificationCenter.post(:visit_started, item)
+      Nanoc::NotificationCenter.post(:visit_ended,   item)
 
       snapshot_name = params[:snapshot] || :last
       @paths[snapshot_name]
@@ -375,11 +375,11 @@ module Nanoc
     #
     # @return [Object] An unique reference to this object
     def reference
-      [ type, self.item.identifier, self.name ]
+      [ type, item.identifier, name ]
     end
 
     def inspect
-      "<#{self.class} name=\"#{self.name}\" raw_paths=#{self.raw_paths.inspect} paths_without_snapshot=#{self.paths_without_snapshot.inspect} item.identifier=\"#{self.item.identifier}\">"
+      "<#{self.class} name=\"#{name}\" raw_paths=#{raw_paths.inspect} paths_without_snapshot=#{paths_without_snapshot.inspect} item.identifier=\"#{item.identifier}\">"
     end
 
   private

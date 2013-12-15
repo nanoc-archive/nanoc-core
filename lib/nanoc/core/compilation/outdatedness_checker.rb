@@ -145,12 +145,12 @@ module Nanoc
     #   indefinitely. It should not be necessary to pass this a custom value.
     #
     # @return [Boolean] true if the object is outdated, false otherwise
-    def outdated_due_to_dependencies?(obj, processed=Set.new)
+    def outdated_due_to_dependencies?(obj, processed = Set.new)
       # Convert from rep to item if necessary
       obj = obj.item if obj.type == :item_rep
 
       # Get from cache
-      if @objects_outdated_due_to_dependencies.has_key?(obj)
+      if @objects_outdated_due_to_dependencies.key?(obj)
         return @objects_outdated_due_to_dependencies[obj]
       end
 
