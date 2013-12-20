@@ -145,8 +145,7 @@ module Nanoc
     def sync
     end
 
-    # Returns the list of items (represented by {Nanoc::Item}). The default
-    # implementation simply returns an empty array.
+    # Returns the list of items (represented by {Nanoc::Item}).
     #
     # Subclasses should not prepend `items_root` to the item's identifiers, as
     # this will be done automatically.
@@ -154,13 +153,14 @@ module Nanoc
     # Subclasses may override this method, but are not required to do so; the
     # default implementation simply does nothing.
     #
+    # @abstract
+    #
     # @return [Array<Nanoc::Item>] A list of items
     def items
-      []
+      raise NotImplementedError, '#items'
     end
 
-    # Returns the list of layouts (represented by {Nanoc::Layout}). The default
-    # implementation simply returns an empty array.
+    # Returns the list of layouts (represented by {Nanoc::Layout}).
     #
     # Subclasses should prepend `layout_root` to the layout's identifiers,
     # since this is not done automatically.
@@ -168,9 +168,11 @@ module Nanoc
     # Subclasses may override this method, but are not required to do so; the
     # default implementation simply does nothing.
     #
+    # @abstract
+    #
     # @return [Array<Nanoc::Layout>] A list of layouts
     def layouts
-      []
+      raise NotImplementedError, '#layouts'
     end
 
     # Creates a new item with the given content, attributes and identifier. No

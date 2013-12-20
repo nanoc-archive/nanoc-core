@@ -25,6 +25,7 @@ Changed:
 * Identifiers are now paths that include the extension
 * The Rules DSL now uses globs (as well as regular expressions, like before)
 * Only `nanoc.yaml` can be used as the configuration filename
+* Data sources’ `#items` and `#layouts` method is abstract
 
 ## 3.6.7 (2013-12-09)
 

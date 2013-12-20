@@ -21,6 +21,7 @@ class Nanoc::SiteTest < Nanoc::TestCase
         io.write "class FooDataSource < Nanoc::DataSource\n"
         io.write "  identifier :site_test_foo\n"
         io.write "  def items ; [ Nanoc::Item.new('content', {}, '/foo/') ] ; end\n"
+        io.write "  def layouts ; [] ; end\n"
         io.write "end\n"
       end
 

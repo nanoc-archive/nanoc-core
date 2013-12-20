@@ -32,8 +32,8 @@ class Nanoc::DataSourceTest < Nanoc::TestCase
     assert_raises(NotImplementedError) { data_source.setup }
 
     # Test methods - loading data
-    assert_equal [], data_source.items
-    assert_equal [], data_source.layouts
+    assert_raises(NotImplementedError) { data_source.items }
+    assert_raises(NotImplementedError) { data_source.layouts }
 
     # Test required method - creating data
     assert_raises(NotImplementedError) { data_source.create_item(nil, nil, nil) }
