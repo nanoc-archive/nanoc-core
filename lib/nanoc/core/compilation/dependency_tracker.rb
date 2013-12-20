@@ -35,7 +35,7 @@ module Nanoc
       super('tmp/dependencies', 4)
 
       @objects = objects
-      @graph   = Nanoc::DirectedGraph.new([ nil ] + @objects)
+      @graph   = Nanoc::DirectedGraph.new
       @stack   = []
     end
 
@@ -161,7 +161,7 @@ module Nanoc
 
     # @see Nanoc::Store#unload
     def unload
-      @graph = Nanoc::DirectedGraph.new([ nil ] + @objects)
+      @graph = Nanoc::DirectedGraph.new
     end
 
   protected
@@ -175,7 +175,7 @@ module Nanoc
 
     def data=(new_data)
       # Create new graph
-      @graph = Nanoc::DirectedGraph.new([ nil ] + @objects)
+      @graph = Nanoc::DirectedGraph.new
 
       # Load vertices
       previous_objects = new_data[:vertices].map do |reference|
