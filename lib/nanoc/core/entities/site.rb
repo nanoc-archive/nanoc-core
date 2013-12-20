@@ -35,7 +35,6 @@ module Nanoc
     # @return [void]
     def freeze
       config.freeze_recursively
-      items.each         { |i|  i.freeze  }
       layouts.each       { |l|  l.freeze  }
       code_snippets.each { |cs| cs.freeze }
     end

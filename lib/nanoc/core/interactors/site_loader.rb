@@ -98,20 +98,10 @@ module Nanoc
     end
 
     def items
-      @_items ||= begin
-        array = Nanoc::ItemCollection.new
-        data_sources.each do |ds|
-          items_in_ds = ds.items
-          items_in_ds.each do |i|
-            i.identifier = i.identifier.prefix(ds.items_root)
-            i.site = self
-          end
-          array.concat(items_in_ds)
-        end
-        array
-      end
+      @_items ||= Nanoc::ItemCollection.new(data_sources)
     end
 
+    # TODO use Nanoc::LayoutCollection (or IdentifiableCollection or so)
     def layouts
       @_layouts ||= begin
         data_sources.flat_map do |ds|

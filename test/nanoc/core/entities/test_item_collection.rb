@@ -14,9 +14,11 @@ class Nanoc::ItemCollectionTest < Nanoc::TestCase
       {},
       '/two.css')
 
-    @items = Nanoc::ItemCollection.new
-    @items << @one
-    @items << @two
+    is = [ @one, @two ]
+    data_source = Nanoc::DataSource.new('/', '/', {})
+    data_source.instance_eval { @items = is }
+    def data_source.items ; @items ; end
+    @items = Nanoc::ItemCollection.new([ data_source ])
   end
 
   def test_change_item_identifier
@@ -101,72 +103,72 @@ class Nanoc::ItemCollectionTest < Nanoc::TestCase
     assert_nil @items.at('/tenthousand/')
   end
 
-  def test_less_than_less_than
-    assert_nil @items['/foo.txt']
+  # def test_less_than_less_than
+  #   assert_nil @items['/foo.txt']
 
-    foo = Nanoc::Item.new('Item Foo', {}, '/foo.txt')
-    @items << foo
+  #   foo = Nanoc::Item.new('Item Foo', {}, '/foo.txt')
+  #   @items << foo
 
-    assert_equal foo, @items['/foo.txt']
-  end
+  #   assert_equal foo, @items['/foo.txt']
+  # end
 
-  def test_clear
-    @items.clear
+  # def test_clear
+  #   @items.clear
 
-    assert_nil @items['/one.md']
-    assert_nil @items['/two.css']
-  end
+  #   assert_nil @items['/one.md']
+  #   assert_nil @items['/two.css']
+  # end
 
-  def test_collect_bang
-    @items.collect! do |i|
-      Nanoc::Item.new("New #{i.content.string}", {}, "/new#{i.identifier}")
-    end
+  # def test_collect_bang
+  #   @items.collect! do |i|
+  #     Nanoc::Item.new("New #{i.content.string}", {}, "/new#{i.identifier}")
+  #   end
 
-    assert_nil @items['/one.md']
-    assert_nil @items['/two.css']
+  #   assert_nil @items['/one.md']
+  #   assert_nil @items['/two.css']
 
-    assert_equal "New Item One", @items['/new/one.md'].content.string
-    assert_equal "New Item Two", @items['/new/two.css'].content.string
-  end
+  #   assert_equal "New Item One", @items['/new/one.md'].content.string
+  #   assert_equal "New Item Two", @items['/new/two.css'].content.string
+  # end
 
-  def test_collect_bang_frozen
-    @items.freeze
+  # def test_collect_bang_frozen
+  #   @items.freeze
 
-    assert_raises_frozen_error do
-      @items.collect! do |i|
-        Nanoc::Item.new("New #{i.content.string}", {}, "/new#{i.identifier}")
-      end
-    end
-  end
+  #   assert_raises_frozen_error do
+  #     @items.collect! do |i|
+  #       Nanoc::Item.new("New #{i.content.string}", {}, "/new#{i.identifier}")
+  #     end
+  #   end
+  # end
 
-  def test_concat
-    new_item = Nanoc::Item.new('New item', {}, '/new.md')
-    @items.concat([ new_item ])
-    assert_equal new_item, @items['/new.md']
-  end
+  # def test_concat
+  #   new_item = Nanoc::Item.new('New item', {}, '/new.md')
+  #   @items.concat([ new_item ])
+  #   assert_equal new_item, @items['/new.md']
+  # end
 
-  def test_delete
-    assert_equal @two, @items['/two.css']
-    @items.delete(@two)
-    assert_nil @items['/two.css']
-  end
+  # def test_delete
+  #   assert_equal @two, @items['/two.css']
+  #   @items.delete(@two)
+  #   assert_nil @items['/two.css']
+  # end
 
-  def test_delete_if
-    assert_equal @two, @items['/two.css']
-    @items.delete_if { |i| i.identifier == '/two.css' }
-    assert_nil @items['/two.css']
-  end
+  # def test_delete_if
+  #   assert_equal @two, @items['/two.css']
+  #   @items.delete_if { |i| i.identifier == '/two.css' }
+  #   assert_nil @items['/two.css']
+  # end
 
-  def test_reject_bang
-    assert_equal @two, @items['/two.css']
-    @items.reject! { |i| i.identifier == '/two.css' }
-    assert_nil @items['/two.css']
-  end
+  # def test_reject_bang
+  #   assert_equal @two, @items['/two.css']
+  #   @items.reject! { |i| i.identifier == '/two.css' }
+  #   assert_nil @items['/two.css']
+  # end
 
-  def test_select_bang
-    assert_equal @two, @items['/two.css']
-    @items.select! { |i| i.identifier == '/two.css' }
-    assert_nil @items['/one.md']
-  end
+  # def test_select_bang
+  #   assert_equal @two, @items['/two.css']
+  #   @items.select! { |i| i.identifier == '/two.css' }
+  #   assert_nil @items['/one.md']
+  # end
 
 end

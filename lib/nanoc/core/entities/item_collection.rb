@@ -2,93 +2,39 @@
 
 module Nanoc
 
-  # A collection of items. Allows fetchin items using identifiers, e.g. `@items['/blah/']`.
+  # A collection of items. Allows fetching items using identifiers, e.g. `@items['/blah/']`.
   class ItemCollection
 
-    module Mutating
-
-      def <<(item)
-        @items << item
-      end
-
-      def clear
-        @items.clear
-      end
-
-      def concat(items)
-        @items.concat(items)
-      end
-
-      def delete(item)
-        @items.delete(item)
-      end
-
-      def map!(&block)
-        @items.collect!(&block)
-      end
-      alias_method :collect!, :map!
-
-      def delete_if(&block)
-        @items.delete_if { |i| block.call(i) }
-      end
-
-      def reject!(&block)
-        @items.reject! { |i| block.call(i) }
-      end
-
-      def select!(&block)
-        self.reject! { |i| !block.call(i) }
-      end
-
-    end
+    # TODO allow mutating (keep a collection of mutations around)
 
     include Enumerable
-    include Mutating
 
-    def initialize
-      @items = []
+    def initialize(data_sources, wrapper=nil)
+      @data_sources = data_sources
+      @wrapper      = wrapper || -> (i) { i }
     end
 
-    def inspect
-      "<#{self.class} items=#{@items.inspect}>"
+    def wrapped(wrapper)
+      self.class.new(@data_sources, wrapper)
     end
 
     def eql?(other)
-      @items.eql?(other)
+      @data_sources.eql?(other)
     end
     alias_method :==, :eql?
 
     def hash
-      @items.hash
-    end
-
-    def to_a
-      @items
-    end
-
-    def freeze
-      @items.freeze
-      build_mapping
-      super
-    end
-
-    def size
-      @items.length
-    end
-    alias_method :length, :size
-
-    def each(&block)
-      @items.each { |i| block.call(i) }
+      super ^ @data_sources.hash
     end
 
     def glob(pattern)
-      @items.select { |i| i.identifier.match?(pattern) }
+      select { |i| i.identifier.match?(pattern) }.map { |i| wrap(i) }
     end
 
     def [](identifier)
       case identifier
       when String, Nanoc::Identifier
-        self.item_with_identifier(identifier)
+        wrap(item_with_identifier(identifier))
       else
         raise Nanoc::Errors::Generic, "Can only call ItemCollection#[] with string or identifier"
       end
@@ -96,23 +42,24 @@ module Nanoc
     alias_method :slice, :[]
     alias_method :at,    :[]
 
-  protected
-
-    def item_with_identifier(identifier)
-      if self.frozen?
-        @mapping[identifier]
-      else
-        @items.find { |i| i.identifier == identifier }
+    def each
+      @data_sources.each do |ds|
+        ds.items.each { |i| yield(wrap(i)) }
       end
     end
 
-    def build_mapping
-      @mapping = {}
-      @items.each do |item|
-        @mapping[item.identifier] = item
-        @mapping[item.identifier.to_s] = item
+  protected
+
+    def item_with_identifier(identifier)
+      @data_sources.each do |ds|
+        item = ds.item_with_identifier(identifier)
+        return wrap(item) if item
       end
-      @mapping.freeze
+      nil
+    end
+
+    def wrap(item)
+      @wrapper.call(item)
     end
 
   end

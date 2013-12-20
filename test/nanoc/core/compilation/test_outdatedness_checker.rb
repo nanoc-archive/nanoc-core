@@ -376,6 +376,9 @@ class Nanoc::OutdatednessCheckerTest < Nanoc::TestCase
       File.write('content/index.html', 'o hello')
       File.open('Rules', 'w') do |io|
         io.write("compile '/index.html' do\n")
+        # The following line causes the error, because @items will differ
+        # every time. @items should probably implement #checksum, which then
+        # delegates to the data sources (could be mtime)
         io.write("  filter :erb, :stuff => @items\n")
         io.write("  write '/index.html'\n")
         io.write("end\n")

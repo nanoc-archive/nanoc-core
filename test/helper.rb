@@ -4,12 +4,12 @@
 require File.dirname(__FILE__) + '/gem_loader.rb'
 
 # Load bundler
-require 'bundler'
-Bundler.require
+#require 'bundler'
+#Bundler.require
 
 # Setup coverage
-require 'coveralls'
-Coveralls.wear!
+#require 'coveralls'
+#Coveralls.wear!
 
 # Load unit testing stuff
 begin

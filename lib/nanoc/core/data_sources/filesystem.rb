@@ -83,12 +83,12 @@ module Nanoc::DataSources
 
     # See {Nanoc::DataSource#items}.
     def items
-      load_objects(@config.fetch(:content_dir, 'content'), 'item', Nanoc::Item)
+      @_items ||= load_objects(@config.fetch(:content_dir, 'content'), 'item', Nanoc::Item)
     end
 
     # See {Nanoc::DataSource#layouts}.
     def layouts
-      load_objects(@config.fetch(:layouts_dir, 'layouts'), 'layout', Nanoc::Layout)
+      @_layouts ||= load_objects(@config.fetch(:layouts_dir, 'layouts'), 'layout', Nanoc::Layout)
     end
 
     # See {Nanoc::DataSource#create_item}.

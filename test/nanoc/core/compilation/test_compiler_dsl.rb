@@ -69,7 +69,7 @@ EOS
       assert_equal 'stuff goes here',          File.read('output/bar.txt')
 
       # Check snapshot
-      assert_equal 1, site.items.size
+      assert_equal 1, site.items.to_a.size
       item = Nanoc::ItemView.new(site.items.to_a[0], compiler.item_rep_store)
       assert_equal 'stuff <%= "goes" %> here', item.compiled_content(snapshot: :foo)
       assert_equal 'stuff goes here',          item.compiled_content(snapshot: :last)
@@ -93,7 +93,6 @@ EOS
 
       # Create other necessary stuff
       site = Nanoc::SiteLoader.new.load
-      site.items << item
       compiler = Nanoc::CompilerBuilder.new.build(site)
       dsl = Nanoc::CompilerDSL.new(compiler.rules_collection)
 

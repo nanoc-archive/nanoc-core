@@ -160,6 +160,11 @@ module Nanoc
       raise NotImplementedError, '#items'
     end
 
+    # TODO document
+    def item_with_identifier(identifier)
+      items.find { |i| i.identifier == identifier }
+    end
+
     # Returns the list of layouts (represented by {Nanoc::Layout}).
     #
     # Subclasses should prepend `layout_root` to the layout's identifiers,
@@ -173,6 +178,11 @@ module Nanoc
     # @return [Array<Nanoc::Layout>] A list of layouts
     def layouts
       raise NotImplementedError, '#layouts'
+    end
+
+    # TODO document
+    def layout_with_identifier(identifier)
+      layouts.find { |l| l.identifier == identifier }
     end
 
     # Creates a new item with the given content, attributes and identifier. No
