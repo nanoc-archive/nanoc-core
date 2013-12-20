@@ -27,14 +27,21 @@ module Nanoc
       super ^ @data_sources.hash
     end
 
-    def glob(pattern)
-      select { |i| i.identifier.match?(pattern) }.map { |i| wrap(i) }
+    def glob(patternish)
+      pattern = Nanoc::Pattern.from(patternish)
+      @data_sources.flat_map do |ds|
+        ds.glob_items(pattern).map { |i| wrap(i) }
+      end
     end
 
     def [](identifier)
       case identifier
       when String, Nanoc::Identifier
-        wrap(item_with_identifier(identifier))
+        @data_sources.each do |ds|
+          item = ds.item_with_identifier(identifier)
+          return wrap(item) if item
+        end
+        nil
       else
         raise Nanoc::Errors::Generic, "Can only call ItemCollection#[] with string or identifier"
       end
@@ -49,14 +56,6 @@ module Nanoc
     end
 
   protected
-
-    def item_with_identifier(identifier)
-      @data_sources.each do |ds|
-        item = ds.item_with_identifier(identifier)
-        return wrap(item) if item
-      end
-      nil
-    end
 
     def wrap(item)
       @wrapper.call(item)

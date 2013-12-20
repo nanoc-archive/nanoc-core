@@ -165,6 +165,11 @@ module Nanoc
       items.find { |i| i.identifier == identifier }
     end
 
+    # TODO document
+    def glob_items(pattern)
+      items.select { |i| pattern.match?(i.identifier) }
+    end
+
     # Returns the list of layouts (represented by {Nanoc::Layout}).
     #
     # Subclasses should prepend `layout_root` to the layout's identifiers,
