@@ -281,6 +281,27 @@ class Nanoc::DirectedGraphTest < Nanoc::TestCase
     assert_equal Set.new([ 1, 2, 3 ]), graph.roots
   end
 
+  def test_serialize
+    actual = Nanoc::DirectedGraph.new.tap do |dg|
+      dg.add_edge(1, 2)
+      dg.add_edge(2, 3)
+      dg.add_edge(2, 4)
+      dg.add_edge(4, 5)
+    end.serialize.sort
+
+    expected = [ [1, 2], [2, 3], [2, 4], [4, 5] ].sort
+
+    assert_equal expected, actual
+  end
+
+  def test_unserialize
+    input = [ [1, 2], [2, 3], [2, 4], [4, 5] ]
+    dg = Nanoc::DirectedGraph.unserialize(input)
+
+    actual = dg.serialize
+    assert_equal input.sort, actual.sort
+  end
+
   def test_example
     YARD.parse(LIB_DIR + '/nanoc/core/helper/directed_graph.rb')
     assert_examples_correct 'Nanoc::DirectedGraph'

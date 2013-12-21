@@ -216,6 +216,24 @@ module Nanoc
       @roots
     end
 
+    # @group (De)serialising graphs
+
+    def serialize
+      res = []
+      @from_graph.each_pair do |from, tos|
+        tos.each do |to|
+          res << [ from, to ]
+        end
+      end
+      res
+    end
+
+    def self.unserialize(edges)
+      self.new.tap do |dg|
+        edges.each { |(from, to)| dg.add_edge(from, to) }
+      end
+    end
+
   private
 
     # Invalidates cached data. This method should be called when the internal
