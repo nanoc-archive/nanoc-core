@@ -281,6 +281,15 @@ class Nanoc::DirectedGraphTest < Nanoc::TestCase
     assert_equal Set.new([ 1, 2, 3 ]), graph.roots
   end
 
+  def test_vertex_q
+    dg = Nanoc::DirectedGraph.new
+    dg.add_edge(1, 2)
+
+    assert dg.vertex?(1)
+    assert dg.vertex?(2)
+    refute dg.vertex?(3)
+  end
+
   def test_serialize
     actual = Nanoc::DirectedGraph.new.tap do |dg|
       dg.add_edge(1, 2)

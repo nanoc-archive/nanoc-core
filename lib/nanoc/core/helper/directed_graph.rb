@@ -195,6 +195,13 @@ module Nanoc
       @vertices.keys.sort_by { |v| @vertices[v] }
     end
 
+    # @param [Object] o The object that should be checked
+    #
+    # @return [Boolean] true if the given object is a vertex, false otherwise
+    def vertex?(o)
+      @vertices.key?(o)
+    end
+
     # Returns an array of tuples representing the edges. The result of this
     # method may take a while to compute and should be cached if possible.
     #
