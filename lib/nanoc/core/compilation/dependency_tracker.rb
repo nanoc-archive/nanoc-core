@@ -123,7 +123,7 @@ module Nanoc
     # @return [Array<Nanoc::Item, Nanoc::Layout>] The direct successors of
     #   the given object
     def objects_outdated_due_to(object)
-      resolve_all(@graph.direct_predecessors_of(object.reference).compact)
+      resolve_all(@graph.direct_predecessors_of(object.reference))
     end
 
     # Records a dependency from `src` to `dst` in the dependency graph. When
@@ -198,6 +198,11 @@ module Nanoc
     def data=(new_data)
       @graph = Nanoc::DirectedGraph.unserialize(new_data)
 
+      # TODO none of this should really happen here
+      # Ideally, the outdatedness checker should have a reference to both the
+      # original and the current dependency graph. With these two graphs, it can
+      # easily find out new and removed items.
+
       # Let all items depend on new items
       new_items = @item_collection.select do |item|
         !@graph.vertex?(item.reference)
@@ -210,7 +215,6 @@ module Nanoc
 
       # Remove vertices no longer corresponding to objects
       removed_vertices = @graph.vertices.select { |v| resolve(v).nil? }
-      # STDOUT.puts removed_vertices.inspect if $LOUD
       removed_vertices.each do |removed_vertex|
         @graph.direct_predecessors_of(removed_vertex).each do |pred|
           @graph.add_edge(pred, nil)

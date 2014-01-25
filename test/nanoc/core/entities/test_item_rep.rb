@@ -399,8 +399,6 @@ class Nanoc::ItemRepTest < Nanoc::TestCase
       dt.stop
     end
 
-    STDOUT.puts dt.send(:data).inspect
-
     assert_equal [ items[1] ], dt.objects_causing_outdatedness_of(items[0])
   end
 
