@@ -6,6 +6,19 @@ module Nanoc
   class ItemCollection
 
     # TODO allow mutating (keep a collection of mutations around)
+    #
+    # Structure of mutation data structure:
+    #
+    # IDEA 1:
+    #   hash map with keys = identifiers and values = mutated item
+    #   advantages: easy
+    #   disadvantages: not memory efficient
+    #
+    # IDEA 2:
+    #   Store modifications as lambdas with globs that define which items it
+    #     applies to.
+    #   advantages: memory efficient
+    #   disadvantages: harder to debug
 
     include Enumerable
 

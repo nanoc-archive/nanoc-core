@@ -296,19 +296,26 @@ class Nanoc::DirectedGraphTest < Nanoc::TestCase
       dg.add_edge(2, 3)
       dg.add_edge(2, 4)
       dg.add_edge(4, 5)
-    end.serialize.sort
+    end.serialize
 
-    expected = [ [1, 2], [2, 3], [2, 4], [4, 5] ].sort
+    expected = {
+      vertices: [ 1, 2, 3, 4, 5 ],
+      edges: [ [1, 2], [2, 3], [2, 4], [4, 5] ],
+    }
 
     assert_equal expected, actual
   end
 
   def test_unserialize
-    input = [ [1, 2], [2, 3], [2, 4], [4, 5] ]
+    input = {
+      vertices: [ 1, 2, 3, 4, 5 ],
+      edges: [ [1, 2], [2, 3], [2, 4], [4, 5] ],
+    }
     dg = Nanoc::DirectedGraph.unserialize(input)
 
     actual = dg.serialize
-    assert_equal input.sort, actual.sort
+
+    assert_equal input, actual
   end
 
   def test_example

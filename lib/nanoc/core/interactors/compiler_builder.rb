@@ -38,7 +38,7 @@ module Nanoc
     protected
 
     def build_dependency_tracker(site)
-      Nanoc::DependencyTracker.new(site.items.to_a + site.layouts).tap { |s| s.load }
+      Nanoc::DependencyTracker.new(site.items, site.layouts).tap { |s| s.load }
     end
 
     def build_rules_store(config)

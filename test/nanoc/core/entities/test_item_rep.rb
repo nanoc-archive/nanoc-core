@@ -348,6 +348,37 @@ class Nanoc::ItemRepTest < Nanoc::TestCase
     end
   end
 
+  # FIXME de-duplicate this
+  class MockDataSource < ::Nanoc::DataSource
+
+    attr_reader :items
+    attr_reader :layouts
+
+    def initialize(items, layouts, *rest)
+      @items = items
+      @layouts = layouts
+      super(*rest)
+    end
+
+  end
+
+  def new_item_collection(items=nil)
+    data_source = MockDataSource.new(
+      items || [
+        Nanoc::Item.new("Foo!", {}, "/foo.md"),
+        Nanoc::Item.new("Bar!", {}, "/bar.md"),
+        Nanoc::Item.new("Qux!", {}, "/qux.md"),
+        Nanoc::Item.new("Pop!", {}, "/pop.md"),
+      ],
+      [],
+      '/',
+      '/',
+      {}
+    )
+
+    Nanoc::ItemCollection.new([ data_source ])
+  end
+
   def test_raw_path_should_generate_dependency
     items = [
       Nanoc::Item.new("foo", {}, '/foo/'),
@@ -358,12 +389,17 @@ class Nanoc::ItemRepTest < Nanoc::TestCase
       Nanoc::ItemRep.new(items[1], :default, :snapshot_store => self.new_snapshot_store)
     ]
 
-    dt = Nanoc::DependencyTracker.new(items)
-    dt.start
-    Nanoc::NotificationCenter.post(:visit_started, items[0])
-    item_reps[1].raw_path
-    Nanoc::NotificationCenter.post(:visit_ended,   items[0])
-    dt.stop
+    dt = Nanoc::DependencyTracker.new(new_item_collection(items), [])
+    begin
+      dt.start
+      Nanoc::NotificationCenter.post(:visit_started, items[0])
+      item_reps[1].raw_path
+      Nanoc::NotificationCenter.post(:visit_ended,   items[0])
+    ensure
+      dt.stop
+    end
+
+    STDOUT.puts dt.send(:data).inspect
 
     assert_equal [ items[1] ], dt.objects_causing_outdatedness_of(items[0])
   end
@@ -378,12 +414,15 @@ class Nanoc::ItemRepTest < Nanoc::TestCase
       Nanoc::ItemRep.new(items[1], :default, :snapshot_store => self.new_snapshot_store)
     ]
 
-    dt = Nanoc::DependencyTracker.new(items)
-    dt.start
-    Nanoc::NotificationCenter.post(:visit_started, items[0])
-    item_reps[1].path
-    Nanoc::NotificationCenter.post(:visit_ended,   items[0])
-    dt.stop
+    dt = Nanoc::DependencyTracker.new(new_item_collection(items), [])
+    begin
+      dt.start
+      Nanoc::NotificationCenter.post(:visit_started, items[0])
+      item_reps[1].path
+      Nanoc::NotificationCenter.post(:visit_ended,   items[0])
+    ensure
+      dt.stop
+    end
 
     assert_equal [ items[1] ], dt.objects_causing_outdatedness_of(items[0])
   end

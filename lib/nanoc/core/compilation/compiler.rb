@@ -68,9 +68,14 @@ module Nanoc
     #
     def run
       @preprocessor.run
-      @dependency_tracker.start
-      compile_reps(self.item_rep_store.reps)
-      @dependency_tracker.stop
+
+      begin
+        @dependency_tracker.start
+        compile_reps(self.item_rep_store.reps)
+      ensure
+        @dependency_tracker.stop
+      end
+
       store
       prune
     ensure

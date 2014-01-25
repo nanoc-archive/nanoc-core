@@ -80,7 +80,7 @@ module Nanoc
     #
     # @return [Object] An unique reference to this object
     def reference
-      [ type, self.identifier ]
+      [ type, self.identifier.to_s ]
     end
 
     # @return [String] The checksum for this object. If its contents change,

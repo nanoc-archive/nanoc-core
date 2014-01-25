@@ -156,6 +156,8 @@ module Nanoc
     # @param to The vertex of which the predecessors should be calculated
     #
     # @return [Array] Direct predecessors of the given vertex
+    #
+    # TODO get rid of the #to_a
     def direct_predecessors_of(to)
       @to_graph[to].to_a
     end
@@ -226,18 +228,29 @@ module Nanoc
     # @group (De)serialising graphs
 
     def serialize
-      res = []
+      vertices = []
+      @vertices.each_pair do |v, i|
+        vertices << v
+      end
+
+      edges = []
       @from_graph.each_pair do |from, tos|
         tos.each do |to|
-          res << [ from, to ]
+          edges << [ from, to ]
         end
       end
-      res
+
+      { vertices: vertices, edges: edges }
     end
 
-    def self.unserialize(edges)
+    def self.unserialize(vertices_and_edges)
       self.new.tap do |dg|
-        edges.each { |(from, to)| dg.add_edge(from, to) }
+        vertices_and_edges[:vertices].each do |vertex|
+          dg.add_vertex(vertex)
+        end
+        vertices_and_edges[:edges].each do |(from, to)|
+          dg.add_edge(from, to)
+        end
       end
     end
 

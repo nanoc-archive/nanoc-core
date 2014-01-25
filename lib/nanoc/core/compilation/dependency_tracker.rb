@@ -23,18 +23,16 @@ module Nanoc
   # TODO split out some stuff into a DependencyGraph class
   class DependencyTracker < ::Nanoc::Store
 
-    # @return [Array<Nanoc::Item, Nanoc::Layout>] The list of items and
-    #   layouts that are being tracked by the dependency tracker
-    attr_reader :objects
-
     # Creates a new dependency tracker for the given items and layouts.
     #
     # @param [Array<Nanoc::Item, Nanoc::Layout>] objects The list of items
     #   and layouts whose dependencies should be managed
-    def initialize(objects)
+    def initialize(item_collection, layouts)
       super('tmp/dependencies', 4)
 
-      @objects = objects
+      @item_collection = item_collection
+      @layouts = layouts
+
       @graph   = Nanoc::DirectedGraph.new
       @stack   = []
     end
@@ -108,7 +106,7 @@ module Nanoc
     # predecessors of
     #   the given object
     def objects_causing_outdatedness_of(object)
-      @graph.direct_predecessors_of(object)
+      resolve_all(@graph.direct_successors_of(object.reference))
     end
 
     # Returns the direct inverse dependencies for the given object.
@@ -125,7 +123,7 @@ module Nanoc
     # @return [Array<Nanoc::Item, Nanoc::Layout>] The direct successors of
     #   the given object
     def objects_outdated_due_to(object)
-      @graph.direct_successors_of(object).compact
+      resolve_all(@graph.direct_predecessors_of(object.reference).compact)
     end
 
     # Records a dependency from `src` to `dst` in the dependency graph. When
@@ -140,8 +138,9 @@ module Nanoc
     #
     # @return [void]
     def record_dependency(src, dst)
-      # Warning! dst and src are *reversed* here!
-      @graph.add_edge(dst, src) unless src == dst
+      return if src == dst || src.nil? || dst.nil?
+      @graph.add_edge(src.reference, dst.reference)
+      nil
     end
 
     # Empties the list of dependencies for the given object. This is necessary
@@ -156,7 +155,8 @@ module Nanoc
     #
     # @return [void]
     def forget_dependencies_for(object)
-      @graph.delete_edges_to(object)
+      @graph.delete_edges_from(object.reference)
+      nil
     end
 
     # @see Nanoc::Store#unload
@@ -164,40 +164,60 @@ module Nanoc
       @graph = Nanoc::DirectedGraph.new
     end
 
-  protected
+    protected
+
+    def resolve_all(references)
+      references.map { |r| resolve(r) }
+    end
+
+    def resolve(reference)
+      return nil if reference.nil?
+
+      case reference[0]
+      when :item
+        @item_collection[reference[1]]
+      when :layout
+        @layouts.find { |l| l.identifier.to_s == reference[1] }
+      else
+        raise 'unknown reference type'
+      end
+    end
 
     def data
-      {
-        :edges    => @graph.edges,
-        :vertices => @graph.vertices.map { |obj| obj && obj.reference }
-      }
+      @item_collection.each do |item|
+        @graph.add_vertex(item.reference)
+      end
+
+      @layouts.each do |layout|
+        @graph.add_vertex(layout.reference)
+      end
+
+      @graph.serialize
     end
 
     def data=(new_data)
-      # Create new graph
-      @graph = Nanoc::DirectedGraph.new
+      @graph = Nanoc::DirectedGraph.unserialize(new_data)
 
-      # Load vertices
-      previous_objects = new_data[:vertices].map do |reference|
-        @objects.find { |obj| reference == obj.reference }
+      # Let all items depend on new items
+      new_items = @item_collection.select do |item|
+        !@graph.vertex?(item.reference)
       end
-
-      # Load edges
-      new_data[:edges].each do |edge|
-        from_index, to_index = *edge
-        from = from_index && previous_objects[from_index]
-        to   = to_index   && previous_objects[to_index]
-        @graph.add_edge(from, to)
-      end
-
-      # Record dependency from all items on new items
-      new_objects = (@objects - previous_objects)
-      new_objects.each do |new_obj|
-        @objects.each do |obj|
-          next unless obj.is_a?(Nanoc::Item)
-          @graph.add_edge(new_obj, obj)
+      new_items.each do |new_item|
+        @graph.vertices.each do |vertex|
+          @graph.add_edge(vertex, new_item.reference)
         end
       end
+
+      # Remove vertices no longer corresponding to objects
+      removed_vertices = @graph.vertices.select { |v| resolve(v).nil? }
+      # STDOUT.puts removed_vertices.inspect if $LOUD
+      removed_vertices.each do |removed_vertex|
+        @graph.direct_predecessors_of(removed_vertex).each do |pred|
+          @graph.add_edge(pred, nil)
+        end
+        @graph.delete_vertex(removed_vertex)
+      end
+
     end
 
   end
