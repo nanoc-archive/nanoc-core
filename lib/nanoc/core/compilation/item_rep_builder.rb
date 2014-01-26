@@ -28,9 +28,8 @@ module Nanoc
 
           @rule_memory_calculator.new_rule_memory_for_rep(rep)
 
-          # FIXME paths_without_snapshot also includes paths with snapshots
-          rep.paths_without_snapshot = @rule_memory_calculator.write_paths_for(rep)
-          rep.paths                  = @rule_memory_calculator.snapshot_write_paths_for(rep)
+          rep.written_paths  = @rule_memory_calculator.write_paths_for(rep)
+          rep.snapshot_paths = @rule_memory_calculator.snapshot_write_paths_for(rep)
 
           reps << rep
         end
