@@ -37,14 +37,14 @@ module Nanoc
       attr_accessor :raw_paths
 
       # @return [Array<String>] A list of paths in direct #write calls
-      attr_accessor :paths_without_snapshot
+      attr_accessor :written_paths
 
       # @return [Hash<Symbol,String>] A hash containing the paths for all
       #   snapshots. The keys correspond with the snapshot names, and the
       #   values with the path.
       #
       # @api private
-      attr_accessor :paths
+      attr_accessor :snapshot_paths
 
       # @return [Hash<Symbol,String>] A hash containing the paths to the
       #   temporary _files_ that filters write binary content to. This is only
@@ -118,8 +118,8 @@ module Nanoc
 
       # Set default attributes
       @raw_paths  = {}
-      @paths_without_snapshot = []
-      @paths      = {}
+      @written_paths = []
+      @snapshot_paths = {}
       @snapshots  = []
       @content    = { :last => @item.content }
       initialize_content
@@ -221,7 +221,7 @@ module Nanoc
       Nanoc::NotificationCenter.post(:visit_ended,   item)
 
       snapshot_name = params[:snapshot] || :last
-      @paths[snapshot_name]
+      @snapshot_paths[snapshot_name]
     end
 
     # Runs the item content through the given filter with the given arguments.
@@ -379,7 +379,7 @@ module Nanoc
     end
 
     def inspect
-      "<#{self.class} name=\"#{name}\" raw_paths=#{raw_paths.inspect} paths_without_snapshot=#{paths_without_snapshot.inspect} item.identifier=\"#{item.identifier}\">"
+      "<#{self.class} name=\"#{name}\" raw_paths=#{raw_paths.inspect} written_paths=#{written_paths.inspect} item.identifier=\"#{item.identifier}\">"
     end
 
   private

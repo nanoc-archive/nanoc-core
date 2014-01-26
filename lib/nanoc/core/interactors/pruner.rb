@@ -47,7 +47,7 @@ module Nanoc
       compiler = Nanoc::CompilerBuilder.new.build(@site)
       writer = compiler.item_rep_writer
       compiled_files = compiler.item_rep_store.reps.
-        flat_map { |r| r.paths_without_snapshot }.
+        flat_map { |r| r.written_paths }.
         select { |f| writer.exist?(f) }.
         map { |f| writer.full_path_for(f) }
 
