@@ -87,14 +87,14 @@ module Nanoc
       @stack.last
     end
 
-    # @see Nanoc::DependencyGraph#objects_causing_outdatedness_of
-    def objects_causing_outdatedness_of(object)
-      @dependency_graph.objects_causing_outdatedness_of(object)
+    # @see Nanoc::DependencyGraph#objects_depended_on_by
+    def objects_depended_on_by(object)
+      @dependency_graph.objects_depended_on_by(object)
     end
 
-    # @see Nanoc::DependencyGraph#objects_outdated_due_to
-    def objects_outdated_due_to(object)
-      @dependency_graph.objects_outdated_due_to(object)
+    # @see Nanoc::DependencyGraph#objects_depending_on
+    def objects_depending_on(object)
+      @dependency_graph.objects_depending_on(object)
     end
 
     # @see Nanoc::DependencyGraph#record_dependency

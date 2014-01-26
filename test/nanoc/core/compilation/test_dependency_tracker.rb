@@ -41,8 +41,8 @@ class Nanoc::DependencyTrackerTest < Nanoc::TestCase
     tracker = Nanoc::DependencyTracker.new(items, layouts)
 
     # Verify no dependencies yet
-    assert_empty tracker.objects_causing_outdatedness_of(items['/foo.md'])
-    assert_empty tracker.objects_causing_outdatedness_of(items['/bar.md'])
+    assert_empty tracker.objects_depended_on_by(items['/foo.md'])
+    assert_empty tracker.objects_depended_on_by(items['/bar.md'])
   end
 
   def test_record_dependency
@@ -58,9 +58,9 @@ class Nanoc::DependencyTrackerTest < Nanoc::TestCase
 
     # Verify dependencies
     assert_contains_exactly [ items['/bar.md'] ],
-      tracker.objects_causing_outdatedness_of(items['/foo.md'])
+      tracker.objects_depended_on_by(items['/foo.md'])
     assert_contains_exactly [],
-      tracker.objects_causing_outdatedness_of(items['/bar.md'])
+      tracker.objects_depended_on_by(items['/bar.md'])
   end
 
   def test_record_dependency_no_self
@@ -77,7 +77,7 @@ class Nanoc::DependencyTrackerTest < Nanoc::TestCase
 
     # Verify dependencies
     assert_contains_exactly [ items['/bar.md'] ],
-      tracker.objects_causing_outdatedness_of(items['/foo.md'])
+      tracker.objects_depended_on_by(items['/foo.md'])
   end
 
   def test_record_dependency_no_doubles
@@ -95,10 +95,10 @@ class Nanoc::DependencyTrackerTest < Nanoc::TestCase
 
     # Verify dependencies
     assert_contains_exactly [ items['/bar.md'] ],
-      tracker.objects_causing_outdatedness_of(items['/foo.md'])
+      tracker.objects_depended_on_by(items['/foo.md'])
   end
 
-  def test_objects_causing_outdatedness_of
+  def test_objects_depended_on_by
     # Mock objects
     items = new_item_collection
     layouts = []
@@ -111,10 +111,10 @@ class Nanoc::DependencyTrackerTest < Nanoc::TestCase
     tracker.record_dependency(items['/bar.md'], items['/qux.md'])
 
     # Verify dependencies
-    assert_contains_exactly [ items['/bar.md'] ], tracker.objects_causing_outdatedness_of(items['/foo.md'])
+    assert_contains_exactly [ items['/bar.md'] ], tracker.objects_depended_on_by(items['/foo.md'])
   end
 
-  def test_objects_outdated_due_to
+  def test_objects_depending_on
     # Mock objects
     items = new_item_collection
     layouts = []
@@ -127,7 +127,7 @@ class Nanoc::DependencyTrackerTest < Nanoc::TestCase
     tracker.record_dependency(items['/bar.md'], items['/qux.md'])
 
     # Verify dependencies
-    assert_contains_exactly [ items['/foo.md'] ], tracker.objects_outdated_due_to(items['/bar.md'])
+    assert_contains_exactly [ items['/foo.md'] ], tracker.objects_depending_on(items['/bar.md'])
   end
 
   def test_start_and_stop
@@ -150,8 +150,8 @@ class Nanoc::DependencyTrackerTest < Nanoc::TestCase
     end
 
     # Verify dependencies
-    assert_contains_exactly [ items['/bar.md'] ], tracker.objects_causing_outdatedness_of(items['/foo.md'])
-    assert_empty tracker.objects_causing_outdatedness_of(items['/bar.md'])
+    assert_contains_exactly [ items['/bar.md'] ], tracker.objects_depended_on_by(items['/foo.md'])
+    assert_empty tracker.objects_depended_on_by(items['/bar.md'])
   end
 
   def test_store_and_load_simple
@@ -178,10 +178,10 @@ class Nanoc::DependencyTrackerTest < Nanoc::TestCase
     tracker.load
 
     # Check loaded graph
-    assert_contains_exactly [ items['/bar.md'] ],           tracker.objects_causing_outdatedness_of(items['/foo.md'])
-    assert_contains_exactly [ items['/qux.md'], items['/pop.md'] ], tracker.objects_causing_outdatedness_of(items['/bar.md'])
-    assert_empty tracker.objects_causing_outdatedness_of(items['/qux.md'])
-    assert_empty tracker.objects_causing_outdatedness_of(items['/pop.md'])
+    assert_contains_exactly [ items['/bar.md'] ],           tracker.objects_depended_on_by(items['/foo.md'])
+    assert_contains_exactly [ items['/qux.md'], items['/pop.md'] ], tracker.objects_depended_on_by(items['/bar.md'])
+    assert_empty tracker.objects_depended_on_by(items['/qux.md'])
+    assert_empty tracker.objects_depended_on_by(items['/pop.md'])
   end
 
   def test_store_and_load_with_removed_items
@@ -222,10 +222,10 @@ class Nanoc::DependencyTrackerTest < Nanoc::TestCase
 
     # Check loaded graph
     assert_contains_exactly [ items['/bar.md'] ],
-      tracker.objects_causing_outdatedness_of(items['/foo.md'])
+      tracker.objects_depended_on_by(items['/foo.md'])
     assert_contains_exactly [ items['/qux.md'], nil ],
-      tracker.objects_causing_outdatedness_of(items['/bar.md'])
-    assert_empty tracker.objects_causing_outdatedness_of(items['/qux.md'])
+      tracker.objects_depended_on_by(items['/bar.md'])
+    assert_empty tracker.objects_depended_on_by(items['/qux.md'])
   end
 
   def test_forget_dependencies_for
@@ -239,11 +239,11 @@ class Nanoc::DependencyTrackerTest < Nanoc::TestCase
     # Record some dependencies
     tracker.record_dependency(items['/foo.md'], items['/bar.md'])
     tracker.record_dependency(items['/bar.md'], items['/qux.md'])
-    assert_contains_exactly [ items['/bar.md'] ], tracker.objects_causing_outdatedness_of(items['/foo.md'])
+    assert_contains_exactly [ items['/bar.md'] ], tracker.objects_depended_on_by(items['/foo.md'])
 
     # Forget dependencies
     tracker.forget_dependencies_for(items['/foo.md'])
-    assert_empty tracker.objects_causing_outdatedness_of(items['/foo.md'])
+    assert_empty tracker.objects_depended_on_by(items['/foo.md'])
   end
 
 end

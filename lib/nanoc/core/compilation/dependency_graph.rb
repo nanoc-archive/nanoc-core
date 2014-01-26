@@ -79,7 +79,7 @@ module Nanoc
     # @return [Array<Nanoc::Item, Nanoc::Layout, nil>] The direct
     # predecessors of
     #   the given object
-    def objects_causing_outdatedness_of(object)
+    def objects_depended_on_by(object)
       resolve_all(@graph.direct_successors_of(object.reference))
     end
 
@@ -96,7 +96,7 @@ module Nanoc
     #
     # @return [Array<Nanoc::Item, Nanoc::Layout>] The direct successors of
     #   the given object
-    def objects_outdated_due_to(object)
+    def objects_depending_on(object)
       resolve_all(@graph.direct_predecessors_of(object.reference))
     end
 
