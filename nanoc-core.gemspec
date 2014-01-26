@@ -26,10 +26,5 @@ Gem::Specification.new do |s|
   s.extra_rdoc_files = [ 'LICENSE', 'README.md', 'NEWS.md' ]
 
   s.add_runtime_dependency('ddplugin')
-  s.add_development_dependency('minitest')
-  s.add_development_dependency('mocha')
-  s.add_development_dependency('rake')
-  s.add_development_dependency('kramdown')
-  s.add_development_dependency('systemu')
-  s.add_development_dependency('yard')
+  s.add_development_dependency('bundler')
 end
