@@ -11,4 +11,9 @@ matrix:
     - rvm: rbx-2.2.1
 notifications:
   irc:
-    - "chat.freenode.net#nanoc"
+    channels:
+      - "chat.freenode.net#nanoc"
+    template:
+      - "%{repository} %{branch} (%{commit} - %{author}): %{message}"
+    use_notice: true
+    skip_join: true
