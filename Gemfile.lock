@@ -1,15 +1,16 @@
 GIT
   remote: git://github.com/bbatsov/rubocop.git
-  revision: 5fb62c86b622d29c204ae66a33fa7f7abee02263
+  revision: f82a7d26c73cfec4476edab117f6260f59ef3f94
   specs:
-    rubocop (0.15.0)
-      parser (~> 2.0)
+    rubocop (0.17.0)
+      json (~> 1.8)
+      parser (~> 2.1.3)
       powerpack (~> 0.0.6)
-      rainbow (>= 1.1.4)
+      rainbow (>= 1.99.1, < 3.0)
 
 GIT
   remote: git://github.com/ddfreyne/ddplugin.git
-  revision: 542e46194b8e534da874c5a5f1a174af6ce1230b
+  revision: 823890c4500cf336d9790930237e19a46e3234ae
   specs:
     ddplugin (0.1)
 
@@ -29,37 +30,41 @@ GEM
       simplecov (>= 0.7)
       term-ansicolor
       thor
-    kramdown (1.2.0)
-    metaclass (0.0.1)
-    mime-types (1.25)
-    minitest (5.0.8)
-    mocha (0.14.0)
+    docile (1.1.2)
+    json (1.8.1)
+    kramdown (1.3.1)
+    metaclass (0.0.2)
+    mime-types (2.1)
+    minitest (5.2.2)
+    mocha (1.0.0)
       metaclass (~> 0.0.1)
-    multi_json (1.8.0)
-    parser (2.0.0)
+    multi_json (1.8.4)
+    parser (2.1.4)
       ast (~> 1.1)
       slop (~> 3.4, >= 3.4.5)
     powerpack (0.0.9)
-    rainbow (1.1.4)
-    rake (10.1.0)
+    rainbow (2.0.0)
+    rake (10.1.1)
     rest-client (1.6.7)
       mime-types (>= 1.16)
-    simplecov (0.7.1)
-      multi_json (~> 1.0)
-      simplecov-html (~> 0.7.1)
-    simplecov-html (0.7.1)
+    simplecov (0.8.2)
+      docile (~> 1.1.0)
+      multi_json
+      simplecov-html (~> 0.8.0)
+    simplecov-html (0.8.0)
     slop (3.4.7)
-    systemu (2.5.2)
+    systemu (2.6.0)
     term-ansicolor (1.2.2)
       tins (~> 0.8)
     thor (0.18.1)
-    tins (0.10.0)
-    yard (0.8.7.2)
+    tins (0.13.1)
+    yard (0.8.7.3)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  bundler
   coveralls
   ddplugin!
   kramdown
