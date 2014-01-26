@@ -7,8 +7,8 @@ rvm:
   - rbx-2.2.1
 matrix:
   allow_failures:
-	- rvm: jruby-19mode
-	- rvm: rbx-2.2.1
+    - rvm: jruby-19mode
+    - rvm: rbx-2.2.1
 notifications:
   irc:
     - "chat.freenode.net#nanoc"
