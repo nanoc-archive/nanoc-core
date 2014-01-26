@@ -68,6 +68,12 @@ module Nanoc
       end
     end
 
+    # @see Object#inspect
+    def inspect
+      # FIXME this should not have to iterate over all items
+      "<#{self.class} item_identifiers=#{self.map { |i| i.identifier }.join(',')}>"
+    end
+
   protected
 
     def wrap(item)
