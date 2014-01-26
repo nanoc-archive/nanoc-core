@@ -2,8 +2,7 @@ source "http://rubygems.org"
 
 gemspec
 
-gem 'rubocop', :github => 'bbatsov/rubocop'
-
+gem 'rubocop'
 gem 'coveralls', :require => false
 
 platforms :rbx do
