@@ -7,6 +7,7 @@ gem 'coveralls', :require => false
 
 platforms :rbx do
   gem 'rubysl'
+  gem 'psych'
 end
 
 group :doc do
