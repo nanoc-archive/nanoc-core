@@ -92,6 +92,7 @@ require 'nanoc/core/interactors/pruner'
 # Load compilation classes
 require 'nanoc/core/compilation/compiler'
 require 'nanoc/core/compilation/compiler_dsl'
+require 'nanoc/core/compilation/dependency_graph'
 require 'nanoc/core/compilation/dependency_tracker'
 require 'nanoc/core/compilation/filter'
 require 'nanoc/core/compilation/item_rep_builder'
