@@ -24,7 +24,7 @@ module Nanoc
 
     def initialize(data_sources, wrapper=nil)
       @data_sources = data_sources
-      @wrapper      = wrapper || -> (i) { i }
+      @wrapper      = wrapper || ->(i) { i }
     end
 
     def wrapped(wrapper)

@@ -132,7 +132,7 @@ module Nanoc
         :item       => Nanoc::ItemView.new(rep.item, self.item_rep_store),
         :rep        => Nanoc::ItemRepViewForFiltering.new(rep, self.item_rep_store),
         :item_rep   => Nanoc::ItemRepViewForFiltering.new(rep, self.item_rep_store),
-        :items      => site.items.wrapped(-> (i) { Nanoc::ItemView.new(i, self.item_rep_store) }),
+        :items      => site.items.wrapped(->(i) { Nanoc::ItemView.new(i, self.item_rep_store) }),
         :layouts    => site.layouts,
         :config     => site.config,
         :site       => site,
