@@ -5,6 +5,10 @@ rvm:
   - 1.9.3
   - jruby-19mode
   - rbx-2.2.1
+matrix:
+  allow_failures:
+	- rvm: jruby-19mode
+	- rvm: rbx-2.2.1
 notifications:
   irc:
     - "chat.freenode.net#nanoc"
