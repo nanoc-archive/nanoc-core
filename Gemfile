@@ -9,8 +9,6 @@ gem 'rubocop', :github => 'bbatsov/rubocop'
 
 gem 'coveralls', :require => false
 
-# When adding a group here, check .travis.yml’s `bundler_args`.
-
 group :doc do
   gem 'kramdown'
   gem 'yard'
