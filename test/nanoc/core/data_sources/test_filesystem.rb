@@ -243,4 +243,22 @@ class Nanoc::DataSources::FilesystemTest < Nanoc::TestCase
     end
   end
 
+  def test_glob_items
+    FileUtils.mkdir_p('content')
+    FileUtils.mkdir_p('content/meh')
+
+    File.write('content/foo.md',          'stuff')
+    File.write('content/foo.md.yaml',     'ugly: true')
+    File.write('content/bar.md',          'stuff')
+    File.write('content/bar.md.yaml',     'ugly: true')
+    File.write('content/meh/bar.md',      'stuff')
+    File.write('content/meh/bar.md.yaml', 'ugly: true')
+
+    assert_equal 0, @data_source.glob_items('heh').size
+    assert_equal 0, @data_source.glob_items('*.md').size
+    assert_equal 2, @data_source.glob_items('/*.md').size
+    assert_equal 3, @data_source.glob_items('/**/*.md').size
+    assert_equal 2, @data_source.glob_items('/**/bar.md').size
+  end
+
 end

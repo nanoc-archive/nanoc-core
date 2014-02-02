@@ -81,14 +81,28 @@ module Nanoc::DataSources
       end
     end
 
+    def content_dir
+      @config.fetch(:content_dir, 'content')
+    end
+
+    def layouts_dir
+      @config.fetch(:layouts_dir, 'layouts')
+    end
+
     # See {Nanoc::DataSource#items}.
     def items
-      @_items ||= load_objects(@config.fetch(:content_dir, 'content'), Nanoc::Item)
+      @_items ||= load_objects(content_dir, Nanoc::Item)
     end
 
     # See {Nanoc::DataSource#layouts}.
     def layouts
-      @_layouts ||= load_objects(@config.fetch(:layouts_dir, 'layouts'), Nanoc::Layout)
+      @_layouts ||= load_objects(layouts_dir, Nanoc::Layout)
+    end
+
+    # See {Nanoc::DataSource#glob_items}.
+    def glob_items(pattern)
+      filenames = keep_base_filenames(Dir[content_dir + pattern])
+      filenames.map { |fn| load_object(content_dir, fn, Nanoc::Item) }
     end
 
     # See {Nanoc::DataSource#create_item}.
@@ -218,7 +232,14 @@ module Nanoc::DataSources
     #
     # @api private
     def all_base_filenames_in(dir_name)
-      self.all_files_in(dir_name).
+      keep_base_filenames(all_files_in(dir_name))
+    end
+
+    # Returns all base filenames in the given list of filenames.
+    #
+    # @api private
+    def keep_base_filenames(fns)
+      fns.
         reject { |fn| fn =~ /(~|\.orig|\.rej|\.bak)$/ }.
         map    { |fn| fn.sub(/\.yaml$/, '') }.
         uniq
