@@ -83,12 +83,12 @@ module Nanoc::DataSources
 
     # See {Nanoc::DataSource#items}.
     def items
-      load_objects(@config.fetch(:content_dir, 'content'), 'item', Nanoc::Item)
+      load_objects(@config.fetch(:content_dir, 'content'), Nanoc::Item)
     end
 
     # See {Nanoc::DataSource#layouts}.
     def layouts
-      load_objects(@config.fetch(:layouts_dir, 'layouts'), 'layout', Nanoc::Layout)
+      load_objects(@config.fetch(:layouts_dir, 'layouts'), Nanoc::Layout)
     end
 
     # See {Nanoc::DataSource#create_item}.
@@ -137,12 +137,10 @@ module Nanoc::DataSources
       !@config[:text_extensions].include?(extension)
     end
 
-    # Creates instances of klass corresponding to the files in dir_name. The
-    # kind attribute indicates the kind of object that is being loaded and is
-    # used solely for debugging purposes.
+    # Creates instances of klass corresponding to the files in dir_name.
     #
     # @api private
-    def load_objects(dir_name, kind, klass)
+    def load_objects(dir_name, klass)
       self.all_base_filenames_in(dir_name).map do |base_filename|
         # Determine filenames
         content_filename    = base_filename
