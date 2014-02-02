@@ -142,47 +142,54 @@ module Nanoc::DataSources
     # @api private
     def load_objects(dir_name, klass)
       self.all_base_filenames_in(dir_name).map do |base_filename|
-        # Determine filenames
-        content_filename    = base_filename
-        attributes_filename = base_filename + '.yaml'
+        load_object(dir_name, base_filename, klass)
+      end
+    end
 
-        # Determine existence
-        has_content_file    = File.exist?(content_filename)
-        has_attributes_file = File.exist?(attributes_filename)
+    # Creates an instance of klass corresponding to the file base_filename.
+    #
+    # @api private
+    def load_object(dir_name, base_filename, klass)
+      # Determine filenames
+      content_filename    = base_filename
+      attributes_filename = base_filename + '.yaml'
 
-        # Read content and filename
-        if has_attributes_file
-          attributes = YAML.load_file(attributes_filename)
+      # Determine existence
+      has_content_file    = File.exist?(content_filename)
+      has_attributes_file = File.exist?(attributes_filename)
+
+      # Read content and filename
+      if has_attributes_file
+        attributes = YAML.load_file(attributes_filename)
+      else
+        attributes = {} # can be overridden later
+      end
+      if has_content_file
+        # Extract extension
+        # Note that File.extname returns ".xyz" but we want "xyz".
+        # Also note that if the given filename has no extension, "" is returned.
+        extension = File.extname(base_filename)[1..-1]
+        extension = nil if extension == ''
+
+        # Is binary?
+        is_binary = extension && self.binary_extension?(extension)
+
+        if is_binary
+          content = Nanoc::BinaryContent.new(File.absolute_path(content_filename))
         else
-          attributes = {} # can be overridden later
-        end
-        if has_content_file
-          # Extract extension
-          # Note that File.extname returns ".xyz" but we want "xyz".
-          # Also note that if the given filename has no extension, "" is returned.
-          extension = File.extname(base_filename)[1..-1]
-          extension = nil if extension == ''
-
-          # Is binary?
-          is_binary = extension && self.binary_extension?(extension)
-
-          if is_binary
-            content = Nanoc::BinaryContent.new(File.absolute_path(content_filename))
+          if has_attributes_file
+            content = Nanoc::TextualContent.new(self.read(content_filename), File.absolute_path(content_filename))
           else
-            if has_attributes_file
-              content = Nanoc::TextualContent.new(self.read(content_filename), File.absolute_path(content_filename))
-            else
-              content, attributes = self.content_and_attributes_for_file(content_filename)
-            end
+            content, attributes = self.content_and_attributes_for_file(content_filename)
           end
         end
-
-        # Get identifier
-        identifier = self.remove_prefix_from_string(dir_name, base_filename)
-
-        # Create layout object
-        klass.new(content, attributes, identifier)
       end
+
+      # Get identifier
+      identifier = self.remove_prefix_from_string(dir_name, base_filename)
+
+      # Create layout object
+      klass.new(content, attributes, identifier)
     end
 
     # @param [String] prefix
