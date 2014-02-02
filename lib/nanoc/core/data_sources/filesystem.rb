@@ -110,6 +110,11 @@ module Nanoc::DataSources
       filenames.map { |fn| load_object(content_dir, fn, Nanoc::Item) }
     end
 
+    # See {Nanoc::DataSource#layout_with_identifier}.
+    def layout_with_identifier(identifier)
+      load_object(layouts_dir, layouts_dir + identifier, Nanoc::Item)
+    end
+
     # See {Nanoc::DataSource#create_item}.
     def create_item(content, attributes, identifier)
       create_object('content', content, attributes, identifier)

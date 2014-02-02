@@ -281,4 +281,24 @@ class Nanoc::DataSources::FilesystemTest < Nanoc::TestCase
     assert_equal 2, @data_source.glob_items('/**/bar.md').size
   end
 
+  def test_layout_with_identifier
+    FileUtils.mkdir_p('layouts')
+    FileUtils.mkdir_p('layouts/meh')
+
+    File.write('layouts/foo.md',          'stuff')
+    File.write('layouts/foo.md.yaml',     'ugly: true')
+    File.write('layouts/bar.md',          'stuff')
+    File.write('layouts/bar.md.yaml',     'ugly: true')
+    File.write('layouts/meh/bar.md',      'stuff')
+    File.write('layouts/meh/bar.md.yaml', 'ugly: true')
+
+    assert_nil @data_source.layout_with_identifier('heh')
+    assert_nil @data_source.layout_with_identifier('layouts/foo.md')
+    refute_nil @data_source.layout_with_identifier('/foo.md')
+    refute_nil @data_source.layout_with_identifier('/bar.md')
+    refute_nil @data_source.layout_with_identifier('/meh/bar.md')
+    assert_nil @data_source.layout_with_identifier('foo.md')
+  end
+
+
 end
