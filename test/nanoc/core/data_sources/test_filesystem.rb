@@ -243,6 +243,25 @@ class Nanoc::DataSources::FilesystemTest < Nanoc::TestCase
     end
   end
 
+  def test_item_with_identifier
+    FileUtils.mkdir_p('content')
+    FileUtils.mkdir_p('content/meh')
+
+    File.write('content/foo.md',          'stuff')
+    File.write('content/foo.md.yaml',     'ugly: true')
+    File.write('content/bar.md',          'stuff')
+    File.write('content/bar.md.yaml',     'ugly: true')
+    File.write('content/meh/bar.md',      'stuff')
+    File.write('content/meh/bar.md.yaml', 'ugly: true')
+
+    assert_nil @data_source.item_with_identifier('heh')
+    assert_nil @data_source.item_with_identifier('content/foo.md')
+    refute_nil @data_source.item_with_identifier('/foo.md')
+    refute_nil @data_source.item_with_identifier('/bar.md')
+    refute_nil @data_source.item_with_identifier('/meh/bar.md')
+    assert_nil @data_source.item_with_identifier('foo.md')
+  end
+
   def test_glob_items
     FileUtils.mkdir_p('content')
     FileUtils.mkdir_p('content/meh')
@@ -257,6 +276,7 @@ class Nanoc::DataSources::FilesystemTest < Nanoc::TestCase
     assert_equal 0, @data_source.glob_items('heh').size
     assert_equal 0, @data_source.glob_items('*.md').size
     assert_equal 2, @data_source.glob_items('/*.md').size
+    assert_equal 0, @data_source.glob_items('content/*.md').size
     assert_equal 3, @data_source.glob_items('/**/*.md').size
     assert_equal 2, @data_source.glob_items('/**/bar.md').size
   end

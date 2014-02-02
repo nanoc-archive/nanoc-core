@@ -99,6 +99,11 @@ module Nanoc::DataSources
       @_layouts ||= load_objects(layouts_dir, Nanoc::Layout)
     end
 
+    # See {Nanoc::DataSource#item_with_identifier}.
+    def item_with_identifier(identifier)
+      load_object(content_dir, content_dir + identifier, Nanoc::Item)
+    end
+
     # See {Nanoc::DataSource#glob_items}.
     def glob_items(pattern)
       filenames = keep_base_filenames(Dir[content_dir + pattern])
@@ -171,6 +176,9 @@ module Nanoc::DataSources
       # Determine existence
       has_content_file    = File.exist?(content_filename)
       has_attributes_file = File.exist?(attributes_filename)
+      if !has_content_file && !has_attributes_file
+        return nil
+      end
 
       # Read content and filename
       if has_attributes_file
