@@ -1,2 +1,4 @@
 doc/yardoc
 coverage
+.yardoc
+.bundle
