@@ -92,9 +92,6 @@ EOS
   end
 
   def setup
-    # Clean up
-    GC.start
-
     # Enter tmp
     @tmp_dir = Dir.mktmpdir('nanoc-test')
     @orig_wd = FileUtils.pwd
