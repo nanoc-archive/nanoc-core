@@ -25,12 +25,13 @@ module Nanoc
     #
     # @param [Array<Nanoc::Item, Nanoc::Layout>] objects The list of items
     #   and layouts whose dependencies should be managed
-    def initialize(item_collection, layouts)
+    def initialize(items, layouts)
       super('tmp/dependencies', 5)
 
-      @item_collection = item_collection
+      @items = items
       @layouts = layouts
-      @dependency_graph = Nanoc::DependencyGraph.new(@item_collection, @layouts, nil, true)
+      @dependency_graph = Nanoc::DependencyGraph.new(
+        @items, @layouts, Nanoc::DirectedGraph.new, true)
       @stack   = []
     end
 
@@ -122,10 +123,47 @@ module Nanoc
 
     def data=(new_data)
       @prev_dependency_graph = Nanoc::DependencyGraph.new(
-        @item_collection, @layouts, new_data, false)
+        @items, @layouts, unserialize(new_data), false)
 
       @dependency_graph = Nanoc::DependencyGraph.new(
-        @item_collection, @layouts, new_data, true)
+        @items, @layouts, unserialize(new_data), true)
+    end
+
+    def unserialize(data)
+      graph = Nanoc::DirectedGraph.unserialize(data)
+
+      # TODO none of this should really happen here
+      # Ideally, the outdatedness checker should have a reference to both the
+      # original and the current dependency graph. With these two graphs, it can
+      # easily find out new and removed items.
+
+      # Remove vertices no longer corresponding to objects
+      removed_vertices = graph.vertices.select { |v| resolve(v).nil? }
+      removed_vertices.each do |removed_vertex|
+        graph.direct_predecessors_of(removed_vertex).each do |pred|
+          graph.add_edge(pred, nil)
+        end
+        graph.delete_vertex(removed_vertex)
+      end
+
+      graph
+    end
+
+    def resolve_all(references)
+      references.map { |r| resolve(r) }
+    end
+
+    def resolve(reference)
+      return nil if reference.nil?
+
+      case reference[0]
+      when :item
+        @items[reference[1]]
+      when :layout
+        @layouts.find { |l| l.identifier.to_s == reference[1] }
+      else
+        raise 'unknown reference type'
+      end
     end
 
   end

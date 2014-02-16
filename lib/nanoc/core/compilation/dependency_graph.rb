@@ -4,55 +4,25 @@ module Nanoc
 
   class DependencyGraph
 
-    def initialize(items, layouts, data, is_new)
+    def initialize(items, layouts, graph, is_new)
       @items   = items
       @layouts = layouts
-
-      # FIXME ew, work in the constructor
-      if data
-        @graph = unserialize(data)
-      else
-        @graph = Nanoc::DirectedGraph.new
-      end
+      @graph   = graph
 
       # FIXME ew, work in the constructor
       if is_new
-        add_all_vertices
-      end
-    end
+        @items.each do |item|
+          @graph.add_vertex(item.reference)
+        end
 
-    def add_all_vertices
-      @items.each do |item|
-        @graph.add_vertex(item.reference)
-      end
-
-      @layouts.each do |layout|
-        @graph.add_vertex(layout.reference)
+        @layouts.each do |layout|
+          @graph.add_vertex(layout.reference)
+        end
       end
     end
 
     def vertices
       @graph.vertices
-    end
-
-    def unserialize(data)
-      graph = Nanoc::DirectedGraph.unserialize(data)
-
-      # TODO none of this should really happen here
-      # Ideally, the outdatedness checker should have a reference to both the
-      # original and the current dependency graph. With these two graphs, it can
-      # easily find out new and removed items.
-
-      # Remove vertices no longer corresponding to objects
-      removed_vertices = graph.vertices.select { |v| resolve(v).nil? }
-      removed_vertices.each do |removed_vertex|
-        graph.direct_predecessors_of(removed_vertex).each do |pred|
-          graph.add_edge(pred, nil)
-        end
-        graph.delete_vertex(removed_vertex)
-      end
-
-      graph
     end
 
     def serialize
