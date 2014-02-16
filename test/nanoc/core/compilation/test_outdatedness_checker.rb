@@ -162,10 +162,10 @@ class Nanoc::OutdatednessCheckerTest < Nanoc::TestCase
     # Compile once
     in_site(:name => 'foo', :compilation_rule_content => 'filter :erb') do
       File.open('content/a.html', 'w') do |io|
-        io.write('<%= @items.find { |i| i.identifier == "/b.html" }.compiled_content %> aaa')
+        io.write('<%= @items["/b.html"].compiled_content %> aaa')
       end
       File.open('content/b.html', 'w') do |io|
-        io.write('<%= @items.find { |i| i.identifier == "/c.html" }.compiled_content %> bbb')
+        io.write('<%= @items["/c.html"].compiled_content %> bbb')
       end
       File.open('content/c.html', 'w') do |io|
         io.write('stuff')

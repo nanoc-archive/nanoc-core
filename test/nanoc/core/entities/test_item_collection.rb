@@ -32,7 +32,7 @@ class Nanoc::ItemCollectionTest < Nanoc::TestCase
   end
 
   def test_enumerable
-    assert_equal @one, @items.find { |i| i.identifier == '/one.md' }
+    assert_equal @one, @items['/one.md']
   end
 
   def test_glob

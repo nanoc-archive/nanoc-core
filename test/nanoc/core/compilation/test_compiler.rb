@@ -64,10 +64,10 @@ class Nanoc::CompilerTest < Nanoc::TestCase
     in_site(:compilation_rule_content => 'filter :erb') do
       File.write(
         'content/foo.html',
-        '<%= @items.find { |i| i.identifier == "/bar.html" }.compiled_content %>')
+        '<%= @items["/bar.html"].compiled_content %>')
       File.write(
         'content/bar.html',
-        '<%= @items.find { |i| i.identifier == "/foo.html" }.compiled_content %>')
+        '<%= @items["/foo.html"].compiled_content %>')
 
       assert_raises Nanoc::Errors::RecursiveCompilation do
         compile_site_here
