@@ -4,9 +4,9 @@ module Nanoc
 
   class DependencyGraph
 
-    def initialize(item_collection, layouts, data)
-      @item_collection = item_collection
-      @layouts         = layouts
+    def initialize(items, layouts, data)
+      @items   = items
+      @layouts = layouts
 
       # FIXME ew, work in the constructor
       if data
@@ -19,7 +19,7 @@ module Nanoc
     end
 
     def add_all_vertices
-      @item_collection.each do |item|
+      @items.each do |item|
         @graph.add_vertex(item.reference)
       end
 
@@ -37,7 +37,7 @@ module Nanoc
       # easily find out new and removed items.
 
       # Let all items depend on new items
-      new_items = @item_collection.select do |item|
+      new_items = @items.select do |item|
         !graph.vertex?(item.reference)
       end
       new_items.each do |new_item|
@@ -144,7 +144,7 @@ module Nanoc
 
       case reference[0]
       when :item
-        @item_collection[reference[1]]
+        @items[reference[1]]
       when :layout
         @layouts.find { |l| l.identifier.to_s == reference[1] }
       else
