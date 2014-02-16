@@ -99,17 +99,9 @@ EOS
     @tmp_dir = Dir.mktmpdir('nanoc-test')
     @orig_wd = FileUtils.pwd
     FileUtils.cd(@tmp_dir)
-
-    # Let us get to the raw errors
-    # TODO move this elsewhere
-    #Nanoc::CLI::ErrorHandler.disable
   end
 
   def teardown
-    # Restore normal error handling
-    # TODO move this elsewhere
-    #Nanoc::CLI::ErrorHandler.enable
-
     # Exit tmp
     FileUtils.cd(@orig_wd)
     FileUtils.rm_rf(@tmp_dir)
