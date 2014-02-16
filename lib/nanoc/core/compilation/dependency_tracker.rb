@@ -19,8 +19,6 @@ module Nanoc
   # Dependency information is stored in the `tmp/dependencies` file.
   #
   # @api private
-  #
-  # TODO split out some stuff into a DependencyGraph class
   class DependencyTracker < ::Nanoc::Store
 
     # Creates a new dependency tracker for the given items and layouts.
@@ -32,7 +30,7 @@ module Nanoc
 
       @item_collection = item_collection
       @layouts = layouts
-      @dependency_graph = Nanoc::DependencyGraph.new(@item_collection, @layouts, nil)
+      @dependency_graph = Nanoc::DependencyGraph.new(@item_collection, @layouts, nil, true)
       @stack   = []
     end
 
@@ -97,6 +95,15 @@ module Nanoc
       @dependency_graph.objects_depending_on(object)
     end
 
+    # @return [Boolean] true if new items/layouts were added since the last
+    #   compilation
+    def any_new?
+      prev = Set.new(@prev_dependency_graph.vertices)
+      curr = Set.new(@dependency_graph.vertices)
+
+      !(curr - prev).empty?
+    end
+
     # @see Nanoc::DependencyGraph#record_dependency
     def record_dependency(src, dst)
       @dependency_graph.record_dependency(src, dst)
@@ -107,10 +114,6 @@ module Nanoc
       @dependency_graph.forget_dependencies_for(object)
     end
 
-    # @see Nanoc::Store#unload
-    def unload
-    end
-
     protected
 
     def data
@@ -118,8 +121,11 @@ module Nanoc
     end
 
     def data=(new_data)
+      @prev_dependency_graph = Nanoc::DependencyGraph.new(
+        @item_collection, @layouts, new_data, false)
+
       @dependency_graph = Nanoc::DependencyGraph.new(
-        @item_collection, @layouts, new_data)
+        @item_collection, @layouts, new_data, true)
     end
 
   end

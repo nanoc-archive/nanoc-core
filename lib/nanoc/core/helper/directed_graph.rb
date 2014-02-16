@@ -192,7 +192,7 @@ module Nanoc
 
     # @return [Enumerable] The collection of all vertices in this graph.
     def vertices
-      @vertices.keys.sort_by { |v| @vertices[v] }
+      @vertices.keys
     end
 
     # @param [Object] o The object that should be checked

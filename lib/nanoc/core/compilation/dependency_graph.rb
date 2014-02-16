@@ -4,7 +4,7 @@ module Nanoc
 
   class DependencyGraph
 
-    def initialize(items, layouts, data)
+    def initialize(items, layouts, data, is_new)
       @items   = items
       @layouts = layouts
 
@@ -15,7 +15,10 @@ module Nanoc
         @graph = Nanoc::DirectedGraph.new
       end
 
-      add_all_vertices
+      # FIXME ew, work in the constructor
+      if is_new
+        add_all_vertices
+      end
     end
 
     def add_all_vertices
@@ -28,6 +31,10 @@ module Nanoc
       end
     end
 
+    def vertices
+      @graph.vertices
+    end
+
     def unserialize(data)
       graph = Nanoc::DirectedGraph.unserialize(data)
 
@@ -35,16 +42,6 @@ module Nanoc
       # Ideally, the outdatedness checker should have a reference to both the
       # original and the current dependency graph. With these two graphs, it can
       # easily find out new and removed items.
-
-      # Let all items depend on new items
-      new_items = @items.select do |item|
-        !graph.vertex?(item.reference)
-      end
-      new_items.each do |new_item|
-        graph.vertices.each do |vertex|
-          graph.add_edge(vertex, new_item.reference)
-        end
-      end
 
       # Remove vertices no longer corresponding to objects
       removed_vertices = graph.vertices.select { |v| resolve(v).nil? }

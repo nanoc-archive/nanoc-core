@@ -160,9 +160,12 @@ module Nanoc
       return false if processed.include?(obj)
 
       # Calculate
-      is_outdated = @dependency_tracker.objects_depended_on_by(obj).any? do |other|
-        other.nil? || basic_outdated?(other) || outdated_due_to_dependencies?(other, processed.merge([obj]))
-      end
+      is_outdated =
+        any_new? || @dependency_tracker.objects_depended_on_by(obj).any? do |other|
+          other.nil? ||
+            basic_outdated?(other) ||
+            outdated_due_to_dependencies?(other, processed.merge([obj]))
+        end
 
       # Cache
       @objects_outdated_due_to_dependencies[obj] = is_outdated
@@ -207,6 +210,10 @@ module Nanoc
       !checksums_available?(obj) || !checksums_identical?(obj)
     end
     memoize :object_modified?
+
+    def any_new?
+      @dependency_tracker.any_new?
+    end
 
   end
 
