@@ -4,21 +4,10 @@ module Nanoc
 
   class DependencyGraph
 
-    def initialize(items, layouts, graph, is_new)
+    def initialize(items, layouts, graph)
       @items   = items
       @layouts = layouts
       @graph   = graph
-
-      # FIXME ew, work in the constructor
-      if is_new
-        @items.each do |item|
-          @graph.add_vertex(item.reference)
-        end
-
-        @layouts.each do |layout|
-          @graph.add_vertex(layout.reference)
-        end
-      end
     end
 
     def vertices

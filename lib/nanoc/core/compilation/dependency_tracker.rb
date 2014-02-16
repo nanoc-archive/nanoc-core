@@ -31,8 +31,15 @@ module Nanoc
       @items = items
       @layouts = layouts
       @dependency_graph = Nanoc::DependencyGraph.new(
-        @items, @layouts, Nanoc::DirectedGraph.new, true)
+        @items, @layouts, new_directed_graph)
       @stack   = []
+    end
+
+    def new_directed_graph
+      graph = Nanoc::DirectedGraph.new
+      @items.each   { |i| graph.add_vertex(i.reference) }
+      @layouts.each { |l| graph.add_vertex(l.reference) }
+      graph
     end
 
     # Starts listening for dependency messages (`:visit_started` and
@@ -123,27 +130,28 @@ module Nanoc
 
     def data=(new_data)
       @prev_dependency_graph = Nanoc::DependencyGraph.new(
-        @items, @layouts, unserialize(new_data), false)
+        @items, @layouts, unserialize(new_data, false))
 
       @dependency_graph = Nanoc::DependencyGraph.new(
-        @items, @layouts, unserialize(new_data), true)
+        @items, @layouts, unserialize(new_data, true))
     end
 
-    def unserialize(data)
+    def unserialize(data, is_new)
       graph = Nanoc::DirectedGraph.unserialize(data)
 
-      # TODO none of this should really happen here
-      # Ideally, the outdatedness checker should have a reference to both the
-      # original and the current dependency graph. With these two graphs, it can
-      # easily find out new and removed items.
-
-      # Remove vertices no longer corresponding to objects
-      removed_vertices = graph.vertices.select { |v| resolve(v).nil? }
-      removed_vertices.each do |removed_vertex|
-        graph.direct_predecessors_of(removed_vertex).each do |pred|
-          graph.add_edge(pred, nil)
+      if is_new
+        # Remove vertices no longer corresponding to objects
+        removed_vertices = graph.vertices.select { |v| resolve(v).nil? }
+        removed_vertices.each do |removed_vertex|
+          graph.direct_predecessors_of(removed_vertex).each do |pred|
+            graph.add_edge(pred, nil)
+          end
+          graph.delete_vertex(removed_vertex)
         end
-        graph.delete_vertex(removed_vertex)
+
+        # Add all items and layouts
+        @items.each   { |i| graph.add_vertex(i.reference) }
+        @layouts.each { |l| graph.add_vertex(l.reference) }
       end
 
       graph
