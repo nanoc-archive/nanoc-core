@@ -1,11 +1,7 @@
 # encoding: utf-8
 
-require 'rake/testtask'
+require './test/helper.rb'
 
-Rake::TestTask.new do |t|
-  t.libs       = %w( lib test )
-  t.test_files = FileList['test/**/test_*.rb', 'test/**/*_spec.rb']
-  t.ruby_opts  = [ '-r./test/helper.rb' ]
+FileList['./test/**/test_*.rb', './test/**/*_spec.rb'].each do |fn|
+  require fn
 end
-
-task :default => :test
