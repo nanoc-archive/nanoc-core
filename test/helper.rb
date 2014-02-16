@@ -1,8 +1,8 @@
 # encoding: utf-8
 
 # Setup coverage
-#require 'coveralls'
-#Coveralls.wear!
+require 'coveralls'
+Coveralls.wear!
 
 # Load unit testing stuff
 begin
