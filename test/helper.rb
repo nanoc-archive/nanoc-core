@@ -152,21 +152,8 @@ EOS
     assert_match(/(^can't modify frozen |^unable to modify frozen object$)/, error.message)
   end
 
-  def with_env_vars(hash, &block)
-    orig_env_hash = ENV.to_hash
-    hash.each_pair { |k,v| ENV[k] = v }
-    yield
-  ensure
-    orig_env_hash.each_pair { |k,v| ENV[k] = v }
-  end
-
   def on_windows?
     Nanoc.on_windows?
-  end
-
-  def have_command?(cmd)
-    which, null = on_windows? ? ["where", "NUL"] : ["which", "/dev/null"]
-    system("#{which} #{cmd} > #{null} 2>&1")
   end
 
   def have_symlink?
@@ -175,10 +162,6 @@ EOS
     return false
   rescue
     return true
-  end
-
-  def skip_unless_have_command(cmd)
-    skip "Could not find external command \"#{cmd}\"" unless have_command?(cmd)
   end
 
   def skip_unless_have_symlink
