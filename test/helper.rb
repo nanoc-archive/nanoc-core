@@ -102,15 +102,6 @@ EOS
     # Clean up
     GC.start
 
-    # Go quiet
-    unless ENV['QUIET'] == 'false'
-      @orig_stdout = $stdout
-      @orig_stderr = $stderr
-
-      $stdout = StringIO.new
-      $stderr = StringIO.new
-    end
-
     # Enter tmp
     @tmp_dir = Dir.mktmpdir('nanoc-test')
     @orig_wd = FileUtils.pwd
@@ -129,12 +120,6 @@ EOS
     # Exit tmp
     FileUtils.cd(@orig_wd)
     FileUtils.rm_rf(@tmp_dir)
-
-    # Go unquiet
-    unless ENV['QUIET'] == 'false'
-      $stdout = @orig_stdout
-      $stderr = @orig_stderr
-    end
   end
 
   def capturing_stdio(&block)
