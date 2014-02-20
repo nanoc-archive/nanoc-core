@@ -4,6 +4,8 @@
 
 **Please take a moment and [donate](http://pledgie.com/campaigns/9282) to nanoc. A lot of time has gone into developing nanoc, and I would like to keep the current pace. Your support will ensure that nanoc will continue to improve.**
 
+Please note that this **is unrelease software**: this repository contains what will become part of nanoc 4.0, which is a work in progress, and will remain that way for quite a while.
+
 # nanoc-core
 
 **nanoc** is a simple but very flexible static site generator written in Ruby.
