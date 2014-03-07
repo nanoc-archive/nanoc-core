@@ -27,7 +27,6 @@ module Nanoc
       @data_sources  = data.fetch(:data_sources)
       @items         = data.fetch(:items)
       @layouts       = data.fetch(:layouts)
-      self.freeze
     end
 
     # Prevents all further modifications to itself, its items, its layouts etc.

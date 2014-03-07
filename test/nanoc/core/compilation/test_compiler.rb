@@ -369,4 +369,31 @@ class Nanoc::CompilerTest < Nanoc::TestCase
     end
   end
 
+  def test_compiler_dependency_on_unmet_dependency
+    # FIXME need an item view for preprocessing
+
+    in_site do
+      File.open('content/index.html', 'w') do |io|
+        io.write('My name is <%= @item[:name] %>!')
+      end
+      File.open('Rules', 'w') do |io|
+        io.write "preprocess do\n"
+        io.write "  @items['/index.html'].attributes[:name] = 'What?'\n"
+        io.write "end\n"
+        io.write "\n"
+        io.write "compile '/**/*' do\n"
+        io.write "  filter :erb\n"
+        io.write "  write item.identifier\n"
+        io.write "end\n"
+        io.write "\n"
+        io.write "layout '/**/*', :erb\n"
+      end
+
+      compile_site_here
+
+      assert_equal [ 'output/index.html' ], Dir['output/*'].sort
+      assert_match(/My name is What\?!/, File.read('output/index.html'))
+    end
+  end
+
 end
