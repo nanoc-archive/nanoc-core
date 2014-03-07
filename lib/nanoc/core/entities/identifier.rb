@@ -27,6 +27,23 @@ module Nanoc
       self.new(components)
     end
 
+    # Attempts to coerce the input object into a Nanoc::Identifier. This
+    # currently works for objects that are strings and objects that already are
+    # identifiers.
+    #
+    # @param [String,Nanoc::Identifier] input
+    #
+    # @return [Nanoc::Identifier]
+    def self.coerce(input)
+      if input.is_a?(String)
+        self.from_string(input)
+      elsif input.is_a?(Nanoc::Identifier)
+        return input
+      else
+        raise Nanoc::Errors::Generic "Do not know how to coerce #{input.inspect} into a Nanoc::Identifier"
+      end
+    end
+
     # @param [Array<String>] components
     def initialize(components)
       @components = components

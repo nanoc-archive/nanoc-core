@@ -25,6 +25,14 @@ class Nanoc::IdentifierTest < Nanoc::TestCase
     assert_equal %w( foo bar ), self.new_from_string('/foo/bar/').components
   end
 
+  def test_coerce
+    string     = '/foo/bar'
+    identifier = Nanoc::Identifier.from_string(string)
+
+    assert_equal %w( foo bar ), Nanoc::Identifier.coerce(string).components
+    assert_equal %w( foo bar ), Nanoc::Identifier.coerce(identifier).components
+  end
+
   def test_equal
     a = self.new_from_string('/foo/bar')
     b = self.new_from_string('foo/bar')
