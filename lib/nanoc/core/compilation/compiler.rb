@@ -128,7 +128,7 @@ module Nanoc
         :rep        => Nanoc::ItemRepViewForFiltering.new(rep, self.item_rep_store),
         :item_rep   => Nanoc::ItemRepViewForFiltering.new(rep, self.item_rep_store),
         :items      => Nanoc::ItemCollection.new.tap { |a| site.items.each { |i| a << Nanoc::ItemView.new(i, self.item_rep_store) }},
-        :layouts    => site.layouts,
+        :layouts    => site.layouts.map { |l| Nanoc::LayoutView.new(l) },
         :config     => site.config,
         :site       => site,
         :_compiler  => self

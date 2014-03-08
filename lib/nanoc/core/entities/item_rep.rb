@@ -315,7 +315,7 @@ module Nanoc
       # Create filter
       klass = filter_named(filter_name)
       raise Nanoc::Errors::UnknownFilter.new(filter_name) if klass.nil?
-      filter = klass.new(assigns.merge({ :layout => layout }))
+      filter = klass.new(assigns.merge({ :layout => Nanoc::LayoutView.new(layout) }))
 
       # Visit
       Nanoc::NotificationCenter.post(:visit_started, layout)

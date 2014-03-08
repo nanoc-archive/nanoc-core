@@ -69,6 +69,7 @@ require 'nanoc/core/views/item_view'
 require 'nanoc/core/views/item_rep_view_for_filtering'
 require 'nanoc/core/views/item_rep_view_for_recording'
 require 'nanoc/core/views/item_rep_view_for_rule_processing'
+require 'nanoc/core/views/layout_view'
 
 # Load store classes
 require 'nanoc/core/store'
