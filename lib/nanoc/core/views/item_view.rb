@@ -9,8 +9,7 @@ module Nanoc
     extend Forwardable
     extend Nanoc::Memoization
 
-    # TODO do not delegate #[] (do dependency tracking in view)
-    def_delegators :@item, :identifier, :[], :binary?
+    def_delegators :@item, :identifier, :binary?
 
     # @param [Nanoc::Item] item
     # @param [Nanoc::ItemRepStore] item_rep_store
@@ -28,6 +27,13 @@ module Nanoc
 
     def inspect
       "<Nanoc::Item* identifier=#{@item.identifier.to_s.inspect}>"
+    end
+
+    def [](key)
+      Nanoc::NotificationCenter.post(:visit_started, @item)
+      Nanoc::NotificationCenter.post(:visit_ended,   @item)
+
+      @item[key]
     end
 
     # @return [Enumerable<Nanoc::ItemRepViewForFiltering>] This item’s collection of item reps

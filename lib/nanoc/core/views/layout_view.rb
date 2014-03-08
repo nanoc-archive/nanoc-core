@@ -7,8 +7,7 @@ module Nanoc
     extend Forwardable
     extend Nanoc::Memoization
 
-    # TODO do not delegate #[] (do dependency tracking in view)
-    def_delegators :@layout, :identifier, :[]
+    def_delegators :@layout, :identifier
 
     # @param [Nanoc::Layout] layout
     def initialize(layout)
@@ -24,6 +23,13 @@ module Nanoc
 
     def inspect
       "<Nanoc::Layout* identifier=#{@layout.identifier.to_s.inspect}>"
+    end
+
+    def [](key)
+      Nanoc::NotificationCenter.post(:visit_started, @layout)
+      Nanoc::NotificationCenter.post(:visit_ended,   @layout)
+
+      @layout[key]
     end
 
   end

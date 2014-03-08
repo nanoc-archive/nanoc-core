@@ -59,9 +59,6 @@ module Nanoc
     #
     # @return [Object] The value of the requested attribute
     def [](key)
-      Nanoc::NotificationCenter.post(:visit_started, self)
-      Nanoc::NotificationCenter.post(:visit_ended,   self)
-
       @attributes[key]
     end
 
