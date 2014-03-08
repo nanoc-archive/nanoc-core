@@ -53,15 +53,6 @@ module Nanoc
       self.content.binary?
     end
 
-    # Requests the attribute with the given key.
-    #
-    # @param [Symbol] key The name of the attribute to fetch
-    #
-    # @return [Object] The value of the requested attribute
-    def [](key)
-      @attributes[key]
-    end
-
     # @return [Symbol] the type of this object as a symbol (`:item`, `:layout`, ...)
     #
     # @api private

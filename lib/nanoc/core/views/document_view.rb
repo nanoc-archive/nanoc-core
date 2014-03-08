@@ -24,7 +24,7 @@ module Nanoc
       Nanoc::NotificationCenter.post(:visit_started, resolve)
       Nanoc::NotificationCenter.post(:visit_ended,   resolve)
 
-      resolve[key]
+      resolve.attributes[key]
     end
 
     def identifier

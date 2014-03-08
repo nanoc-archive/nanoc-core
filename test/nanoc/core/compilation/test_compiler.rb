@@ -369,7 +369,7 @@ class Nanoc::CompilerTest < Nanoc::TestCase
     end
   end
 
-  def test_compiler_dependency_on_unmet_dependency
+  def test_preprocess_has_unfrozen_content
     # FIXME need an item view for preprocessing
 
     in_site do

@@ -38,10 +38,10 @@ class Nanoc::ItemTest < Nanoc::TestCase
     )
 
     # Test finding one
-    assert_equal('one in item', item[:one])
+    assert_equal('one in item', item.attributes[:one])
 
     # Test finding two
-    assert_equal(nil, item[:two])
+    assert_equal(nil, item.attributes[:two])
   end
 
   def test_freeze_should_disallow_changes
@@ -49,7 +49,7 @@ class Nanoc::ItemTest < Nanoc::TestCase
     item.freeze
 
     assert_raises_frozen_error do
-      item[:a][:b] = '456'
+      item.attributes[:a][:b] = '456'
     end
   end
 
