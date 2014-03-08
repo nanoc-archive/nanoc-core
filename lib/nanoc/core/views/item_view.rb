@@ -4,41 +4,24 @@ module Nanoc
 
   # A wrapper around {Nanoc::Item} that provides restricted access. Item views
   # should be used in assigns when filtering and layouting.
-  class ItemView
+  class ItemView < Nanoc::DocumentView
 
-    extend Forwardable
     extend Nanoc::Memoization
-
-    def_delegators :@item, :identifier, :binary?
 
     # @param [Nanoc::Item] item
     # @param [Nanoc::ItemRepStore] item_rep_store
     def initialize(item, item_rep_store)
-      @item           = item
+      super(item)
       @item_rep_store = item_rep_store
     end
 
-    # @return [Nanoc::Item] the item this view is for
-    #
-    # @api private
-    def resolve
-      @item
-    end
-
-    def inspect
-      "<Nanoc::Item* identifier=#{@item.identifier.to_s.inspect}>"
-    end
-
-    def [](key)
-      Nanoc::NotificationCenter.post(:visit_started, @item)
-      Nanoc::NotificationCenter.post(:visit_ended,   @item)
-
-      @item[key]
+    def binary?
+      resolve.binary?
     end
 
     # @return [Enumerable<Nanoc::ItemRepViewForFiltering>] This item’s collection of item reps
     def reps
-      @item_rep_store.reps_for_item(@item).map do |item_rep|
+      @item_rep_store.reps_for_item(resolve).map do |item_rep|
         Nanoc::ItemRepViewForFiltering.new(item_rep, @item_rep_store)
       end
     end
@@ -100,7 +83,7 @@ module Nanoc
     end
 
     # TODO remove me (used in capturing helper)
-    def forced_outdated=(bool) ; @item.forced_outdated = bool ; end
+    def forced_outdated=(bool) ; resolve.forced_outdated = bool ; end
 
   end
 
