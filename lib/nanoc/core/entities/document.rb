@@ -7,7 +7,7 @@ module Nanoc
 
     extend Nanoc::Memoization
 
-    # @return [String]
+    # @return [Nanoc::Identifier]
     attr_accessor :identifier
 
     # @return [Nanoc::Content] This content piece's raw content

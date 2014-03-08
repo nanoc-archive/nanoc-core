@@ -2,6 +2,8 @@
 
 module Nanoc
 
+  # A wrapper around {Nanoc::Document} that provides restricted access. Document
+  # views should be used in assigns when filtering and layouting.
   class DocumentView
 
     # @param [Nanoc::Document] wrapped
@@ -9,7 +11,7 @@ module Nanoc
       @wrapped = wrapped
     end
 
-    # @return [Nanoc::Document] the item this view is for
+    # @return [Nanoc::Document] the document this view is for
     #
     # @api private
     def resolve
@@ -20,6 +22,11 @@ module Nanoc
       "<#{resolve.class.to_s}* identifier=#{resolve.identifier.to_s.inspect}>"
     end
 
+    # Requests the attribute with the given key.
+    #
+    # @param [Symbol] key The name of the attribute to fetch
+    #
+    # @return The value of the requested attribute
     def [](key)
       Nanoc::NotificationCenter.post(:visit_started, resolve)
       Nanoc::NotificationCenter.post(:visit_ended,   resolve)
@@ -27,6 +34,7 @@ module Nanoc
       resolve.attributes[key]
     end
 
+    # @return [Nanoc::Identifier]
     def identifier
       resolve.identifier
     end

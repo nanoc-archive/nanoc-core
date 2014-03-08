@@ -2,8 +2,7 @@
 
 module Nanoc
 
-  # A wrapper around {Nanoc::Item} that provides restricted access. Item views
-  # should be used in assigns when filtering and layouting.
+  # A wrapper around {Nanoc::Item} that provides restricted access.
   class ItemView < Nanoc::DocumentView
 
     extend Nanoc::Memoization
@@ -15,6 +14,7 @@ module Nanoc
       @item_rep_store = item_rep_store
     end
 
+    # @return [Boolean] true if the item is binary, false if it is not.
     def binary?
       resolve.binary?
     end
