@@ -85,12 +85,15 @@ module Nanoc
       @items.select { |i| i.identifier.match?(pattern) }
     end
 
-    def [](identifier)
-      case identifier
-      when String, Nanoc::Identifier
-        self.item_with_identifier(identifier)
+    def [](s)
+      case s
+      when Nanoc::Identifier
+        item_with_identifier(s)
+      when String
+        item_with_identifier(s) || glob_single(s)
       else
-        raise Nanoc::Errors::Generic, "Can only call ItemCollection#[] with string or identifier"
+        raise Nanoc::Errors::Generic,
+          "Can only call ItemCollection#[] with string or identifier"
       end
     end
     alias_method :slice, :[]
@@ -103,6 +106,18 @@ module Nanoc
         @mapping[identifier]
       else
         @items.find { |i| i.identifier == identifier }
+      end
+    end
+
+    def glob_single(pattern)
+      items = glob(pattern)
+      case items.size
+      when 0
+        nil
+      when 1
+        items.first
+      else
+        raise Nanoc::Errors::NoSingleValueForPattern.new(pattern)
       end
     end
 

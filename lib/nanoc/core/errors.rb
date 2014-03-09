@@ -200,6 +200,20 @@ module Nanoc
 
     end
 
+    # Error that is raised when a glob is expected to return a single value, but
+    # returns multiple instead.
+    class NoSingleValueForPattern < Generic
+
+      # @param [Nanoc::Pattern, String] pattern The pattern that resolves into
+      #   multiple values
+      def initialize(pattern)
+        super("The \"#{pattern}\" pattern resolves into multiple items or " \
+          "layouts, but only a single one is expected. If you really want " \
+          "multiple items or layouts, use ItemCollection#glob.")
+      end
+
+    end
+
   end
 
 end

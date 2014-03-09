@@ -23,7 +23,7 @@ class Nanoc::ItemCollectionTest < Nanoc::TestCase
     assert_equal @one, @items['/one.md']
     assert_nil @items['/foo.txt']
 
-    @one.identifier = '/foo.txt'
+    @one.identifier = Nanoc::Identifier.from_string('/foo.txt')
 
     assert_nil @items['/one.md']
     assert_equal @one, @items['/foo.txt']
@@ -69,6 +69,28 @@ class Nanoc::ItemCollectionTest < Nanoc::TestCase
     assert_nil @items[identifier_max_payne]
     assert_nil @items.slice(identifier_max_payne)
     assert_nil @items.at(identifier_max_payne)
+  end
+
+  def test_brackets_and_slice_with_glob
+    assert_equal @one, @items['/one.*']
+    assert_equal @one, @items.slice('/one.*')
+    assert_equal @two, @items['/two.*']
+    assert_equal @two, @items.slice('/two.*')
+
+    assert_equal @one, @items['/*.md']
+    assert_equal @one, @items.slice('/*.md')
+    assert_equal @two, @items['/*.css']
+    assert_equal @two, @items.slice('/*.css')
+  end
+
+  def test_brackets_and_slice_with_multiple
+    assert_raises(Nanoc::Errors::NoSingleValueForPattern) do
+      @items['/*']
+    end
+
+    assert_raises(Nanoc::Errors::NoSingleValueForPattern) do
+      @items.slice('/*')
+    end
   end
 
   def test_brackets_and_slice_and_at_with_malformed_identifier

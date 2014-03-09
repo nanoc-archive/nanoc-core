@@ -22,7 +22,7 @@ module Nanoc::Filters
       assigns.merge!(params[:locals] || {})
 
       # Create context
-      context = ::Nanoc::Context.new(assigns)
+      context = ::Nanoc::Context.new(assigns.merge(assigns: assigns))
 
       # Get binding
       proc = assigns[:content] ? lambda { assigns[:content] } : nil
