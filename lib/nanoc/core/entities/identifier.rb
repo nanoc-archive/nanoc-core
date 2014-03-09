@@ -64,11 +64,7 @@ module Nanoc
     #   Nanoc::Identifier.new(%w( foo bar index.html )).to_s
     #   # => '/foo/bar/index.html'
     def to_s
-      if self.components.empty?
-        '/'
-      else
-        '/' + self.components.join('/')
-      end
+      '/' + self.components.join('/')
     end
 
     # @param [String] string The string to append
