@@ -214,6 +214,18 @@ module Nanoc
 
     end
 
+    # Error that is raised when attempting to create an identifier from a string
+    # that ends with a slash.
+    class IdentifierCannotEndWithSlashError < Generic
+
+      # @param [String] string The string that could not be interpreted as an
+      #   identifier
+      def initialize(string)
+        super("The identifier \"#{string}\" ends with a slash, which is not permitted.")
+      end
+
+    end
+
   end
 
 end

@@ -17,12 +17,19 @@ class Nanoc::IdentifierTest < Nanoc::TestCase
 
   def test_from_string
     assert_equal %w( ), self.new_from_string('').components
-    assert_equal %w( ), self.new_from_string('/').components
 
     assert_equal %w( foo bar ), self.new_from_string('foo/bar').components
-    assert_equal %w( foo bar ), self.new_from_string('foo/bar/').components
     assert_equal %w( foo bar ), self.new_from_string('/foo/bar').components
-    assert_equal %w( foo bar ), self.new_from_string('/foo/bar/').components
+  end
+
+  def test_from_string_invalid
+    assert_raises(Nanoc::Errors::IdentifierCannotEndWithSlashError) do
+      self.new_from_string('/')
+    end
+
+    assert_raises(Nanoc::Errors::IdentifierCannotEndWithSlashError) do
+      self.new_from_string('/foo/')
+    end
   end
 
   def test_coerce
@@ -45,16 +52,14 @@ class Nanoc::IdentifierTest < Nanoc::TestCase
   end
 
   def test_to_s
-    assert_equal '/foo/bar', self.new_from_string('/foo/bar/').to_s
-    assert_equal '/foo',     self.new_from_string('/foo/').to_s
-    assert_equal '/',        self.new_from_string('/').to_s
+    assert_equal '/foo/bar.md', self.new_from_string('/foo/bar.md').to_s
+    assert_equal '/foo.md',     self.new_from_string('/foo.md').to_s
   end
 
   def test_parent
-    assert_equal '/foo/bar', self.new_from_string('foo/bar/qux').parent.to_s
-    assert_equal '/foo',     self.new_from_string('foo/bar').parent.to_s
-    assert_equal '/',         self.new_from_string('foo').parent.to_s
-    assert_nil self.new_from_string('/').parent
+    assert_equal '/foo/bar', self.new_from_string('/foo/bar/qux').parent.to_s
+    assert_equal '/foo',     self.new_from_string('/foo/bar').parent.to_s
+    assert_nil self.new_from_string('/foo').parent
   end
 
   def test_match?

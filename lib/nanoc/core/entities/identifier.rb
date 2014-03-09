@@ -23,6 +23,10 @@ module Nanoc
     #
     # @return [Nanoc::Identifier]
     def self.from_string(string)
+      if string =~ /\/$/
+        raise Nanoc::Errors::IdentifierCannotEndWithSlashError.new(string)
+      end
+
       components = string.split('/').reject { |c| c.empty? }
       self.new(components)
     end
@@ -85,10 +89,10 @@ module Nanoc
     #   Nanoc::Identifier.from_string('/foo/bar.md').parent.to_s
     #   # => '/foo'
     def parent
-      if self.components.empty?
+      parent_components = self.components[0..-2]
+      if parent_components.empty?
         nil
       else
-        parent_components = self.components[0..-2]
         self.class.new(parent_components)
       end
     end

@@ -20,7 +20,7 @@ class Nanoc::SiteTest < Nanoc::TestCase
       File.open('lib/some_data_source.rb', 'w') do |io|
         io.write "class FooDataSource < Nanoc::DataSource\n"
         io.write "  identifier :site_test_foo\n"
-        io.write "  def items ; [ Nanoc::Item.new('content', {}, '/foo/') ] ; end\n"
+        io.write "  def items ; [ Nanoc::Item.new('content', {}, '/foo') ] ; end\n"
         io.write "end\n"
       end
 

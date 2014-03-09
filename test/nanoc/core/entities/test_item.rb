@@ -3,7 +3,7 @@
 class Nanoc::ItemTest < Nanoc::TestCase
 
   def test_initialize_with_attributes_with_string_keys
-    item = Nanoc::Item.new("foo", { 'abc' => 'xyz' }, '/foo/')
+    item = Nanoc::Item.new("foo", { 'abc' => 'xyz' }, '/foo.md')
 
     assert_equal nil,   item.attributes['abc']
     assert_equal 'xyz', item.attributes[:abc]
