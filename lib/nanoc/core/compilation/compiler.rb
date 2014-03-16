@@ -49,7 +49,18 @@ module Nanoc
     #
     # @param [Nanoc::Site] site The site this compiler belongs to
     #
-    # TODO document dependencies
+    # @param [Hash] dependencies A hash containing the following keys:
+    #
+    #   - `:dependency_tracker` ({Nanoc::DependencyTracker})
+    #   - `:rules_store` ({Nanoc::RulesStore})
+    #   - `:checksum_store` ({Nanoc::ChecksumStore})
+    #   - `:compiled_content_cache` ({Nanoc::CompiledContentCache})
+    #   - `:rule_memory_store` ({Nanoc::RuleMemoryStore})
+    #   - `:item_rep_writer` ({Nanoc::ItemRepWriter})
+    #   - `:rule_memory_calculator` ({Nanoc::RuleMemoryCalculator})
+    #   - `:item_rep_store` ({Nanoc::ItemRepStore})
+    #   - `:outdatedness_checker` ({Nanoc::OutdatednessChecker})
+    #   - `:preprocessor` ({Nanoc::Preprocessor})
     def initialize(site, dependencies)
       @site = site
       @dependency_tracker     = dependencies.fetch(:dependency_tracker)
