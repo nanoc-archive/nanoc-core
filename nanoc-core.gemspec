@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 1.9.3'
 
   s.files              = Dir['[A-Z]*'] +
-                         Dir['doc/yardoc_templates/**/*'] +
+                         Dir['doc/yardoc_{templates,handlers}/**/*'] +
                          Dir['{bin,lib,tasks,test}/**/*'] +
                          [ 'nanoc-core.gemspec' ]
   s.require_paths      = [ 'lib' ]

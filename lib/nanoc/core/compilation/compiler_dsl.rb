@@ -25,6 +25,10 @@ module Nanoc
     #
     # @return [void]
     def preprocess(&block)
+      if @rules_collection.preprocessor
+        raise Nanoc::Errors::DoublePreprocessBlockError
+      end
+
       @rules_collection.preprocessor = block
     end
 
