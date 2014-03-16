@@ -32,6 +32,12 @@ module Nanoc
       @hash.checksum
     end
 
+    # @see Hash#freeze_recursively
+    def freeze_recursively
+      self.freeze
+      @hash.freeze_recursively
+    end
+
     # Returns an object that can be used for uniquely identifying objects.
     #
     # @return [Object] An unique reference to this object

@@ -80,6 +80,7 @@ module Nanoc
 
     # @see Object#freeze
     def freeze
+      super
       attributes.freeze_recursively
       identifier.freeze
       content.freeze

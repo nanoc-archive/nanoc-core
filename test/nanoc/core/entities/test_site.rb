@@ -2,6 +2,31 @@
 
 class Nanoc::SiteTest < Nanoc::TestCase
 
+  def test_freeze
+    site = Nanoc::Site.new(
+      config:        Nanoc::Configuration.new({ foo: 123 }),
+      code_snippets: [ Nanoc::CodeSnippet.new("$stuff = :cool", 'blah.rb') ],
+      data_sources:  [],
+      items:         [ Nanoc::Item.new('foo', {}, '/foo.txt') ],
+      layouts:       [ Nanoc::Layout.new('foo', {}, '/foo.txt') ],
+    )
+
+    site.freeze
+
+    assert site.frozen?
+
+    assert site.config.frozen?
+
+    assert site.items.frozen?
+    assert site.items[0].frozen?
+
+    assert site.layouts.frozen?
+    assert site.layouts[0].frozen?
+
+    assert site.code_snippets.frozen?
+    assert site.code_snippets[0].frozen?
+  end
+
   def test_initialize_with_dir_without_config_yaml
     assert_raises(Nanoc::Errors::GenericTrivial) do
       Nanoc::SiteLoader.new.load
