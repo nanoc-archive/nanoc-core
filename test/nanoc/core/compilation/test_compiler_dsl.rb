@@ -74,7 +74,7 @@ EOS
       assert_equal 'stuff <%= "goes" %> here', item.compiled_content(snapshot: :foo)
       assert_equal 'stuff goes here',          item.compiled_content(snapshot: :last)
       assert_equal '/foo.txt', item.path(snapshot: :foo)
-      assert_nil               item.path(snapshot: :last)
+      assert_equal '/bar.txt', item.path(snapshot: :last)
     end
   end
 

@@ -41,11 +41,24 @@ module Nanoc
     end
 
     def serialize
-      @steps.map { |s| s.serialize }
+      map { |s| s.serialize }
     end
 
     def each(&block)
-      @steps.each(&block)
+      last_index = @steps.size - 1
+
+      @steps.each_with_index do |s, i|
+        is_last_snapshotless_write =
+          i == last_index &&
+          s.is_a?(Nanoc::RuleMemoryActions::Write) &&
+          !s.snapshot?
+
+        if is_last_snapshotless_write
+          block.call(s.with_snapshot_name(:last))
+        else
+          block.call(s)
+        end
+      end
     end
 
   private

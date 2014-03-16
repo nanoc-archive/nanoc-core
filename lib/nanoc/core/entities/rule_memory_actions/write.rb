@@ -40,6 +40,10 @@ module Nanoc::RuleMemoryActions
       "<Nanoc::RuleMemoryActions::Write #{@path.inspect}, snapshot: #{@snapshot_name.inspect}>"
     end
 
+    def with_snapshot_name(snapshot_name)
+      self.class.new(@path, snapshot_name)
+    end
+
   end
 
 end

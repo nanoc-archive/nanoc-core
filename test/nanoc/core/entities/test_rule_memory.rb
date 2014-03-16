@@ -27,7 +27,7 @@ class Nanoc::RuleMemoryTest < Nanoc::TestCase
       [ :filter, :erb, { awesomeness: 123 } ],
       [ :snapshot, :bar, { path: nil, final: true } ],
       [ :layout, "/default.erb", { somelayoutparam: 444 } ],
-      [ :write, "/foo.html", { snapshot: nil } ],
+      [ :write, "/foo.html", { snapshot: :last } ], # last snapshotless write
     ]
 
     assert_equal expected, actual
@@ -60,6 +60,38 @@ class Nanoc::RuleMemoryTest < Nanoc::TestCase
     assert_raises(Nanoc::Errors::CannotCreateMultipleSnapshotsWithSameName) do
       mem.add_write('/fdsa.txt', :bar)
     end
+  end
+
+  def test_last_snapshotless_write
+    mem = new_memory
+
+    mem.add_write('/aaa.txt', nil)
+    mem.add_write('/bbb.txt', :foo)
+    mem.add_write('/ccc.txt', nil)
+
+    expected = [
+      [ :write, "/aaa.txt", { snapshot: nil } ],
+      [ :write, "/bbb.txt", { snapshot: :foo } ],
+      [ :write, "/ccc.txt", { snapshot: :last } ],
+    ]
+
+    assert_equal expected, mem.serialize
+  end
+
+  def test_not_last_snapshotless_write
+    mem = new_memory
+
+    mem.add_write('/aaa.txt', nil)
+    mem.add_write('/bbb.txt', :foo)
+    mem.add_write('/ccc.txt', :bar)
+
+    expected = [
+      [ :write, "/aaa.txt", { snapshot: nil } ],
+      [ :write, "/bbb.txt", { snapshot: :foo } ],
+      [ :write, "/ccc.txt", { snapshot: :bar } ],
+    ]
+
+    assert_equal expected, mem.serialize
   end
 
 end
