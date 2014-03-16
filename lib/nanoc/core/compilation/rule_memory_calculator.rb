@@ -79,31 +79,15 @@ module Nanoc
     end
 
     def write_paths_for(rep)
-      mem = new_rule_memory_for_rep(rep)
-
-      from_writes = mem.
-        select { |s| s.is_a?(Nanoc::RuleMemoryActions::Write) }.
+      new_rule_memory_for_rep(rep).
+        select { |s| s.is_a?(Nanoc::RuleMemoryActions::Write) || s.is_a?(Nanoc::RuleMemoryActions::Snapshot) }.
         map    { |s| s.path.to_s }
-
-      from_snapshots = mem.
-        select { |s| s.is_a?(Nanoc::RuleMemoryActions::Snapshot) && s.path? }.
-        map    { |s| s.path.to_s }
-
-      from_writes + from_snapshots
     end
 
     def snapshot_write_paths_for(rep)
-      mem = new_rule_memory_for_rep(rep)
-
-      from_writes = mem.
-        select { |s| s.is_a?(Nanoc::RuleMemoryActions::Write) && s.snapshot? }.
+      new_rule_memory_for_rep(rep).
+        select { |s| s.is_a?(Nanoc::RuleMemoryActions::Write) || s.is_a?(Nanoc::RuleMemoryActions::Snapshot) }.
         each_with_object({}) { |s, memo| memo[s.snapshot_name] = s.path.to_s }
-
-      from_snapshots = mem.
-        select { |s| s.is_a?(Nanoc::RuleMemoryActions::Snapshot) && s.path? }.
-        each_with_object({}) { |s, memo| memo[s.snapshot_name] = s.path.to_s }
-
-      from_writes.merge(from_snapshots)
     end
 
     # @param [Nanoc::Item] obj The object for which to check the rule memory
