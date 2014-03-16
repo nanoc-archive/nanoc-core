@@ -86,7 +86,7 @@ EOS
     in_site do
       # Create rep
       item = Nanoc::Item.new('foo', { :extension => 'bar' }, '/foo.bar')
-      rep  = Nanoc::ItemRep.new(item, :default, :snapshot_store => self.new_snapshot_store)
+      rep  = Nanoc::ItemRep.new(item, :default, :snapshot_store => self.new_snapshot_store, config: Nanoc::Configuration.new({}))
 
       # Create a bonus rules file
       File.write('more_rules.rb', "compile '/foo.*' do end")

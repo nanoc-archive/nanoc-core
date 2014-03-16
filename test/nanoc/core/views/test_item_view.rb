@@ -8,8 +8,8 @@ class Nanoc::ItemViewTest < Nanoc::TestCase
     @snapshot_store = Nanoc::SnapshotStore::InMemory.new
     @content = Nanoc::TextualContent.new('blah blah blah', File.absolute_path('content/somefile.md'))
     @item = Nanoc::Item.new(@content, {}, '/index.md')
-    @rep_1 = Nanoc::ItemRep.new(@item, :default, :snapshot_store => @snapshot_store)
-    @rep_2 = Nanoc::ItemRep.new(@item, :foo,     :snapshot_store => @snapshot_store)
+    @rep_1 = Nanoc::ItemRep.new(@item, :default, :snapshot_store => @snapshot_store, config: Nanoc::Configuration.new({}))
+    @rep_2 = Nanoc::ItemRep.new(@item, :foo,     :snapshot_store => @snapshot_store, config: Nanoc::Configuration.new({}))
     def @rep_1.compiled_content(params={}) ; "default content at #{params[:snapshot].inspect}" ; end
     def @rep_2.compiled_content(params={}) ; "foo content at #{params[:snapshot].inspect}" ; end
     def @rep_1.path(params={}) ; "default path at #{params[:snapshot].inspect}" ; end

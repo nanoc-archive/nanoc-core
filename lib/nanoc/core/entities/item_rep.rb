@@ -33,6 +33,8 @@ module Nanoc
       #   snapshots. The keys correspond with the snapshot names, and the
       #   values with the path.
       #
+      # FIXME get rid of this
+      #
       # @api private
       attr_accessor :raw_paths
 
@@ -112,6 +114,7 @@ module Nanoc
       @item   = item
       @name   = name
       @snapshot_store = params.fetch(:snapshot_store)
+      @config         = params.fetch(:config) # TODO get rid of config
 
       # Set binary
       @binaryness = { :last => @item.content.binary? }
@@ -221,7 +224,14 @@ module Nanoc
       Nanoc::NotificationCenter.post(:visit_ended,   item)
 
       snapshot_name = params[:snapshot] || :last
-      @snapshot_paths[snapshot_name]
+      path = @snapshot_paths[snapshot_name]
+      if path.nil?
+        nil
+      else
+        @config[:index_filenames].inject(path) do |m,e|
+          m.end_with?(e) ? m[0..-e.size-1] : m
+        end
+      end
     end
 
     # Runs the item content through the given filter with the given arguments.

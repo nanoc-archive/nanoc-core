@@ -16,7 +16,7 @@ class Nanoc::RulesCollectionTest < Nanoc::TestCase
 
     # Mock items and reps
     item = Nanoc::Item.new('stuff', {}, '/correct')
-    rep = Nanoc::ItemRep.new(item, :right, :snapshot_store => self.new_snapshot_store)
+    rep = Nanoc::ItemRep.new(item, :right, :snapshot_store => self.new_snapshot_store, config: Nanoc::Configuration.new({}))
 
     # Test
     assert_equal rules.item_compilation_rules[2], rules.compilation_rule_for(rep)
