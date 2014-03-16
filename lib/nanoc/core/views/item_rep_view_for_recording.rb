@@ -20,85 +20,46 @@ module Nanoc
 
     def_delegators :@item_rep, :item, :name, :binary, :binary?, :compiled_content, :has_snapshot?, :path, :assigns, :assigns=
 
-    # @example The compilation rule and the corresponding rule memory
-    #
-    #     # rule
-    #     compile '/foo/' do
-    #       filter :erb
-    #       filter :myfilter, :arg1 => 'stuff'
-    #       layout 'meh'
-    #     end
-    #
-    #     # memory
-    #     [
-    #       [ :filter, :erb, {} ],
-    #       [ :filter, :myfilter, { :arg1 => 'stuff' } ],
-    #       [ :layout, 'meh' ]
-    #     ]
-    #
-    # @return [Array] The list of recorded actions (“rule memory”)
+    # @return [Nanoc::RuleMemory] The list of recorded actions (“rule memory”)
     attr_reader :rule_memory
 
     # @param [Nanoc::ItemRep] item_rep The item representation that this
     #   proxy should behave like
     def initialize(item_rep)
-      @item_rep = item_rep
-      @rule_memory = []
+      @item_rep    = item_rep
+
+      @rule_memory = Nanoc::RuleMemory.new(item_rep)
     end
 
     # @return [void]
     #
     # @see Nanoc::ItemRepViewForRuleProcessing#filter, Nanoc::ItemRep#filter
     def filter(name, args={})
-      @rule_memory << [ :filter, name, args ]
+      @rule_memory.add_filter(name, args)
     end
 
     # @return [void]
     #
     # @see Nanoc::ItemRepViewForRuleProcessing#layout, Nanoc::ItemRep#layout
     def layout(layout_identifier, extra_filter_args=nil)
-      if extra_filter_args
-        @rule_memory << [ :layout, layout_identifier, extra_filter_args ]
-      else
-        @rule_memory << [ :layout, layout_identifier ]
-      end
+      @rule_memory.add_layout(layout_identifier, extra_filter_args)
     end
 
     # @return [void]
     #
     # @see Nanoc::ItemRep#snapshot
     def snapshot(snapshot_name, params = {})
-      self.ensure_snapshot_unique(snapshot_name)
-      @rule_memory << [ :snapshot, snapshot_name, params ]
+      @rule_memory.add_snapshot(snapshot_name, params)
     end
 
     # TODO document
-    def write(path, params={})
-      if params.has_key?(:snapshot)
-        # TODO test
-        # TODO move the check into a dedicated rule memory
-        self.ensure_snapshot_unique(params[:snapshot])
-      end
-
-      @rule_memory << [ :write, path, params ]
+    def write(path, params = {})
+      @rule_memory.add_write(path, params)
     end
 
     # @return [{}]
     def content
       {}
-    end
-
-    # TODO document
-    # TODO move this into @rule_memory
-    # TODO test write snapshot names
-    def ensure_snapshot_unique(name)
-      names_1 = Set.new(@rule_memory.select { |r| r[0] == :snapshot }.map { |r| r[1] })
-      names_2 = Set.new(@rule_memory.select { |r| r[0] == :write && r[2].has_key?(:snapshot) }.map { |r| r[2][:snapshot] })
-      names = names_1 + names_2
-
-      if names.include?(name)
-        raise Nanoc::Errors::CannotCreateMultipleSnapshotsWithSameName.new(@item_rep, name)
-      end
     end
 
   end

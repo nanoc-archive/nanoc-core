@@ -63,6 +63,9 @@ require 'nanoc/core/entities/identifier'
 require 'nanoc/core/entities/pattern'
 require 'nanoc/core/entities/site'
 require 'nanoc/core/entities/textual_content'
+require 'nanoc/core/entities/rule_memory'
+require 'nanoc/core/entities/rule_memory_action'
+require 'nanoc/core/entities/rule_memory_actions'
 
 # Load view classes
 require 'nanoc/core/views/document_view'

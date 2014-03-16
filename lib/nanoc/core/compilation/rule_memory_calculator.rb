@@ -28,7 +28,7 @@ module Nanoc
       result =
         case obj.type
         when :item_rep
-          self.new_rule_memory_for_rep(obj)
+          self.new_rule_memory_for_rep(obj).serialize
         when :layout
           self.new_rule_memory_for_layout(obj)
         else
@@ -46,26 +46,9 @@ module Nanoc
     def new_rule_memory_for_rep(rep)
       view_for_recording = rep.to_view_for_recording
       @rules_collection.compilation_rule_for(rep).apply_to(view_for_recording, @site)
-      make_rule_memory_serializable(view_for_recording.rule_memory)
+      view_for_recording.rule_memory
     end
     memoize :new_rule_memory_for_rep
-
-    # Makes the given rule memory serializable by calling `#inspect` on the
-    # filter arguments, so that objects such as classes and filenames can be
-    # serialized.
-    #
-    # @param [Array] rs The rule memory for a certain item rep
-    #
-    # @return [Array] The serializable rule memory
-    def make_rule_memory_serializable(rs)
-      rs.map do |r|
-        if r[0] == :filter
-          [ r[0], r[1], r[2].to_a.map { |a| a.inspect }  ]
-        else
-          r
-        end
-      end
-    end
 
     # @param [Nanoc::Layout] layout The layout to get the rule memory for
     #
@@ -84,23 +67,43 @@ module Nanoc
     def snapshots_for(rep)
       mem = new_rule_memory_for_rep(rep)
 
-      names_1 = mem.select { |e| e[0] == :snapshot }.
-        map { |e| [ e[1], e[2].fetch(:final, true) ] }
+      names_1 =
+        mem.select { |s| s.is_a?(Nanoc::RuleMemoryActions::Snapshot) }.
+            map    { |s| [ s.snapshot_name, s.final? ] }
 
-      names_2 = mem.select { |r| r[0] == :write && r[2].has_key?(:snapshot) }.
-        map { |r| [ r[2][:snapshot], true ] }
+      names_2 =
+        mem.select { |s| s.is_a?(Nanoc::RuleMemoryActions::Write) && s.snapshot? }.
+            map    { |s| [ s.snapshot_name, true ] }
 
       names_1 + names_2
     end
 
     def write_paths_for(rep)
-      new_rule_memory_for_rep(rep).select { |e| e[0] == :write }.map { |e| e[1].to_s }
+      mem = new_rule_memory_for_rep(rep)
+
+      paths_from_writes = mem.
+        select { |s| s.is_a?(Nanoc::RuleMemoryActions::Write) }.
+        map    { |s| s.path.to_s }
+
+      paths_from_snapshots = mem.
+        select { |s| s.is_a?(Nanoc::RuleMemoryActions::Snapshot) && s.path? }.
+        map    { |s| s.path.to_s }
+
+      paths_from_writes + paths_from_snapshots
     end
 
     def snapshot_write_paths_for(rep)
-      new_rule_memory_for_rep(rep).
-        select { |e| e[0] == :write && e[2][:snapshot] }.
-        each_with_object({}) { |e, memo| memo[e[2][:snapshot]] = e[1].to_s }
+      mem = new_rule_memory_for_rep(rep)
+
+      writes = mem.
+        select { |s| s.is_a?(Nanoc::RuleMemoryActions::Write) && s.snapshot? }.
+        each_with_object({}) { |s, memo| memo[s.snapshot_name] = s.path.to_s }
+
+      snapshots = mem.
+        select { |s| s.is_a?(Nanoc::RuleMemoryActions::Snapshot) && s.path? }.
+        each_with_object({}) { |s, memo| memo[s.snapshot_name] = s.path.to_s }
+
+      writes.merge(snapshots)
     end
 
     # @param [Nanoc::Item] obj The object for which to check the rule memory
