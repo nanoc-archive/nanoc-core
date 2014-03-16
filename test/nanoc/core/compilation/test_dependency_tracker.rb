@@ -25,7 +25,7 @@ class Nanoc::DependencyTrackerTest < Nanoc::TestCase
     tracker.record_dependency(items[0], items[1])
 
     # Verify dependencies
-    assert_contains_exactly [ items[1] ], tracker.objects_causing_outdatedness_of(items[0])
+    assert_set_equal [ items[1] ], tracker.objects_causing_outdatedness_of(items[0])
   end
 
   def test_record_dependency_no_self
@@ -40,7 +40,7 @@ class Nanoc::DependencyTrackerTest < Nanoc::TestCase
     tracker.record_dependency(items[0], items[1])
 
     # Verify dependencies
-    assert_contains_exactly [ items[1] ], tracker.objects_causing_outdatedness_of(items[0])
+    assert_set_equal [ items[1] ], tracker.objects_causing_outdatedness_of(items[0])
   end
 
   def test_record_dependency_no_doubles
@@ -56,7 +56,7 @@ class Nanoc::DependencyTrackerTest < Nanoc::TestCase
     tracker.record_dependency(items[0], items[1])
 
     # Verify dependencies
-    assert_contains_exactly [ items[1] ], tracker.objects_causing_outdatedness_of(items[0])
+    assert_set_equal [ items[1] ], tracker.objects_causing_outdatedness_of(items[0])
   end
 
   def test_objects_causing_outdatedness_of
@@ -71,7 +71,7 @@ class Nanoc::DependencyTrackerTest < Nanoc::TestCase
     tracker.record_dependency(items[1], items[2])
 
     # Verify dependencies
-    assert_contains_exactly [ items[1] ], tracker.objects_causing_outdatedness_of(items[0])
+    assert_set_equal [ items[1] ], tracker.objects_causing_outdatedness_of(items[0])
   end
 
   def test_objects_outdated_due_to
@@ -86,7 +86,7 @@ class Nanoc::DependencyTrackerTest < Nanoc::TestCase
     tracker.record_dependency(items[1], items[2])
 
     # Verify dependencies
-    assert_contains_exactly [ items[0] ], tracker.objects_outdated_due_to(items[1])
+    assert_set_equal [ items[0] ], tracker.objects_outdated_due_to(items[1])
   end
 
   def test_start_and_stop
@@ -105,7 +105,7 @@ class Nanoc::DependencyTrackerTest < Nanoc::TestCase
     tracker.stop
 
     # Verify dependencies
-    assert_contains_exactly [ items[1] ], tracker.objects_causing_outdatedness_of(items[0])
+    assert_set_equal [ items[1] ], tracker.objects_causing_outdatedness_of(items[0])
     assert_empty tracker.objects_causing_outdatedness_of(items[1])
   end
 
@@ -137,8 +137,8 @@ class Nanoc::DependencyTrackerTest < Nanoc::TestCase
     tracker.load
 
     # Check loaded graph
-    assert_contains_exactly [ items[1] ],           tracker.objects_causing_outdatedness_of(items[0])
-    assert_contains_exactly [ items[2], items[3] ], tracker.objects_causing_outdatedness_of(items[1])
+    assert_set_equal [ items[1] ],           tracker.objects_causing_outdatedness_of(items[0])
+    assert_set_equal [ items[2], items[3] ], tracker.objects_causing_outdatedness_of(items[1])
     assert_empty tracker.objects_causing_outdatedness_of(items[2])
     assert_empty tracker.objects_causing_outdatedness_of(items[3])
   end
@@ -175,8 +175,8 @@ class Nanoc::DependencyTrackerTest < Nanoc::TestCase
     tracker.load
 
     # Check loaded graph
-    assert_contains_exactly [ items[1] ],       tracker.objects_causing_outdatedness_of(items[0])
-    assert_contains_exactly [ items[2], nil ],  tracker.objects_causing_outdatedness_of(items[1])
+    assert_set_equal [ items[1] ],       tracker.objects_causing_outdatedness_of(items[0])
+    assert_set_equal [ items[2], nil ],  tracker.objects_causing_outdatedness_of(items[1])
     assert_empty tracker.objects_causing_outdatedness_of(items[2])
   end
 
@@ -206,8 +206,8 @@ class Nanoc::DependencyTrackerTest < Nanoc::TestCase
     tracker.load
 
     # Check loaded graph
-    assert_contains_exactly [ items[1] ], tracker.objects_causing_outdatedness_of(items[0])
-    assert_contains_exactly [ nil ],      tracker.objects_causing_outdatedness_of(items[1])
+    assert_set_equal [ items[1] ], tracker.objects_causing_outdatedness_of(items[0])
+    assert_set_equal [ nil ],      tracker.objects_causing_outdatedness_of(items[1])
   end
 
   def test_store_with_nils_in_src
@@ -236,7 +236,7 @@ class Nanoc::DependencyTrackerTest < Nanoc::TestCase
     tracker.load
 
     # Check loaded graph
-    assert_contains_exactly [ items[1] ], tracker.objects_causing_outdatedness_of(items[0])
+    assert_set_equal [ items[1] ], tracker.objects_causing_outdatedness_of(items[0])
     assert_empty tracker.objects_causing_outdatedness_of(items[1])
   end
 
@@ -250,7 +250,7 @@ class Nanoc::DependencyTrackerTest < Nanoc::TestCase
     # Record some dependencies
     tracker.record_dependency(items[0], items[1])
     tracker.record_dependency(items[1], items[2])
-    assert_contains_exactly [ items[1] ], tracker.objects_causing_outdatedness_of(items[0])
+    assert_set_equal [ items[1] ], tracker.objects_causing_outdatedness_of(items[0])
 
     # Forget dependencies
     tracker.forget_dependencies_for(items[0])
