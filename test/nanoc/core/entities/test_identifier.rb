@@ -13,6 +13,7 @@ class Nanoc::IdentifierTest < Nanoc::TestCase
     assert_examples_correct 'Nanoc::Identifier#match?'
     assert_examples_correct 'Nanoc::Identifier#in_dir'
     assert_examples_correct 'Nanoc::Identifier#to_s'
+    assert_examples_correct 'Nanoc::Identifier#append_component'
   end
 
   def test_from_string
@@ -106,8 +107,8 @@ class Nanoc::IdentifierTest < Nanoc::TestCase
     assert_equal '/foo/index.html', self.new_from_string('/foo.md').with_ext('html').in_dir.to_s
   end
 
-  def test_add_component
-    assert_equal '/foo/bar', self.new_from_string('/foo').add_component('bar').to_s
+  def test_append_component
+    assert_equal '/foo/bar', self.new_from_string('/foo').append_component('bar').to_s
   end
 
   def test_plus

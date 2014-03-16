@@ -98,8 +98,16 @@ module Nanoc
       self.class.from_string(prefix + self.to_s)
     end
 
-    # FIXME ugly
-    def add_component(string)
+    # @param [String] string The component to append
+    #
+    # @return [Nanoc::Identifier] A copy of the identifier with the given
+    #   component appended.
+    #
+    # @example
+    #
+    #   Nanoc::Identifier.from_string('/foo').append_component('bar').to_s
+    #   # => '/foo/bar'
+    def append_component(string)
       self.class.new(self.components + [ string ])
     end
 
@@ -128,7 +136,7 @@ module Nanoc
     #   Nanoc::Identifier.from_string('/foo/bar.html').in_dir.to_s
     #   # => '/foo/bar/index.html'
     def in_dir
-      base = self.without_ext.add_component('index')
+      base = self.without_ext.append_component('index')
       if self.extension
         base.with_ext(self.extension)
       else
