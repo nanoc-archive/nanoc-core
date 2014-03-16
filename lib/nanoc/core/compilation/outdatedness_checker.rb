@@ -93,10 +93,8 @@ module Nanoc
             Nanoc::OutdatednessReasons::SourceModified
 
           # target
-          elsif (obj.raw_path && !@item_rep_writer.exist?(obj.raw_path))
-            # FIXME this is not tested!
-            Nanoc::OutdatednessReasons::NotWritten
           elsif obj.written_paths.any? { |p| !@item_rep_writer.exist?(p) }
+            # FIXME snapshot paths are not tested!
             Nanoc::OutdatednessReasons::NotWritten
 
           # code snippets

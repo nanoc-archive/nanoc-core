@@ -18,7 +18,7 @@ module Nanoc
 
     extend Forwardable
 
-    def_delegators :@item_rep, :item, :name, :binary, :binary?, :compiled_content, :has_snapshot?, :raw_path, :path, :assigns, :assigns=
+    def_delegators :@item_rep, :item, :name, :binary, :binary?, :compiled_content, :has_snapshot?, :path, :assigns, :assigns=
 
     # @example The compilation rule and the corresponding rule memory
     #

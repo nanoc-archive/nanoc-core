@@ -348,26 +348,6 @@ class Nanoc::ItemRepTest < Nanoc::TestCase
     end
   end
 
-  def test_raw_path_should_generate_dependency
-    items = [
-      Nanoc::Item.new("foo", {}, '/foo.md'),
-      Nanoc::Item.new("bar", {}, '/bar.md')
-    ]
-    item_reps = [
-      Nanoc::ItemRep.new(items[0], :default, :snapshot_store => self.new_snapshot_store, config: Nanoc::Configuration.new({})),
-      Nanoc::ItemRep.new(items[1], :default, :snapshot_store => self.new_snapshot_store, config: Nanoc::Configuration.new({}))
-    ]
-
-    dt = Nanoc::DependencyTracker.new(items)
-    dt.start
-    Nanoc::NotificationCenter.post(:visit_started, items[0])
-    item_reps[1].raw_path
-    Nanoc::NotificationCenter.post(:visit_ended,   items[0])
-    dt.stop
-
-    assert_equal [ items[1] ], dt.objects_causing_outdatedness_of(items[0])
-  end
-
   def test_path_should_generate_dependency
     items = [
       Nanoc::Item.new("foo", {}, '/foo.md'),
@@ -405,8 +385,9 @@ class Nanoc::ItemRepTest < Nanoc::TestCase
       after_layout: '/foo/donkey/default.html',
     }
 
-    assert_equal '/foo/donkey.txt', item_rep.path(snapshot: :raw)
-    assert_equal '/foo/donkey/',    item_rep.path(snapshot: :after_layout)
+    assert_equal '/foo/donkey.txt',          item_rep.path(snapshot: :raw)
+    assert_equal '/foo/donkey/',             item_rep.path(snapshot: :after_layout, strip_index: true)
+    assert_equal '/foo/donkey/default.html', item_rep.path(snapshot: :after_layout, strip_index: false)
   end
 
 private

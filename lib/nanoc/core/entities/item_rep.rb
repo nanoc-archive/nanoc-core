@@ -28,16 +28,6 @@ module Nanoc
       attr_accessor :compiled
       alias_method :compiled?, :compiled
 
-      # @return [Hash<Symbol,String>] A hash containing the raw paths (paths
-      #   including the path to the output directory and the filename) for all
-      #   snapshots. The keys correspond with the snapshot names, and the
-      #   values with the path.
-      #
-      # FIXME get rid of this
-      #
-      # @api private
-      attr_accessor :raw_paths
-
       # @return [Array<String>] A list of paths in direct #write calls
       attr_accessor :written_paths
 
@@ -120,7 +110,6 @@ module Nanoc
       @binaryness = { :last => @item.content.binary? }
 
       # Set default attributes
-      @raw_paths  = {}
       @written_paths = []
       @snapshot_paths = {}
       @snapshots  = []
@@ -195,21 +184,6 @@ module Nanoc
       self.snapshot_store.exist?(self.item.identifier, self.name, snapshot_name)
     end
 
-    # Returns the item rep’s raw path. It includes the path to the output
-    # directory and the full filename.
-    #
-    # @option params [Symbol] :snapshot (:last) The snapshot for which the
-    #   path should be returned
-    #
-    # @return [String] The item rep’s path
-    def raw_path(params = {})
-      Nanoc::NotificationCenter.post(:visit_started, item)
-      Nanoc::NotificationCenter.post(:visit_ended,   item)
-
-      snapshot_name = params[:snapshot] || :last
-      @raw_paths[snapshot_name]
-    end
-
     # Returns the item rep’s path, as used when being linked to. It starts
     # with a slash and it is relative to the output directory. It does not
     # include the path to the output directory. It will not include the
@@ -223,10 +197,12 @@ module Nanoc
       Nanoc::NotificationCenter.post(:visit_started, item)
       Nanoc::NotificationCenter.post(:visit_ended,   item)
 
-      snapshot_name = params[:snapshot] || :last
+      snapshot_name = params.fetch(:snapshot, :last)
+      strip_index   = params.fetch(:strip_index, :true)
+
       path = @snapshot_paths[snapshot_name]
-      if path.nil?
-        nil
+      if path.nil? || !strip_index
+        path
       else
         @config[:index_filenames].inject(path) do |m,e|
           m.end_with?(e) ? m[0..-e.size-1] : m
@@ -362,10 +338,6 @@ module Nanoc
       if !self.snapshot_binary?(:last)
         self.set_stored_content_at_snapshot(snapshot_name, self.stored_content_at_snapshot(:last))
       end
-
-      if params.has_key?(:path)
-        @raw_paths[snapshot_name] = params[:path]
-      end
     end
 
     # Returns a recording proxy that is used for determining whether the
@@ -389,7 +361,7 @@ module Nanoc
     end
 
     def inspect
-      "<#{self.class} name=\"#{name}\" raw_paths=#{raw_paths.inspect} written_paths=#{written_paths.inspect} item.identifier=\"#{item.identifier}\">"
+      "<#{self.class} name=\"#{name}\" written_paths=#{written_paths.inspect} item.identifier=\"#{item.identifier}\">"
     end
 
   private

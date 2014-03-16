@@ -7,7 +7,7 @@ module Nanoc
 
     extend Forwardable
 
-    def_delegators :@item_rep, :name, :compiled_content, :path, :raw_path
+    def_delegators :@item_rep, :name, :compiled_content, :path
 
     # @param [Nanoc::ItemRep] item_rep
     # @param [Nanoc::ItemRepStore] item_rep_store
