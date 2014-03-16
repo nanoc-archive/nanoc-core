@@ -34,7 +34,7 @@ module Nanoc
     #
     # @param [Nanoc::ItemRep] rep The item rep to write
     #
-    # @param [Symbol, nil] snapshot The name of the snapshot to write.
+    # @param [String] path The path to write to.
     #
     # @return [void]
     def write(rep, path)
