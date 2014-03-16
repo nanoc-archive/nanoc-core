@@ -11,10 +11,6 @@ module Nanoc::RuleMemoryActions
       @params      = params
     end
 
-    def type
-      :layout
-    end
-
     def serialize
       [ :layout, @layout_name, @params ]
     end

@@ -18,10 +18,6 @@ module Nanoc::RuleMemoryActions
       @final         = final
     end
 
-    def type
-      :snapshot
-    end
-
     def path?
       !@path.nil?
     end

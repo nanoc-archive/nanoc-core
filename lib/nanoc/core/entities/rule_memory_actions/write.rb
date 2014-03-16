@@ -18,10 +18,6 @@ module Nanoc::RuleMemoryActions
       !@snapshot_name.nil?
     end
 
-    def type
-      :write
-    end
-
     def serialize
       [ :write, @path, { snapshot: @snapshot_name } ]
     end

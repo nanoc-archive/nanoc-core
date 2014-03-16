@@ -11,10 +11,6 @@ module Nanoc::RuleMemoryActions
       @params      = params
     end
 
-    def type
-      :filter
-    end
-
     def serialize
       [ :filter, @filter_name, @params ]
     end
