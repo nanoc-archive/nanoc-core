@@ -205,7 +205,7 @@ module Nanoc
       Nanoc::NotificationCenter.post(:visit_ended,   item)
 
       snapshot_name = params.fetch(:snapshot, :last)
-      strip_index   = params.fetch(:strip_index, :true)
+      strip_index   = params.fetch(:strip_index, true)
 
       path = @snapshot_paths[snapshot_name]
       if path.nil? || !strip_index
