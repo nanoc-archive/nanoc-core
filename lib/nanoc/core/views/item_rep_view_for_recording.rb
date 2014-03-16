@@ -49,12 +49,17 @@ module Nanoc
     #
     # @see Nanoc::ItemRep#snapshot
     def snapshot(snapshot_name, params = {})
-      @rule_memory.add_snapshot(snapshot_name, params)
+      @rule_memory.add_snapshot(
+        snapshot_name,
+        params.fetch(:path, nil),
+        params.fetch(:final, true))
     end
 
     # TODO document
     def write(path, params = {})
-      @rule_memory.add_write(path, params)
+      @rule_memory.add_write(
+        path,
+        params.fetch(:snapshot, nil))
     end
 
     # @return [{}]

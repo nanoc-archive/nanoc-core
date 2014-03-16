@@ -22,19 +22,19 @@ module Nanoc
       @steps << Nanoc::RuleMemoryActions::Layout.new(layout_identifier, params)
     end
 
-    def add_snapshot(snapshot_name, params)
-      step =  Nanoc::RuleMemoryActions::Snapshot.new(snapshot_name, params)
+    def add_snapshot(snapshot_name, path, final)
+      step = Nanoc::RuleMemoryActions::Snapshot.new(snapshot_name, path, final)
 
-      snapshot_added(step.snapshot_name)
+      snapshot_added(snapshot_name)
 
       @steps << step
     end
 
-    def add_write(path, params)
-      step = Nanoc::RuleMemoryActions::Write.new(path, params)
+    def add_write(path, snapshot_name)
+      step = Nanoc::RuleMemoryActions::Write.new(path, snapshot_name)
 
-      if step.snapshot?
-        snapshot_added(step.snapshot_name)
+      if snapshot_name
+        snapshot_added(snapshot_name)
       end
 
       @steps << step

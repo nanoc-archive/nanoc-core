@@ -13,20 +13,20 @@ class Nanoc::RuleMemoryTest < Nanoc::TestCase
     Nanoc::RuleMemory.new(rep)
   end
 
-  def test_serialize_simple
+  def test_serialize
     mem = new_memory
 
-    mem.add_filter(:erb, {})
-    mem.add_snapshot(:bar, {})
-    mem.add_layout('/default.erb', {})
-    mem.add_write('/foo.html', {})
+    mem.add_filter(:erb, { awesomeness: 123 })
+    mem.add_snapshot(:bar, nil, true)
+    mem.add_layout('/default.erb', { somelayoutparam: 444 })
+    mem.add_write('/foo.html', nil)
 
     actual = mem.serialize
 
     expected = [
-      [ :filter, :erb, {} ],
+      [ :filter, :erb, { awesomeness: 123 } ],
       [ :snapshot, :bar, { path: nil, final: true } ],
-      [ :layout, "/default.erb", {} ],
+      [ :layout, "/default.erb", { somelayoutparam: 444 } ],
       [ :write, "/foo.html", { snapshot: nil } ],
     ]
 
@@ -37,15 +37,15 @@ class Nanoc::RuleMemoryTest < Nanoc::TestCase
     mem = new_memory
 
     mem.add_filter(:erb, { awesomeness: 123 })
-    mem.add_snapshot(:bar, { path: '/asdf.txt' })
+    mem.add_snapshot(:bar, '/stuff.txt', false)
     mem.add_layout('/default.erb', { somelayoutparam: 444 })
-    mem.add_write('/foo.html', { snapshot: :donkey })
+    mem.add_write('/foo.html', :donkey)
 
     actual = mem.serialize
 
     expected = [
       [ :filter, :erb, { awesomeness: 123 } ],
-      [ :snapshot, :bar, { path: '/asdf.txt', final: true } ],
+      [ :snapshot, :bar, { path: '/stuff.txt', final: false } ],
       [ :layout, "/default.erb", { somelayoutparam: 444 } ],
       [ :write, "/foo.html", { snapshot: :donkey } ],
     ]
@@ -56,9 +56,9 @@ class Nanoc::RuleMemoryTest < Nanoc::TestCase
   def test_no_multiple_snapshots
     mem = new_memory
 
-    mem.add_snapshot(:bar, { path: '/asdf.txt' })
-    assert_raises(CannotCreateMultipleSnapshotsWithSameName) do
-      mem.add_write('/fdsa.txt', { snapshot: :bar })
+    mem.add_snapshot(:bar, '/asdf.txt', true)
+    assert_raises(Nanoc::Errors::CannotCreateMultipleSnapshotsWithSameName) do
+      mem.add_write('/fdsa.txt', :bar)
     end
   end
 

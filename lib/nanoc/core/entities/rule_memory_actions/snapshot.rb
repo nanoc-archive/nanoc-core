@@ -12,10 +12,10 @@ module Nanoc::RuleMemoryActions
     attr_reader :final
     alias_method :final?, :final
 
-    def initialize(snapshot_name, params)
+    def initialize(snapshot_name, path, final)
       @snapshot_name = snapshot_name
-      @path  = params.fetch(:path, nil)
-      @final = params.fetch(:final, true)
+      @path          = path
+      @final         = final
     end
 
     def type

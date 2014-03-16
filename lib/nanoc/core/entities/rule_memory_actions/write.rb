@@ -9,9 +9,9 @@ module Nanoc::RuleMemoryActions
     attr_reader :path
     attr_reader :snapshot_name
 
-    def initialize(path, params)
+    def initialize(path, snapshot_name)
       @path          = path
-      @snapshot_name = params.fetch(:snapshot, nil)
+      @snapshot_name = snapshot_name
     end
 
     def snapshot?
