@@ -103,7 +103,6 @@ module Nanoc
     def rule_memory_differs_for(obj)
       !@rule_memory_store[obj].eql?(self[obj])
     end
-    memoize :rule_memory_differs_for
 
   end
 

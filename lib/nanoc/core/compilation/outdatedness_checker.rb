@@ -176,7 +176,6 @@ module Nanoc
     def rule_memory_differs_for(obj)
       @rule_memory_calculator.rule_memory_differs_for(obj)
     end
-    memoize :rule_memory_differs_for
 
     # @param obj
     #
@@ -185,7 +184,6 @@ module Nanoc
     def checksums_available?(obj)
       !!@checksum_store[obj] && obj.checksum
     end
-    memoize :checksums_available?
 
     # @param obj
     #
@@ -203,7 +201,6 @@ module Nanoc
     def object_modified?(obj)
       !checksums_available?(obj) || !checksums_identical?(obj)
     end
-    memoize :object_modified?
 
   end
 
