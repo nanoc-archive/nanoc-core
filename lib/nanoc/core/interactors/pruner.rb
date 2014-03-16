@@ -20,10 +20,6 @@ module Nanoc
       @site    = site
       @dry_run = params.fetch(:dry_run, false)
       @exclude = params.fetch(:exclude, [])
-
-      if params[:reps]
-        raise 'moo'
-      end
     end
 
     # Prunes all output files not managed by nanoc.
@@ -39,25 +35,37 @@ module Nanoc
 
     identifier :filesystem
 
+    def find_compiled_files
+      compiler = Nanoc::CompilerBuilder.new.build(site)
+      writer = compiler.item_rep_writer
+
+      compiler.item_rep_store.reps.
+        flat_map { |r| r.written_paths }.
+        select { |f| writer.exist?(f) }.
+        map { |f| writer.full_path_for(f) }
+    end
+
+    def find_present_files_and_dirs
+      present_files = []
+      present_dirs = []
+
+      Find.find(self.site.config[:output_dir] + '/') do |f|
+        present_files << f if File.file?(f)
+        present_dirs  << f if File.directory?(f)
+      end
+
+      [ present_files, present_dirs ]
+    end
+
     # @see Nanoc::Pruner#run
     def run
       require 'find'
 
       # Get compiled files
-      compiler = Nanoc::CompilerBuilder.new.build(@site)
-      writer = compiler.item_rep_writer
-      compiled_files = compiler.item_rep_store.reps.
-        flat_map { |r| r.written_paths }.
-        select { |f| writer.exist?(f) }.
-        map { |f| writer.full_path_for(f) }
+      compiled_files = find_compiled_files
 
       # Get present files and dirs
-      present_files = []
-      present_dirs = []
-      Find.find(self.site.config[:output_dir] + '/') do |f|
-        present_files << f if File.file?(f)
-        present_dirs  << f if File.directory?(f)
-      end
+      present_files, present_dirs = find_present_files_and_dirs
 
       # Remove stray files
       stray_files = (present_files - compiled_files)
