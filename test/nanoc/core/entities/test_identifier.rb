@@ -9,11 +9,15 @@ class Nanoc::IdentifierTest < Nanoc::TestCase
   def test_examples
     YARD.parse(File.dirname(__FILE__) + '/../../../../lib/nanoc/core/entities/identifier.rb')
 
-    assert_examples_correct 'Nanoc::Identifier#parent'
-    assert_examples_correct 'Nanoc::Identifier#match?'
-    assert_examples_correct 'Nanoc::Identifier#in_dir'
-    assert_examples_correct 'Nanoc::Identifier#to_s'
+    assert_examples_correct 'Nanoc::Identifier#+'
     assert_examples_correct 'Nanoc::Identifier#append_component'
+    assert_examples_correct 'Nanoc::Identifier#extension'
+    assert_examples_correct 'Nanoc::Identifier#in_dir'
+    assert_examples_correct 'Nanoc::Identifier#match?'
+    assert_examples_correct 'Nanoc::Identifier#parent'
+    assert_examples_correct 'Nanoc::Identifier#to_s'
+    assert_examples_correct 'Nanoc::Identifier#with_ext'
+    assert_examples_correct 'Nanoc::Identifier#without_ext'
   end
 
   def test_from_string

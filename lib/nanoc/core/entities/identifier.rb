@@ -71,6 +71,12 @@ module Nanoc
     #
     # @return [String] A new string containing the identifier as a string,
     #   followed by the given string
+    #
+    # @example
+    #
+    #   identifier = Nanoc::Identifier.coerce('/foo/bar.md')
+    #   identifier.without_ext + '-v123.' + identifier.extension
+    #   # => '/foo/bar-v123.md'
     def +(string)
       self.to_s + string
     end
@@ -115,6 +121,11 @@ module Nanoc
     #
     # @return [Nanoc::Identifier] A new identifier with the given extension. If
     #   the identifier already had an extension, it is removed.
+    #
+    # @example
+    #
+    #   Nanoc::Identifier.coerce('/foo/bar.md').with_ext('html').to_s
+    #   # => '/foo/bar.html'
     def with_ext(ext)
       cs = self.without_ext.components.dup
       cs[-1] = cs[-1] + '.' + ext
@@ -122,6 +133,11 @@ module Nanoc
     end
 
     # @return [Nanoc::Identifier] A new identifier with the extension removed
+    #
+    # @example
+    #
+    #   Nanoc::Identifier.coerce('/foo/bar.md').without_ext.to_s
+    #   # => '/foo/bar'
     def without_ext
       cs = self.components.dup
       cs[-1] = cs[-1].sub(/\.\w+$/, '')
@@ -147,6 +163,11 @@ module Nanoc
     # @!group Accessing
 
     # @return [String, nil] The extension, or nil if there is none
+    #
+    # @example
+    #
+    #   Nanoc::Identifier.coerce('/foo/bar.adoc').extension
+    #   # => 'adoc'
     def extension
       c = self.components[-1]
       idx = c.rindex('.')
