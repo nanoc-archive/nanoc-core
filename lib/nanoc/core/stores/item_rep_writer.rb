@@ -40,31 +40,16 @@ module Nanoc
     def write(rep, path)
       raw_path = self.full_path_for(path)
 
-      # Create parent directory
-      FileUtils.mkdir_p(File.dirname(raw_path))
+      temp_path = write_to_temp(rep)
 
-      # Check if file will be created
-      is_created = !File.file?(raw_path)
-
-      # Notify
-      Nanoc::NotificationCenter.post(:will_write_rep, rep, raw_path)
-
-      if rep.snapshot_binary?(:last)
-        temp_path = rep.temporary_filenames[:last]
-      else
-        temp_path = self.temp_filename
-        File.open(temp_path, 'w') do |io|
-          io.write(rep.stored_content_at_snapshot(:last))
-        end
-      end
-
-      # Check whether content was modified
+      is_created  = !File.file?(raw_path)
       is_modified = is_created || !FileUtils.identical?(raw_path, temp_path)
 
-      # Write
-      FileUtils.cp(temp_path, raw_path) if is_modified
-
-      # Notify
+      Nanoc::NotificationCenter.post(:will_write_rep, rep, raw_path)
+      if is_modified
+        FileUtils.mkdir_p(File.dirname(raw_path))
+        FileUtils.cp(temp_path, raw_path)
+      end
       Nanoc::NotificationCenter.post(:rep_written, rep, raw_path, is_created, is_modified)
     end
 
@@ -79,6 +64,19 @@ module Nanoc
   protected
 
     TMP_TEXT_ITEMS_DIR = 'tmp/text_items'
+
+    def write_to_temp(rep)
+      if rep.snapshot_binary?(:last)
+        temp_path = rep.temporary_filenames[:last]
+      else
+        temp_path = self.temp_filename
+        File.open(temp_path, 'w') do |io|
+          io.write(rep.stored_content_at_snapshot(:last))
+        end
+      end
+
+      temp_path
+    end
 
     def temp_filename
       FileUtils.mkdir_p(TMP_TEXT_ITEMS_DIR)
