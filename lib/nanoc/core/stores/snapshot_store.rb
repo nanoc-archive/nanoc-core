@@ -71,45 +71,6 @@ module Nanoc
 
     end
 
-    # A snapshot store that keeps content in an in-memory SQLite3 database.
-    class SQLite3 < Nanoc::SnapshotStore
-
-      identifier :sqlite3
-
-      def initialize
-        require 'sqlite3'
-
-        @db = ::SQLite3::Database.new ':memory:'
-
-        @db.execute 'CREATE TABLE snapshots (item_identifier TEXT, rep_name TEXT, snapshot_name TEXT, content TEXT)'
-        @db.execute 'CREATE UNIQUE INDEX snapshots_index ON snapshots (item_identifier, rep_name, snapshot_name)'
-      end
-
-      def query(item_identifier, rep_name, snapshot_name)
-        item_identifier = Nanoc::Identifier.coerce(item_identifier)
-        query = 'SELECT content FROM snapshots WHERE item_identifier = ? AND rep_name = ? AND snapshot_name = ?'
-        rows = @db.execute(query, [ item_identifier.to_s, rep_name.to_s, snapshot_name.to_s ])
-        raise "No row found" if rows.empty?
-        res = rows.first[0]
-        res.freeze
-        res
-      end
-
-      def set(item_identifier, rep_name, snapshot_name, content)
-        item_identifier = Nanoc::Identifier.coerce(item_identifier)
-        query = 'INSERT OR REPLACE INTO snapshots (item_identifier, rep_name, snapshot_name, content) VALUES (?, ?, ?, ?)'
-        @db.execute(query, [ item_identifier.to_s, rep_name.to_s, snapshot_name.to_s, content ])
-      end
-
-      def exist?(item_identifier, rep_name, snapshot_name)
-        item_identifier = Nanoc::Identifier.coerce(item_identifier)
-        query = 'SELECT COUNT(*) FROM snapshots WHERE item_identifier = ? AND rep_name = ? AND snapshot_name = ?'
-        rows = @db.execute(query, [ item_identifier.to_s, rep_name.to_s, snapshot_name.to_s ])
-        rows[0][0].to_i != 0
-      end
-
-    end
-
   end
 
 end
