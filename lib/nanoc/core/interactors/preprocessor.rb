@@ -21,7 +21,7 @@ module Nanoc
       Nanoc::Context.new({
         :site    => @site,
         :config  => @site.config,
-        :items   => @site.items,
+        :items   => Nanoc::ItemCollection.new.tap { |a| @site.items.each { |i| a << Nanoc::ItemViewForPreprocessing.new(i) }},
         :layouts => @site.layouts
       })
     end

@@ -370,15 +370,13 @@ class Nanoc::CompilerTest < Nanoc::TestCase
   end
 
   def test_preprocess_has_unfrozen_content
-    # FIXME need an item view for preprocessing
-
     in_site do
       File.open('content/index.html', 'w') do |io|
         io.write('My name is <%= @item[:name] %>!')
       end
       File.open('Rules', 'w') do |io|
         io.write "preprocess do\n"
-        io.write "  @items['/index.html'].attributes[:name] = 'What?'\n"
+        io.write "  @items['/index.html'][:name] = 'What?'\n"
         io.write "end\n"
         io.write "\n"
         io.write "compile '/**/*' do\n"

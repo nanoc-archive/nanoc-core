@@ -70,6 +70,7 @@ require 'nanoc/core/entities/rule_memory_actions'
 # Load view classes
 require 'nanoc/core/views/document_view'
 require 'nanoc/core/views/item_view'
+require 'nanoc/core/views/item_view_for_preprocessing'
 require 'nanoc/core/views/item_rep_view_for_filtering'
 require 'nanoc/core/views/item_rep_view_for_recording'
 require 'nanoc/core/views/item_rep_view_for_rule_processing'
