@@ -211,7 +211,12 @@ module Nanoc
 
     # @see Object#eql?
     def eql?(other)
-      self.to_s == other.to_s
+      case other
+      when Nanoc::Identifier
+        self.components == other.components
+      else
+        self.to_s == other.to_s
+      end
     end
 
     # @see Object#==
@@ -221,7 +226,12 @@ module Nanoc
 
     # @see Object#<=>
     def <=>(other)
-      self.to_s <=> other.to_s
+      case other
+      when Nanoc::Identifier
+        self.components <=> other.components
+      else
+        self.to_s <=> other.to_s
+      end
     end
 
     # @see Object#inspect
