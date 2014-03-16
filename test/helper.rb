@@ -1,8 +1,13 @@
 # encoding: utf-8
 
-# Setup coverage
+# Setup code coverage
+require 'simplecov'
 require 'coveralls'
-Coveralls.wear!
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
+  SimpleCov::Formatter::HTMLFormatter,
+  Coveralls::SimpleCov::Formatter,
+]
+SimpleCov.start
 
 # Load unit testing stuff
 begin

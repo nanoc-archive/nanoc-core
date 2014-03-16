@@ -4,6 +4,7 @@ gemspec
 
 gem 'rubocop'
 gem 'coveralls', :require => false
+gem 'simplecov', :require => false
 
 platforms :rbx do
   gem 'rubysl'

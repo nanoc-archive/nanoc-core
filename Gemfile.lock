@@ -270,5 +270,6 @@ DEPENDENCIES
   rake
   rubocop
   rubysl
+  simplecov
   systemu
   yard
