@@ -339,17 +339,6 @@ module Nanoc
       end
     end
 
-    # Returns a recording proxy that is used for determining whether the
-    # compilation has changed, and thus whether the item rep needs to be
-    # recompiled.
-    #
-    # @api private
-    #
-    # @return [Nanoc::ItemRepViewForRecording] The recording proxy
-    def to_view_for_recording
-      Nanoc::ItemRepViewForRecording.new(self)
-    end
-
     # Returns an object that can be used for uniquely identifying objects.
     #
     # @api private

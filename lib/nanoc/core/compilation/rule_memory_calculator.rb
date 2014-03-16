@@ -44,7 +44,7 @@ module Nanoc
     #
     # @return [Array] The rule memory for the given item representation
     def new_rule_memory_for_rep(rep)
-      view_for_recording = rep.to_view_for_recording
+      view_for_recording = Nanoc::ItemRepViewForRecording.new(rep)
       @rules_collection.compilation_rule_for(rep).apply_to(view_for_recording, @site)
       view_for_recording.rule_memory
     end
