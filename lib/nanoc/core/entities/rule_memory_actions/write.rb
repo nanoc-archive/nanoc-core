@@ -23,17 +23,7 @@ module Nanoc::RuleMemoryActions
     end
 
     def to_s
-      s = "write #{@path.inspect}"
-
-      if @snapshot_name
-        s << ", snapshot: #{@snapshot_name.inspect}"
-      end
-
-      s
-    end
-
-    def inspect
-      "<Nanoc::RuleMemoryActions::Write #{@path.inspect}, snapshot: #{@snapshot_name.inspect}>"
+      "write #{@path.inspect}, snapshot: #{@snapshot_name.inspect}"
     end
 
     def with_snapshot_name(snapshot_name)

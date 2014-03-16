@@ -16,15 +16,7 @@ module Nanoc::RuleMemoryActions
     end
 
     def to_s
-      if @params
-        "filter :#{@filter_name}, #{@params.inspect}"
-      else
-        "filter :#{@filter_name}"
-      end
-    end
-
-    def inspect
-      "<Nanoc::RuleMemoryActions::Filter #{@filter_name.inspect}, #{@params.inspect}>"
+      "filter #{@filter_name.inspect}, #{@params.inspect}"
     end
 
   end

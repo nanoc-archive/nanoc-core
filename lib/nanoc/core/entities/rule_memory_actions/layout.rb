@@ -16,15 +16,7 @@ module Nanoc::RuleMemoryActions
     end
 
     def to_s
-      if @params
-        "layout :#{@layout_name}, #{@params.inspect}"
-      else
-        "layout :#{@layout_name}"
-      end
-    end
-
-    def inspect
-      "<Nanoc::RuleMemoryActions::Layout #{@layout_name.inspect}, #{@params.inspect}>"
+      "layout #{@layout_name.inspect}, #{@params.inspect}"
     end
 
   end

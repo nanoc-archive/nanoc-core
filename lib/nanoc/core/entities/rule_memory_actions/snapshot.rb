@@ -18,30 +18,12 @@ module Nanoc::RuleMemoryActions
       @final         = final
     end
 
-    def path?
-      !@path.nil?
-    end
-
     def serialize
       [ :snapshot, @snapshot_name, { path: @path, final: @final } ]
     end
 
     def to_s
-      s = "snapshot #{@snapshot_name.inspect}"
-
-      if @path
-        s << ", path: #{@path.inspect}"
-      end
-
-      if !@final
-        s << ", final: #{@final.inspect}"
-      end
-
-      s
-    end
-
-    def inspect
-      "<Nanoc::RuleMemoryActions::Snapshot #{@snapshot_name.inspect}, path: #{@path.inspect}, final: #{@final.inspect}>"
+      "snapshot #{@snapshot_name.inspect}, path: #{@path.inspect}, final: #{@final.inspect}"
     end
 
   end

@@ -5,15 +5,15 @@ module Nanoc
   class RuleMemoryAction
 
     def serialize
-      raise NotImplementedError.new('Nanoc::RuleMemoryAction subclasses must implement #serialize, #to_s and #inspect')
+      raise NotImplementedError.new('Nanoc::RuleMemoryAction subclasses must implement #serialize and #to_s')
     end
 
     def to_s
-      raise NotImplementedError.new('Nanoc::RuleMemoryAction subclasses must implement #serialize, #to_s and #inspect')
+      raise NotImplementedError.new('Nanoc::RuleMemoryAction subclasses must implement #serialize and #to_s')
     end
 
     def inspect
-      raise NotImplementedError.new('Nanoc::RuleMemoryAction subclasses must implement #serialize, #to_s and #inspect')
+      "<%s %s>" % [ self.class.to_s, self.serialize[1..-1].map { |e| e.inspect }.join(', ') ]
     end
 
   end
