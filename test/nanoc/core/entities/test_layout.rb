@@ -35,17 +35,4 @@ class Nanoc::LayoutTest < Nanoc::TestCase
     assert_equal(nil, layout.attributes[:filter])
   end
 
-  def test_dump_and_load
-    layout = Nanoc::Layout.new(
-      "foobar",
-      { :a => { :b => 123 }},
-      '/foo')
-
-    layout = Marshal.load(Marshal.dump(layout))
-
-    assert_equal '/foo', layout.identifier.to_s
-    assert_equal 'foobar', layout.content.string
-    assert_equal({ :a => { :b => 123 }}, layout.attributes)
-  end
-
 end

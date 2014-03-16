@@ -53,17 +53,4 @@ class Nanoc::ItemTest < Nanoc::TestCase
     end
   end
 
-  def test_dump_and_load
-    item = Nanoc::Item.new(
-      Nanoc::TextualContent.new('foobar', File.absolute_path('content/blah.md')),
-      { :a => { :b => 123 }},
-      '/foo')
-
-    item = Marshal.load(Marshal.dump(item))
-
-    assert_equal '/foo', item.identifier.to_s
-    assert_equal 'foobar', item.content.string
-    assert_equal({ :a => { :b => 123 }}, item.attributes)
-  end
-
 end

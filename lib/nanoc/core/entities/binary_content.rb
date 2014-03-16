@@ -19,14 +19,6 @@ module Nanoc
       "<#{self.class} filename=\"#{self.filename}\">"
     end
 
-    def marshal_dump
-      [ @string, @filename ]
-    end
-
-    def marshal_load(source)
-      @string, @filename = *source
-    end
-
   end
 
 end
