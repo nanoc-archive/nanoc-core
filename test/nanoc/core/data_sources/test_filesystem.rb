@@ -18,6 +18,20 @@ class Nanoc::DataSources::FilesystemTest < Nanoc::TestCase
     super
   end
 
+  def test_create_item
+    @data_source.create_item("Welcome!\n", { title: "Home" }, '/foo.html')
+
+    expected = "---\ntitle: Home\n---\n\nWelcome!\n"
+    assert_equal File.read('content/foo.html'), expected
+  end
+
+  def test_create_layout
+    @data_source.create_layout("Stuff!\n", { awesome: true }, '/foo.html')
+
+    expected = "---\nawesome: true\n---\n\nStuff!\n"
+    assert_equal File.read('layouts/foo.html'), expected
+  end
+
   def test_all_base_filenames_in
     File.write('index.html',        'x')
     File.write('reviews.html',      'x')
