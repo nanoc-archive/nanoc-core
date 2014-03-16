@@ -46,13 +46,6 @@ module Nanoc
       # @api private
       attr_reader :temporary_filenames
 
-      # @return [Hash<Symbol,String>] A hash containing the content at all
-      #   snapshots. The keys correspond with the snapshot names, and the
-      #   values with the content.
-      #
-      # @api private
-      attr_accessor :content
-
       # Resets the compilation progress for this item representation. This is
       # necessary when an unmet dependency is detected during compilation.
       #
@@ -112,8 +105,7 @@ module Nanoc
       # Set default attributes
       @written_paths = []
       @snapshot_paths = {}
-      @snapshots  = []
-      @content    = { :last => @item.content }
+      @snapshots = []
       initialize_content
 
       # Reset flags

@@ -207,7 +207,9 @@ module Nanoc
 
     def fill_rep_from_cache(rep)
       Nanoc::NotificationCenter.post(:cached_content_used, rep)
-      rep.content = @compiled_content_cache[rep]
+      @compiled_content_cache[rep].each_pair do |snapshot, content|
+        rep.set_stored_content_at_snapshot(snapshot, content)
+      end
     end
 
     def fill_rep_by_recompiling(rep)
@@ -215,7 +217,16 @@ module Nanoc
       rep_view = Nanoc::ItemRepViewForRuleProcessing.new(rep, self)
       rules_collection.compilation_rule_for(rep).apply_to(rep_view, site)
       rep.snapshot(:last)
-      @compiled_content_cache[rep] = rep.content
+
+      @compiled_content_cache[rep] = {}
+      rep.snapshots.each do |snapshot_pair|
+        snapshot_name = snapshot_pair.first
+        begin
+          value = rep.stored_content_at_snapshot(snapshot_name)
+          @compiled_content_cache[rep][snapshot_name] = value
+        rescue => e
+        end
+      end
     end
 
     def prune
