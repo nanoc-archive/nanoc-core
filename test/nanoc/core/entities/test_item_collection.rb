@@ -155,9 +155,7 @@ class Nanoc::ItemCollectionTest < Nanoc::TestCase
     @items.freeze
 
     assert_raises_frozen_error do
-      @items.collect! do |i|
-        Nanoc::Item.new("New #{i.content.string}", {}, "/new#{i.identifier}")
-      end
+      @items.collect! { |i| }
     end
   end
 

@@ -2,6 +2,16 @@
 
 class Nanoc::ItemRepTest < Nanoc::TestCase
 
+  class TextualFilter < ::Nanoc::Filter
+    identifier :text_filter
+    type :text
+  end
+
+  class BinaryFilter < ::Nanoc::Filter
+    identifier :binary_filter
+    type :binary
+  end
+
   def new_item
     item = Nanoc::Item.new(
       Nanoc::TextualContent.new('blah blah blah', File.absolute_path('content/somefile.md')),
@@ -197,9 +207,6 @@ class Nanoc::ItemRepTest < Nanoc::TestCase
     def rep.filter_named(name)
       @filter ||= Class.new(::Nanoc::Filter) do
         type :binary
-        def run(content, params={})
-          File.write(output_filename, content)
-        end
       end
     end
 
@@ -217,7 +224,6 @@ class Nanoc::ItemRepTest < Nanoc::TestCase
     )
     item.stubs(:site).returns(site)
     rep = create_rep_for(item, :foo)
-    create_textual_filter
 
     assert rep.snapshot_binary?(:last)
     assert_raises(Nanoc::Errors::CannotUseTextualFilter) do
@@ -257,7 +263,6 @@ class Nanoc::ItemRepTest < Nanoc::TestCase
     )
     item.stubs(:site).returns(site)
     rep = create_rep_for(item, :foo)
-    create_textual_filter
 
     assert rep.snapshot_binary?(:last)
 
@@ -293,7 +298,6 @@ class Nanoc::ItemRepTest < Nanoc::TestCase
     )
     item.stubs(:site).returns(site)
     rep = create_rep_for(item, :foo)
-    create_binary_filter
 
     assert rep.snapshot_binary?(:last)
     def rep.filter_named(name)
@@ -333,7 +337,6 @@ class Nanoc::ItemRepTest < Nanoc::TestCase
     filter_class = Class.new(::Nanoc::Filter) do
       def run(content, params={})
         content.gsub!('foo', 'moo')
-        content
       end
     end
 
@@ -344,7 +347,6 @@ class Nanoc::ItemRepTest < Nanoc::TestCase
 
     assert_raises_frozen_error do
       rep.filter(:erb, {}, {})
-      rep.filter(:whatever, {}, {})
     end
   end
 
@@ -406,33 +408,6 @@ private
 
   def create_rep_for(item, name)
     Nanoc::ItemRep.new(item, name, :snapshot_store => self.new_snapshot_store, config: Nanoc::Configuration.new({}))
-  end
-
-  def create_textual_filter
-    f = create_filter(:text)
-    f.class_eval do
-      def run(content, params={})
-        ""
-      end
-    end
-    f
-  end
-
-  def create_binary_filter
-    f = create_filter(:binary)
-    f.class_eval do
-      def run(content, params={})
-        File.write(output_filename, content)
-      end
-    end
-    f
-  end
-
-  def create_filter(type)
-    Class.new(Nanoc::Filter).tap do |klass|
-      klass.type       type
-      klass.identifier "#{type}_filter".to_sym
-    end
   end
 
 end
