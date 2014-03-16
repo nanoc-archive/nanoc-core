@@ -147,7 +147,7 @@ module Nanoc
     #
     # @return [void]
     def depend_on(items)
-      unwrapped_items = items.map { |i| i.item }
+      unwrapped_items = items.map { |i| i.resolve }
 
       # Notify
       unwrapped_items.each do |item|
