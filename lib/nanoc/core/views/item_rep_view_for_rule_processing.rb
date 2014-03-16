@@ -13,8 +13,7 @@ module Nanoc
 
     extend Forwardable
 
-    # TODO do not delegate :item (return item view instead)
-    def_delegators :@item_rep, :item, :name, :binary, :binary?, :compiled_content, :has_snapshot?, :path
+    def_delegators :@item_rep, :name, :binary, :binary?, :compiled_content, :has_snapshot?, :path
 
     # @param [Nanoc::ItemRep] item_rep The item representation that this
     #   proxy should behave like
@@ -24,6 +23,11 @@ module Nanoc
     def initialize(item_rep, compiler)
       @item_rep = item_rep
       @compiler = compiler
+    end
+
+    # @return [Nanoc::ItemView] A view for this item rep’s item
+    def item
+      Nanoc::ItemView.new(@item_rep.item, @compiler.item_rep_store)
     end
 
     # Runs the item content through the given filter with the given arguments.
