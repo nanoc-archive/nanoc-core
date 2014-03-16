@@ -10,7 +10,11 @@ module Nanoc
 
     extend Nanoc::Memoization
 
-    # TODO fix documentation
+    # @param [Nanoc::Site] site
+    #
+    # @param [Nanoc::RulesCollection] rules_collection
+    #
+    # @param [Nanoc::RuleMemoryStore] rule_memory_store
     def initialize(site, rules_collection, rule_memory_store)
       @site              = site
       @rules_collection  = rules_collection
