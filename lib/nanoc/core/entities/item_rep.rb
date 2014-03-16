@@ -184,13 +184,20 @@ module Nanoc
       self.snapshot_store.exist?(self.item.identifier, self.name, snapshot_name)
     end
 
-    # Returns the item rep’s path, as used when being linked to. It starts
-    # with a slash and it is relative to the output directory. It does not
-    # include the path to the output directory. It will not include the
-    # filename if the filename is an index filename.
+    # Returns the item rep’s path, as used when being linked to. It starts with
+    # a slash and it is relative to the output directory. It does not include
+    # the path to the output directory.
     #
-    # @option params [Symbol] :snapshot (:last) The snapshot for which the
-    #   path should be returned
+    # By default, index filenames will be stripped off. For example, for an item
+    # rep written to "/foo/index.html", this function will return "/foo/",
+    # unless the `:strip_index` option is false, in which the full filename,
+    # including the "index.html", is returned.
+    #
+    # @option params [Symbol] :snapshot (:last) The snapshot for which the path
+    #   should be returned
+    #
+    # @option params [Symbol] :strip_index (true) True if index filenames should
+    #   be stripped off, false otherwise
     #
     # @return [String] The item rep’s path
     def path(params = {})
