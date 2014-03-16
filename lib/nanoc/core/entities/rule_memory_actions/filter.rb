@@ -16,7 +16,7 @@ module Nanoc::RuleMemoryActions
     end
 
     def serialize
-      [ :filter, @filter_name, @params ].inspect
+      [ :filter, @filter_name, @params ]
     end
 
     def to_s

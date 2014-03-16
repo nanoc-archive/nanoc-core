@@ -16,7 +16,7 @@ module Nanoc::RuleMemoryActions
     end
 
     def serialize
-      [ :layout, @layout_name, @params ].inspect
+      [ :layout, @layout_name, @params ]
     end
 
     def to_s

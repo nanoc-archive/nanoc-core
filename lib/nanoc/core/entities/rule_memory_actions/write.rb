@@ -23,7 +23,7 @@ module Nanoc::RuleMemoryActions
     end
 
     def serialize
-      [ :write, @path, { snapshot: @snapshot_name } ].inspect
+      [ :write, @path, { snapshot: @snapshot_name } ]
     end
 
     def to_s
