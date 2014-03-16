@@ -94,7 +94,6 @@ module Nanoc
 
           # target
           elsif obj.written_paths.any? { |p| !@item_rep_writer.exist?(p) }
-            # FIXME snapshot paths are not tested!
             Nanoc::OutdatednessReasons::NotWritten
 
           # code snippets
