@@ -78,12 +78,18 @@ module Nanoc
       from_snapshots + from_writes
     end
 
+    # @param [Nanoc::ItemRep] rep
+    #
+    # @return [Enumerable] A list of paths
     def write_paths_for(rep)
       new_rule_memory_for_rep(rep).
         select { |s| s.is_a?(Nanoc::RuleMemoryActions::Write) || s.is_a?(Nanoc::RuleMemoryActions::Snapshot) }.
         map    { |s| s.path.to_s }
     end
 
+    # @param [Nanoc::ItemRep] rep
+    #
+    # @return [Hash<Symbol,String>] A map of snapshot names onto paths
     def snapshot_write_paths_for(rep)
       new_rule_memory_for_rep(rep).
         select { |s| s.is_a?(Nanoc::RuleMemoryActions::Write) || s.is_a?(Nanoc::RuleMemoryActions::Snapshot) }.
