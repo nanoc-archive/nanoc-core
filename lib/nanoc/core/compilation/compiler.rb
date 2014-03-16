@@ -166,7 +166,6 @@ module Nanoc
       # Compile
       Nanoc::ItemRepCompilationSelector.new(reps).each do |rep|
         compile_rep(rep)
-        # TODO call store here for incremental compilation support
       end
     end
 
