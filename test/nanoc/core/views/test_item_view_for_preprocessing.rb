@@ -18,6 +18,10 @@ class Nanoc::ItemViewForPreprocessingTest < Nanoc::TestCase
     assert_equal @item_view.identifier, @item.identifier
   end
 
+  def test_binary_eh
+    assert_equal @item_view.binary?, @item.binary?
+  end
+
   def test_get
     assert_equal @item_view[:foo], 123
   end
