@@ -19,9 +19,9 @@ class Nanoc::FilesystemPrunerTest < Nanoc::TestCase
 
   def test_find_compiled_files
     in_site do
-      FileUtils.mkdir_p('output/some/random/directories/here')
-      File.write('output/some/random/file.txt', 'blah')
-      File.write('output/index.html', 'yay')
+      FileUtils.mkdir_p('build/some/random/directories/here')
+      File.write('build/some/random/file.txt', 'blah')
+      File.write('build/index.html', 'yay')
 
       pruner = Nanoc::FilesystemPruner.new(site_here)
       files = pruner.find_compiled_files
@@ -32,23 +32,23 @@ class Nanoc::FilesystemPrunerTest < Nanoc::TestCase
 
   def test_find_present_files_and_dirs
     in_site do
-      FileUtils.mkdir_p('output/some/random/dir')
-      File.write('output/some/random/file.txt', 'blah')
-      File.write('output/index.html', 'yay')
+      FileUtils.mkdir_p('build/some/random/dir')
+      File.write('build/some/random/file.txt', 'blah')
+      File.write('build/index.html', 'yay')
 
       pruner = Nanoc::FilesystemPruner.new(site_here)
       files, dirs = pruner.find_present_files_and_dirs
 
       expected_files = [
-        'output/index.html',
-        'output/some/random/file.txt',
+        'build/index.html',
+        'build/some/random/file.txt',
       ]
 
       expected_dirs = [
-        'output/',
-        'output/some',
-        'output/some/random',
-        'output/some/random/dir',
+        'build/',
+        'build/some',
+        'build/some/random',
+        'build/some/random/dir',
       ]
 
       assert_set_equal files, expected_files
@@ -58,37 +58,37 @@ class Nanoc::FilesystemPrunerTest < Nanoc::TestCase
 
   def test_remove_stray_files_and_dirs
     in_site do
-      FileUtils.mkdir_p('output/some/random/dir')
-      File.write('output/some/random/file.txt', 'blah')
-      File.write('output/index.html', 'yay')
+      FileUtils.mkdir_p('build/some/random/dir')
+      File.write('build/some/random/file.txt', 'blah')
+      File.write('build/index.html', 'yay')
 
-      refute_equal Dir['output/**/*'], []
+      refute_equal Dir['build/**/*'], []
 
       pruner = Nanoc::FilesystemPruner.new(site_here)
       pruner.run
 
-      assert_equal Dir['output/**/*'], []
+      assert_equal Dir['build/**/*'], []
     end
   end
 
   def test_exclude
     in_site do
-      FileUtils.mkdir_p('output/some/random/dir')
-      FileUtils.mkdir_p('output/another/random/dir')
-      File.write('output/some/random/file.txt',    'blah')
-      File.write('output/another/random/file.txt', 'blah')
-      File.write('output/another/some',            'blah')
+      FileUtils.mkdir_p('build/some/random/dir')
+      FileUtils.mkdir_p('build/another/random/dir')
+      File.write('build/some/random/file.txt',    'blah')
+      File.write('build/another/random/file.txt', 'blah')
+      File.write('build/another/some',            'blah')
 
-      assert File.file?('output/some/random/file.txt')
-      assert File.file?('output/another/random/file.txt')
-      assert File.file?('output/another/some')
+      assert File.file?('build/some/random/file.txt')
+      assert File.file?('build/another/random/file.txt')
+      assert File.file?('build/another/some')
 
       pruner = Nanoc::FilesystemPruner.new(site_here, exclude: [ 'some' ])
       pruner.run
 
-      assert File.file?('output/some/random/file.txt')
-      refute File.file?('output/another/random/file.txt')
-      assert File.file?('output/another/some')
+      assert File.file?('build/some/random/file.txt')
+      refute File.file?('build/another/random/file.txt')
+      assert File.file?('build/another/some')
     end
   end
 

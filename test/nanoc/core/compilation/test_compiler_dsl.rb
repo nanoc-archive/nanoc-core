@@ -35,10 +35,10 @@ EOS
       compile_site_here
 
       # Check paths
-      assert File.file?('output/raw.txt')
-      assert File.file?('output/filtered.txt')
-      assert_equal 'A <%= "X" %> B', File.read('output/raw.txt')
-      assert_equal 'A X B',          File.read('output/filtered.txt')
+      assert File.file?('build/raw.txt')
+      assert File.file?('build/filtered.txt')
+      assert_equal 'A <%= "X" %> B', File.read('build/raw.txt')
+      assert_equal 'A X B',          File.read('build/filtered.txt')
     end
   end
 
@@ -73,10 +73,10 @@ EOS
       compiler.run
 
       # Check paths
-      assert File.file?('output/foo.txt')
-      assert File.file?('output/bar.txt')
-      assert_equal 'stuff <%= "goes" %> here', File.read('output/foo.txt')
-      assert_equal 'stuff goes here',          File.read('output/bar.txt')
+      assert File.file?('build/foo.txt')
+      assert File.file?('build/bar.txt')
+      assert_equal 'stuff <%= "goes" %> here', File.read('build/foo.txt')
+      assert_equal 'stuff goes here',          File.read('build/bar.txt')
 
       # Check snapshot
       assert_equal 1, site.items.size

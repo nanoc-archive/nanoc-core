@@ -57,7 +57,7 @@ class Nanoc::OutdatednessCheckerTest < Nanoc::TestCase
     end
 
     # Delete old item
-    FileUtils.rm_rf('foo/output/index.html')
+    FileUtils.rm_rf('foo/build/index.html')
 
     # Check
     in_site(:name => 'foo') do
