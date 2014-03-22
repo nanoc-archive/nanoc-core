@@ -302,14 +302,14 @@ class Nanoc::CompilerTest < Nanoc::TestCase
     end
   end
 
-  def test_prune_do_not_prune_by_default
+  def test_prune_do_prune_by_default
     in_site do
       File.write('content/index.html', 'o hello')
       File.write('output/crap', 'o hello')
 
       compile_site_here
 
-      assert_equal [ 'output/crap', 'output/index.html' ], Dir['output/*'].sort
+      assert_equal [ 'output/index.html' ], Dir['output/*'].sort
     end
   end
 

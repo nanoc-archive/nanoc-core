@@ -27,7 +27,7 @@ module Nanoc
       :data_sources       => [ {} ],
       :index_filenames    => [ 'index.html' ],
       :enable_output_diff => false,
-      :prune              => { :auto_prune => false, :exclude => [ '.git', '.hg', '.svn', 'CVS' ] }
+      :prune              => { :auto_prune => true, :exclude => [ '.git', '.hg', '.svn', 'CVS' ] }
     }
 
     CONFIG_FILENAME = 'nanoc.yaml'
