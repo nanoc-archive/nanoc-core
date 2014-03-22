@@ -10,7 +10,7 @@ class Nanoc::CompilerTest < Nanoc::TestCase
     in_site do
       compile_site_here
 
-      assert Dir['output/*'].empty?
+      assert Dir['build/*'].empty?
     end
   end
 
@@ -20,9 +20,9 @@ class Nanoc::CompilerTest < Nanoc::TestCase
 
       compile_site_here
 
-      assert_equal [ 'output/index.html' ], Dir['output/*']
-      assert File.file?('output/index.html')
-      assert File.read('output/index.html') == 'o hello'
+      assert_equal [ 'build/index.html' ], Dir['build/*']
+      assert File.file?('build/index.html')
+      assert File.read('build/index.html') == 'o hello'
     end
   end
 
@@ -33,11 +33,11 @@ class Nanoc::CompilerTest < Nanoc::TestCase
 
       compile_site_here
 
-      assert Dir['output/*'].size == 2
-      assert File.file?('output/foo/index.html')
-      assert File.file?('output/bar/index.html')
-      assert File.read('output/foo/index.html') == 'o hai'
-      assert File.read('output/bar/index.html') == 'o bai'
+      assert Dir['build/*'].size == 2
+      assert File.file?('build/foo/index.html')
+      assert File.file?('build/bar/index.html')
+      assert File.read('build/foo/index.html') == 'o hai'
+      assert File.read('build/bar/index.html') == 'o bai'
     end
   end
 
@@ -52,11 +52,11 @@ class Nanoc::CompilerTest < Nanoc::TestCase
 
       compile_site_here
 
-      assert Dir['output/*'].size == 2
-      assert File.file?('output/foo/index.html')
-      assert File.file?('output/bar/index.html')
-      assert File.read('output/foo/index.html') == 'manatee!!!'
-      assert File.read('output/bar/index.html') == 'manatee'
+      assert Dir['build/*'].size == 2
+      assert File.file?('build/foo/index.html')
+      assert File.file?('build/bar/index.html')
+      assert File.read('build/foo/index.html') == 'manatee!!!'
+      assert File.read('build/bar/index.html') == 'manatee'
     end
   end
 
@@ -140,7 +140,7 @@ class Nanoc::CompilerTest < Nanoc::TestCase
 
       # Check
       assert_equal '[[[<%= @item.compiled_content(:snapshot => :aaa) %>]]]',
-        File.read('output/index.html')
+        File.read('build/index.html')
     end
   end
 
@@ -169,8 +169,8 @@ class Nanoc::CompilerTest < Nanoc::TestCase
       compile_site_here
 
       # Check
-      assert_equal '[stuff]', File.read('output/a.html')
-      assert_equal 'stuff', File.read('output/z.html')
+      assert_equal '[stuff]', File.read('build/a.html')
+      assert_equal 'stuff', File.read('build/z.html')
     end
   end
 
@@ -195,7 +195,7 @@ class Nanoc::CompilerTest < Nanoc::TestCase
       compile_site_here
 
       # Check
-      assert_equal 'This is 123.', File.read('output/index.html')
+      assert_equal 'This is 123.', File.read('build/index.html')
     end
   end
 
@@ -222,7 +222,7 @@ class Nanoc::CompilerTest < Nanoc::TestCase
       compile_site_here
 
       # Check
-      assert_equal '<h1>A</h1>', File.read('output/index.html')
+      assert_equal '<h1>A</h1>', File.read('build/index.html')
 
       # Create rules
       File.write('Rules', <<-EOS.gsub(/^ {8}/, ''))
@@ -237,7 +237,7 @@ class Nanoc::CompilerTest < Nanoc::TestCase
       compile_site_here
 
       # Check
-      assert_equal '<h1>B</h1>', File.read('output/index.html')
+      assert_equal '<h1>B</h1>', File.read('build/index.html')
     end
   end
 
@@ -264,7 +264,7 @@ class Nanoc::CompilerTest < Nanoc::TestCase
       compile_site_here
 
       # Check
-      assert_equal '@rep.name = default - @item_rep.name = default', File.read('output/index.html')
+      assert_equal '@rep.name = default - @item_rep.name = default', File.read('build/index.html')
     end
   end
 
@@ -283,7 +283,7 @@ class Nanoc::CompilerTest < Nanoc::TestCase
       compile_site_here
 
       assert_equal Set.new(%w( content/blah.dat )), Set.new(Dir['content/*'])
-      assert_equal Set.new(%w( output/blah.dat )), Set.new(Dir['output/*'])
+      assert_equal Set.new(%w( build/blah.dat )), Set.new(Dir['build/*'])
     end
   end
 
@@ -305,11 +305,11 @@ class Nanoc::CompilerTest < Nanoc::TestCase
   def test_prune_do_not_prune_by_default
     in_site do
       File.write('content/index.html', 'o hello')
-      File.write('output/crap', 'o hello')
+      File.write('build/crap', 'o hello')
 
       compile_site_here
 
-      assert_equal [ 'output/crap', 'output/index.html' ], Dir['output/*'].sort
+      assert_equal [ 'build/crap', 'build/index.html' ], Dir['build/*'].sort
     end
   end
 
@@ -317,11 +317,11 @@ class Nanoc::CompilerTest < Nanoc::TestCase
     in_site do
       File.write('nanoc.yaml', "prune:\n  auto_prune: false")
       File.write('content/index.html', 'o hello')
-      File.write('output/crap', 'o hello')
+      File.write('build/crap', 'o hello')
 
       compile_site_here
 
-      assert_equal [ 'output/crap', 'output/index.html' ], Dir['output/*'].sort
+      assert_equal [ 'build/crap', 'build/index.html' ], Dir['build/*'].sort
     end
   end
 
@@ -329,11 +329,11 @@ class Nanoc::CompilerTest < Nanoc::TestCase
     in_site do
       File.write('nanoc.yaml', "prune:\n  auto_prune: true")
       File.write('content/index.html', 'o hello')
-      File.write('output/crap', 'o hello')
+      File.write('build/crap', 'o hello')
 
       compile_site_here
 
-      assert_equal [ 'output/index.html' ], Dir['output/*'].sort
+      assert_equal [ 'build/index.html' ], Dir['build/*'].sort
     end
   end
 
@@ -389,8 +389,8 @@ class Nanoc::CompilerTest < Nanoc::TestCase
 
       compile_site_here
 
-      assert_equal [ 'output/index.html' ], Dir['output/*'].sort
-      assert_match(/My name is What\?!/, File.read('output/index.html'))
+      assert_equal [ 'build/index.html' ], Dir['build/*'].sort
+      assert_match(/My name is What\?!/, File.read('build/index.html'))
     end
   end
 

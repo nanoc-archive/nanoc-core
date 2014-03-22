@@ -83,7 +83,7 @@ EOS
     FileUtils.mkdir_p('content')
     FileUtils.mkdir_p('layouts')
     FileUtils.mkdir_p('lib')
-    FileUtils.mkdir_p('output')
+    FileUtils.mkdir_p('build')
 
     if params[:has_layout]
       File.open('layouts/default.html', 'w') do |io|
