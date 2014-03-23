@@ -23,7 +23,7 @@ module Nanoc
     # that lacks some options, the default value will be taken from
     # `DEFAULT_CONFIG`.
     DEFAULT_CONFIG = {
-      :output_dir         => 'build',
+      :build_dir          => 'build',
       :data_sources       => [ {} ],
       :index_filenames    => [ 'index.html' ],
       :enable_output_diff => false,

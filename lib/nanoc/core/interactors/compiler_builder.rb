@@ -74,7 +74,7 @@ module Nanoc
     def build_item_rep_writer(config)
       # TODO pass options the right way
       # TODO make type customisable (:filesystem)
-      Nanoc::ItemRepWriter.named(:filesystem).new({ :output_dir => config[:output_dir] })
+      Nanoc::ItemRepWriter.named(:filesystem).new({ :build_dir => config[:build_dir] })
     end
 
     def build_rule_memory_calculator(site, rules_collection, rule_memory_store)

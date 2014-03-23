@@ -49,7 +49,7 @@ module Nanoc
       present_files = []
       present_dirs = []
 
-      Find.find(self.site.config[:output_dir] + '/') do |f|
+      Find.find(self.site.config[:build_dir] + '/') do |f|
         present_files << f if File.file?(f)
         present_dirs  << f if File.directory?(f)
       end

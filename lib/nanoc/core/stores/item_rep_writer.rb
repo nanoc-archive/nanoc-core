@@ -58,7 +58,7 @@ module Nanoc
     end
 
     def full_path_for(path)
-      File.join(@config[:output_dir], path)
+      File.join(@config[:build_dir], path)
     end
 
   protected
