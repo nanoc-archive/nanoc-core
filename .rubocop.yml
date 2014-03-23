@@ -91,10 +91,6 @@ HandleExceptions:
 IfUnlessModifier:
   Enabled: false
 
-# Inconsistent AccessModifierIndentation:EnforcedStyle set to `outdent`
-IndentationWidth:
-  Enabled: false
-
 # Other tools exist for checking code quality. This cop is probably good to
 # have, but nanoc 3.x will not get any major refactorings anymore anyway.
 #
