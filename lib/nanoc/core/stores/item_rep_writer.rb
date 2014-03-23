@@ -61,7 +61,7 @@ module Nanoc
       File.join(@config[:build_dir], path)
     end
 
-  protected
+    protected
 
     TMP_TEXT_ITEMS_DIR = 'tmp/text_items'
 

@@ -216,7 +216,7 @@ module Nanoc
       @roots
     end
 
-  private
+    private
 
     # Invalidates cached data. This method should be called when the internal
     # graph representation is changed.

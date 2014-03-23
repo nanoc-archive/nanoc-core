@@ -351,7 +351,7 @@ module Nanoc
       "<#{self.class} name=\"#{name}\" written_paths=#{written_paths.inspect} item.identifier=\"#{item.identifier}\">"
     end
 
-  private
+    private
 
     def initialize_content
       @temporary_filenames = {}

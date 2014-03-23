@@ -60,7 +60,7 @@ module Nanoc
       File.file?(CONFIG_FILENAME)
     end
 
-  protected
+    protected
 
     # Returns the data sources for this site. Will create a new data source if
     # none exists yet.

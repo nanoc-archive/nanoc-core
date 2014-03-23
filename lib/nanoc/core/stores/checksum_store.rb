@@ -38,7 +38,7 @@ module Nanoc
       @checksums = {}
     end
 
-  protected
+    protected
 
     def data
       @checksums

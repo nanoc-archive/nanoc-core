@@ -61,7 +61,7 @@ module Nanoc
       end
     end
 
-  private
+    private
 
     def snapshot_added(name)
       @_snapshot_names ||= Set.new

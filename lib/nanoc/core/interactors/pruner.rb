@@ -90,7 +90,7 @@ module Nanoc
       @exclude.any? { |e| components_for_pathname(pathname).include?(e) }
     end
 
-  protected
+    protected
 
     def delete_file(file)
       if @dry_run

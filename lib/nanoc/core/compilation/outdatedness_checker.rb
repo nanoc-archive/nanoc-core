@@ -61,7 +61,7 @@ module Nanoc
     end
     memoize :outdatedness_reason_for
 
-  protected
+    protected
 
     # Checks whether the given object is outdated and therefore needs to be
     # recompiled. This method does not take dependencies into account; use

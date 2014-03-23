@@ -20,7 +20,7 @@ module Nanoc
       raise NotImplementedError
     end
 
-  protected
+    protected
 
     def validate_filename(filename)
       if filename && !filename.start_with?('/')

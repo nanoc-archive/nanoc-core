@@ -124,7 +124,7 @@ module Nanoc
     def version_mismatch_detected
     end
 
-  private
+    private
 
     def pstore
       @pstore ||= PStore.new(filename)

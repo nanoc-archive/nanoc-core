@@ -400,7 +400,7 @@ class Nanoc::ItemRepTest < Nanoc::TestCase
     assert_equal '/foo/donkey/default.html', item_rep.path(snapshot: :after_layout, strip_index: false)
   end
 
-private
+  private
 
   def create_binary_item
     Nanoc::Item.new(Nanoc::BinaryContent.new('/a/file/name.dat'), {}, '/data.bin')

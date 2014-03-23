@@ -150,7 +150,7 @@ module Nanoc
       @rules_store.rules_collection
     end
 
-  protected
+    protected
 
     # Compiles the given representations.
     #

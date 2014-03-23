@@ -88,7 +88,7 @@ module Nanoc
       @item_rep
     end
 
-  private
+    private
 
     def layouts
       @compiler.site.layouts
