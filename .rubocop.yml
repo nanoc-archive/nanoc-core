@@ -46,6 +46,12 @@ ClassVars:
 
 # ----- DISABLED (opinionated) -----
 
+# Trailing commas make diffs simpler. One might argue that requiring trailing
+# commas is a limitation of the diff mechanism, but that is the one we have and
+# it is not going away.
+TrailingComma:
+  Enabled: false
+
 # Parameters are indented one soft tab instead.
 AlignParameters:
   Enabled: false
