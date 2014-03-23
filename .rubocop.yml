@@ -1,11 +1,3 @@
-# ----- TO ENABLE LATER -----
-# To make merges easier, I’ve decided to enable these at a later point in time.
-
-MultilineBlockChain:
-  Enabled: false
-
-
-
 # ----- DISABLED (hard) -----
 
 # Hash parameters should not have braces, but this cop is unable to distinguish
