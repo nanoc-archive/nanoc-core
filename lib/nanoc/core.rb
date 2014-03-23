@@ -78,6 +78,7 @@ require 'nanoc/core/views/layout_view'
 
 # Load store classes
 require 'nanoc/core/store'
+require 'nanoc/core/atomic_non_loading_store'
 require 'nanoc/core/stores/data_source'
 require 'nanoc/core/stores/snapshot_store'
 require 'nanoc/core/stores/rules_store'
