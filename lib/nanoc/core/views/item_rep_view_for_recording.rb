@@ -18,7 +18,7 @@ module Nanoc
 
     extend Forwardable
 
-    def_delegators :@item_rep, :name, :binary, :binary?, :compiled_content, :has_snapshot?, :path, :assigns, :assigns=
+    def_delegators :@item_rep, :name, :binary, :binary?, :compiled_content, :snapshot?, :path, :assigns, :assigns=
 
     # @return [Nanoc::RuleMemory] The list of recorded actions (“rule memory”)
     attr_reader :rule_memory

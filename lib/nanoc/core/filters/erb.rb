@@ -26,7 +26,7 @@ module Nanoc::Filters
 
       # Get binding
       proc = assigns[:content] ? -> { assigns[:content] } : nil
-      assigns_binding = context.get_binding(&proc)
+      assigns_binding = context._binding(&proc)
 
       # Get result
       safe_level = params[:safe_level]

@@ -145,7 +145,7 @@ module Nanoc
       end
 
       # Require compilation
-      if !self.has_snapshot?(snapshot) || (!self.compiled? && is_moving)
+      if !self.snapshot?(snapshot) || (!self.compiled? && is_moving)
         raise Nanoc::Errors::UnmetDependency.new(self)
       else
         stored_content_at_snapshot(snapshot)
@@ -172,7 +172,7 @@ module Nanoc
     #
     # @return [Boolean] True if content exists for the snapshot with the
     #   given name, false otherwise
-    def has_snapshot?(snapshot_name)
+    def snapshot?(snapshot_name)
       snapshot_store.exist?(item.identifier, name, snapshot_name)
     end
 

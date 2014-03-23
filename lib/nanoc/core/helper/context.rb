@@ -39,7 +39,7 @@ module Nanoc
     # Returns a binding for this instance.
     #
     # @return [Binding] A binding for this instance
-    def get_binding
+    def _binding
       binding
     end
 
