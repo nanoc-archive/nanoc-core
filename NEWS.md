@@ -19,12 +19,15 @@ Removed:
 
 Changed:
 
+* Lots and lots of refactoring and architectural changes
 * The encoding is now determined only from the configuration file, not from the environment
 * The `filesystem_unified` data source is now named `filesystem`
 * The filesystem data source metadata section now start with three dashes, not five
 * Identifiers are now paths that include the extension
 * The Rules DSL now uses globs (as well as regular expressions, like before)
 * Only `nanoc.yaml` can be used as the configuration filename
+* The generated files will be written to build/ by default (configurable using `build_dir` rather than `output_dir`)
+* Pruning now happens by default (opt-out rather than opt-in)
 
 ## 3.7.0 (???)
 
