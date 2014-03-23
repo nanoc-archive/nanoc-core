@@ -103,10 +103,6 @@ DotPosition:
 EmptyLinesAroundBody:
   Enabled: false
 
-# No personal preference over how to format strings.
-FavorSprintf:
-  Enabled: false
-
 # I prefer negated if because unless is hard to parse mentally.
 FavorUnlessOverNegatedIf:
   Enabled: false
