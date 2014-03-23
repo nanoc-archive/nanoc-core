@@ -19,7 +19,7 @@ module Nanoc
     end
 
     def inspect
-      "<#{resolve.class.to_s}* identifier=#{resolve.identifier.to_s.inspect}>"
+      "<#{resolve.class}* identifier=#{resolve.identifier.to_s.inspect}>"
     end
 
     # Requests the attribute with the given key.

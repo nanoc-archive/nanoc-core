@@ -59,7 +59,7 @@ module Nanoc
     #
     # @return [void]
     def apply_to(rep_proxy, site)
-      Nanoc::RuleContext.new(rep: rep_proxy, site: site).instance_eval &@block
+      Nanoc::RuleContext.new(rep: rep_proxy, site: site).instance_eval(&@block)
     end
 
   end

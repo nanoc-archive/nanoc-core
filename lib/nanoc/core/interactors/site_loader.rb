@@ -89,7 +89,7 @@ module Nanoc
 
     def code_snippets
       @_code_snippets ||= begin
-        snippets = Dir['lib/**/*.rb'].sort.map do |filename|
+        Dir['lib/**/*.rb'].sort.map do |filename|
           Nanoc::CodeSnippet.new(
             File.read(filename),
             filename

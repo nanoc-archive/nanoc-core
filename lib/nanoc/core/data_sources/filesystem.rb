@@ -275,7 +275,7 @@ module Nanoc::DataSources
       begin
         data = File.binread(filename)
       rescue => e
-        raise RuntimeError.new("Could not read #{filename}: #{e.inspect}")
+        raise "Could not read #{filename}: #{e.inspect}"
       end
 
       # Re-encode
@@ -293,7 +293,7 @@ module Nanoc::DataSources
     #
     # @api private
     def raise_encoding_error(filename, encoding)
-      raise RuntimeError.new("Could not read #{filename} because the file is not valid #{encoding}.")
+      raise "Could not read #{filename} because the file is not valid #{encoding}."
     end
 
   end

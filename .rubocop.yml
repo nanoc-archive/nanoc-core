@@ -46,6 +46,15 @@ ClassVars:
 
 # ----- DISABLED (opinionated) -----
 
+# Already defined modules and classes can be reused in compact style, but newly
+# introduced modules and classes are always in nested style.
+ClassAndModuleChildren:
+  Enabled: false
+
+# This leads to lines that ridiculously deeply indented far too quickly.
+IndentHash:
+  Enabled: false
+
 # Trailing commas make diffs simpler. One might argue that requiring trailing
 # commas is a limitation of the diff mechanism, but that is the one we have and
 # it is not going away.

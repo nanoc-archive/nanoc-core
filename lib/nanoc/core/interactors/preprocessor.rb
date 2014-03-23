@@ -10,7 +10,8 @@ module Nanoc
     end
 
     def run
-      if proc = @rules_collection.preprocessor
+      proc = @rules_collection.preprocessor
+      if proc
         new_preprocessor_context.instance_eval(&proc)
       end
     end

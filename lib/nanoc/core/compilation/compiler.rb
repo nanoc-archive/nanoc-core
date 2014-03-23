@@ -224,7 +224,7 @@ module Nanoc
         begin
           value = rep.stored_content_at_snapshot(snapshot_name)
           @compiled_content_cache[rep][snapshot_name] = value
-        rescue => e
+        rescue
         end
       end
     end

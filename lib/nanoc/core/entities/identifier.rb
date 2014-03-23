@@ -67,7 +67,7 @@ module Nanoc
       '/' + components.join('/')
     end
 
-    # @param [String] string The string to append
+    # @param [String] other The string to append
     #
     # @return [String] A new string containing the identifier as a string,
     #   followed by the given string
@@ -77,8 +77,8 @@ module Nanoc
     #   identifier = Nanoc::Identifier.coerce('/foo/bar.md')
     #   identifier.without_ext + '-v123.' + identifier.extension
     #   # => '/foo/bar-v123.md'
-    def +(string)
-      to_s + string
+    def +(other)
+      to_s + other
     end
 
     # @!group Creating new instances
