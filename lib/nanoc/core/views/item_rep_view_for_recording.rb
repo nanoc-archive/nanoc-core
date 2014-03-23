@@ -18,7 +18,7 @@ module Nanoc
 
     extend Forwardable
 
-    def_delegators :@item_rep, :item, :name, :binary, :binary?, :compiled_content, :has_snapshot?, :path, :assigns, :assigns=
+    def_delegators :@item_rep, :name, :binary, :binary?, :compiled_content, :has_snapshot?, :path, :assigns, :assigns=
 
     # @return [Nanoc::RuleMemory] The list of recorded actions (“rule memory”)
     attr_reader :rule_memory
@@ -29,6 +29,18 @@ module Nanoc
       @item_rep    = item_rep
 
       @rule_memory = Nanoc::RuleMemory.new(item_rep)
+    end
+
+    # @return [Nanoc::ItemRep] the item rep this view is for
+    #
+    # @api private
+    def resolve
+      @item_rep
+    end
+
+    # @return [Nanoc::ItemView] A view for this item rep’s item
+    def item
+      Nanoc::ItemView.new(@item_rep.item, nil)
     end
 
     # @return [void]

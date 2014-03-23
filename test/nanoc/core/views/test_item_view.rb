@@ -27,6 +27,14 @@ class Nanoc::ItemViewTest < Nanoc::TestCase
     assert_equal expected, @subject.reps.to_set.map { |r| r.resolve }.to_set
   end
 
+  def test_reps_without_store
+    subject = Nanoc::ItemView.new(@item, nil)
+
+    assert_raises(RuntimeError) do
+      subject.reps
+    end
+  end
+
   def test_rep_named
     refute_equal @rep_2, @subject.rep_named(:foo)
     assert_equal @rep_2, @subject.rep_named(:foo).resolve

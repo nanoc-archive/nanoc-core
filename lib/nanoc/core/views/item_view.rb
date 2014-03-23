@@ -21,8 +21,12 @@ module Nanoc
 
     # @return [Enumerable<Nanoc::ItemRepViewForFiltering>] This item’s collection of item reps
     def reps
-      @item_rep_store.reps_for_item(resolve).map do |item_rep|
-        Nanoc::ItemRepViewForFiltering.new(item_rep, @item_rep_store)
+      if @item_rep_store
+        @item_rep_store.reps_for_item(resolve).map do |item_rep|
+          Nanoc::ItemRepViewForFiltering.new(item_rep, @item_rep_store)
+        end
+      else
+        raise "Cannot fetch reps"
       end
     end
     memoize :reps
