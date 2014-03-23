@@ -19,10 +19,10 @@ module Nanoc
 
     def new_preprocessor_context
       Nanoc::Context.new({
-        :site    => @site,
-        :config  => @site.config,
-        :items   => Nanoc::ItemCollection.new.tap { |a| @site.items.each { |i| a << Nanoc::ItemViewForPreprocessing.new(i) }},
-        :layouts => @site.layouts
+        site:    @site,
+        config:  @site.config,
+        items:   Nanoc::ItemCollection.new.tap { |a| @site.items.each { |i| a << Nanoc::ItemViewForPreprocessing.new(i) } },
+        layouts: @site.layouts,
       })
     end
 

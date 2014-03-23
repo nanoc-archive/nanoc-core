@@ -52,7 +52,7 @@ module Nanoc::ArrayExtensions
   #
   # @api private
   def checksum
-    elements = self.map { |e| e.respond_to?(:checksum) ? e.checksum : e }
+    elements = map { |e| e.respond_to?(:checksum) ? e.checksum : e }
     "array[#{elements.join(',')}]".checksum
   end
 

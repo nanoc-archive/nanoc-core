@@ -5,7 +5,7 @@ class Nanoc::SiteTest < Nanoc::TestCase
   def test_freeze
     site = Nanoc::Site.new(
       config:        Nanoc::Configuration.new({ foo: 123 }),
-      code_snippets: [ Nanoc::CodeSnippet.new("$stuff = :cool", 'blah.rb') ],
+      code_snippets: [ Nanoc::CodeSnippet.new('$stuff = :cool', 'blah.rb') ],
       data_sources:  [],
       items:         [ Nanoc::Item.new('foo', {}, '/foo.txt') ],
       layouts:       [ Nanoc::Layout.new('foo', {}, '/foo.txt') ],
@@ -52,7 +52,7 @@ class Nanoc::SiteTest < Nanoc::TestCase
       # Update configuration
       File.open('nanoc.yaml', 'w') do |io|
         io.write "data_sources:\n"
-        io.write "  - type: site_test_foo"
+        io.write '  - type: site_test_foo'
       end
 
       # Create site

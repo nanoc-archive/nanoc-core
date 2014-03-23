@@ -19,7 +19,7 @@ class Nanoc::DataSources::FilesystemTest < Nanoc::TestCase
   end
 
   def test_create_item
-    @data_source.create_item("Welcome!\n", { title: "Home" }, '/foo.html')
+    @data_source.create_item("Welcome!\n", { title: 'Home' }, '/foo.html')
 
     expected = "---\ntitle: Home\n---\n\nWelcome!\n"
     assert_equal File.read('content/foo.html'), expected
@@ -72,7 +72,7 @@ class Nanoc::DataSources::FilesystemTest < Nanoc::TestCase
       @data_source.send(:content_and_attributes_for_file, filename)
 
     expected_content, expected_attributes =
-      "Hello!", { "foo" => 123 }
+      'Hello!', { 'foo' => 123 }
 
     assert_equal expected_content, actual_content.string
     assert_equal expected_attributes, actual_attributes
@@ -80,7 +80,7 @@ class Nanoc::DataSources::FilesystemTest < Nanoc::TestCase
 
   def test_content_and_attributes_for_file_without_metadata
     filename = 'foo.txt'
-    data = "stuff and stuff"
+    data = 'stuff and stuff'
     File.write(filename, data)
 
     actual_content, actual_attributes =

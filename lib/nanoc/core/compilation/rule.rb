@@ -47,7 +47,7 @@ module Nanoc
     # @return [Boolean] true if this rule can be applied to the given item
     #   rep, false otherwise
     def applicable_to?(item)
-      self.pattern.match?(item.identifier)
+      pattern.match?(item.identifier)
     end
 
     # Applies this rule to the given item rep.

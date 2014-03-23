@@ -46,14 +46,14 @@ module Nanoc
     # @return [void]
     #
     # @see Nanoc::ItemRepViewForRuleProcessing#filter, Nanoc::ItemRep#filter
-    def filter(name, args={})
+    def filter(name, args = {})
       @rule_memory.add_filter(name, args)
     end
 
     # @return [void]
     #
     # @see Nanoc::ItemRepViewForRuleProcessing#layout, Nanoc::ItemRep#layout
-    def layout(layout_identifier, extra_filter_args=nil)
+    def layout(layout_identifier, extra_filter_args = nil)
       @rule_memory.add_layout(layout_identifier, extra_filter_args)
     end
 

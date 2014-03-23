@@ -46,7 +46,7 @@ module Nanoc
     #   filter's #run method
     #
     # @return [void]
-    def filter(name, args={})
+    def filter(name, args = {})
       assigns = @compiler.assigns_for(@item_rep)
       @item_rep.filter(name, args, assigns)
     end
@@ -63,7 +63,7 @@ module Nanoc
     # @param [String] layout_identifier The identifier of the layout to use
     #
     # @return [void]
-    def layout(layout_identifier, extra_filter_args={})
+    def layout(layout_identifier, extra_filter_args = {})
       layout = layout_with_identifier(layout_identifier)
       filter_name, filter_args = @compiler.rules_collection.filter_for_layout(layout)
       filter_args = filter_args.merge(extra_filter_args)
@@ -72,15 +72,15 @@ module Nanoc
       @item_rep.layout(layout, filter_name, filter_args, assigns)
     end
 
-    def write(path, params={})
+    def write(path, params = {})
       @compiler.write_rep(@item_rep, path)
 
-      if params.has_key?(:snapshot)
+      if params.key?(:snapshot)
         @item_rep.snapshot(params[:snapshot], path: path)
       end
     end
 
-    def snapshot(snapshot, params={})
+    def snapshot(snapshot, params = {})
       @item_rep.snapshot(snapshot, params)
     end
 

@@ -16,7 +16,7 @@ module Nanoc
     end
 
     def inspect
-      "<#{self.class} filename=\"#{self.filename}\">"
+      "<#{self.class} filename=\"#{filename}\">"
     end
 
   end

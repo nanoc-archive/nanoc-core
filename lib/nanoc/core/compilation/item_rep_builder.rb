@@ -25,7 +25,7 @@ module Nanoc
         # Create reps
         rep_names = matching_rules.map { |r| r.rep_name }.uniq
         rep_names.each do |rep_name|
-          rep = ItemRep.new(item, rep_name, :snapshot_store => @snapshot_store, :config => @config)
+          rep = ItemRep.new(item, rep_name, snapshot_store: @snapshot_store, config: @config)
 
           @rule_memory_calculator.new_rule_memory_for_rep(rep)
 

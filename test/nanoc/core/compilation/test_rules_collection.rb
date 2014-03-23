@@ -10,13 +10,13 @@ class Nanoc::RulesCollectionTest < Nanoc::TestCase
     # Create rules
     rules = Nanoc::RulesCollection.new
     dsl = Nanoc::CompilerDSL.new(rules)
-    dsl.compile '/wrong' do ; end
-    dsl.compile '/almost',  :rep => :left  do ; end
-    dsl.compile '/correct', :rep => :right do ; end
+    dsl.compile('/wrong') {}
+    dsl.compile('/almost',  rep: :left) {}
+    dsl.compile('/correct', rep: :right) {}
 
     # Mock items and reps
     item = Nanoc::Item.new('stuff', {}, '/correct')
-    rep = Nanoc::ItemRep.new(item, :right, :snapshot_store => self.new_snapshot_store, config: Nanoc::Configuration.new({}))
+    rep = Nanoc::ItemRep.new(item, :right, snapshot_store: new_snapshot_store, config: Nanoc::Configuration.new({}))
 
     # Test
     assert_equal rules.item_compilation_rules[2], rules.compilation_rule_for(rep)
@@ -26,13 +26,13 @@ class Nanoc::RulesCollectionTest < Nanoc::TestCase
     # Create rules
     rules = Nanoc::RulesCollection.new
     dsl = Nanoc::CompilerDSL.new(rules)
-    dsl.layout '/blah', :erb, { :foo => 'bar' }
+    dsl.layout '/blah', :erb, { foo: 'bar' }
 
     # Mock layout
     layout = Nanoc::Layout.new('stuff', {}, '/blah')
 
     # Test
-    assert_equal([ :erb, { :foo => 'bar' } ], rules.filter_for_layout(layout))
+    assert_equal([ :erb, { foo: 'bar' } ], rules.filter_for_layout(layout))
   end
 
   def test_filter_for_layout_with_nonexistant_layout
@@ -52,10 +52,10 @@ class Nanoc::RulesCollectionTest < Nanoc::TestCase
     # Create rules
     rules = Nanoc::RulesCollection.new
     dsl = Nanoc::CompilerDSL.new(rules)
-    dsl.layout '/a/b/c/**/*', :erb, { :char => 'd' }
-    dsl.layout '/a/**/*',     :erb, { :char => 'b' }
-    dsl.layout '/a/b/**/*',   :erb, { :char => 'c' } # never used!
-    dsl.layout '/**/*',       :erb, { :char => 'a' }
+    dsl.layout '/a/b/c/**/*', :erb, { char: 'd' }
+    dsl.layout '/a/**/*',     :erb, { char: 'b' }
+    dsl.layout '/a/b/**/*',   :erb, { char: 'c' } # never used!
+    dsl.layout '/**/*',       :erb, { char: 'a' }
 
     # Mock layouts
     layouts = [

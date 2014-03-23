@@ -20,14 +20,14 @@ module Nanoc
     # @see ::Nanoc::RulesStore#load_rules
     def load_rules
       # Get rule data
-      if !File.file?(self.rules_filename)
+      if !File.file?(rules_filename)
         raise Nanoc::Errors::NoRulesFileFound.new
       end
-      @rule_data = File.read(self.rules_filename)
+      @rule_data = File.read(rules_filename)
 
       # Load DSL
-      dsl = Nanoc::CompilerDSL.new(self.rules_collection)
-      dsl.instance_eval(@rule_data, "./#{self.rules_filename}")
+      dsl = Nanoc::CompilerDSL.new(rules_collection)
+      dsl.instance_eval(@rule_data, "./#{rules_filename}")
     end
 
   end

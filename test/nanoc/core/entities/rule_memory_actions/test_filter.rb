@@ -12,12 +12,12 @@ class Nanoc::RuleMemoryActions::FilterTest < Nanoc::TestCase
   end
 
   def test_to_s
-    expected = "filter :foo, {:awesome=>true}"
+    expected = 'filter :foo, {:awesome=>true}'
     assert_equal action.to_s, expected
   end
 
   def test_inspect
-    expected = "<Nanoc::RuleMemoryActions::Filter :foo, {:awesome=>true}>"
+    expected = '<Nanoc::RuleMemoryActions::Filter :foo, {:awesome=>true}>'
     assert_equal action.inspect, expected
   end
 

@@ -4,7 +4,7 @@ describe 'Array#symbolize_keys_recursively' do
 
   it 'should convert keys to symbols' do
     array_old = [ :abc, 'xyz', { 'foo' => 'bar', :baz => :qux } ]
-    array_new = [ :abc, 'xyz', { :foo  => 'bar', :baz => :qux } ]
+    array_new = [ :abc, 'xyz', { foo: 'bar', baz: :qux } ]
     array_old.symbolize_keys_recursively.must_equal array_new
   end
 

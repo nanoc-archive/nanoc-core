@@ -24,7 +24,7 @@ module Nanoc
       end
 
       def map!(&block)
-        @items.collect!(&block)
+        @items.map!(&block)
       end
       alias_method :collect!, :map!
 
@@ -93,7 +93,7 @@ module Nanoc
         item_with_identifier(s) || glob_single(s)
       else
         raise Nanoc::Errors::Generic,
-          "Can only call ItemCollection#[] with string or identifier"
+          'Can only call ItemCollection#[] with string or identifier'
       end
     end
     alias_method :slice, :[]

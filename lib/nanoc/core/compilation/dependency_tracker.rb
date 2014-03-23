@@ -74,7 +74,7 @@ module Nanoc
     def stop
       # Sanity check
       if !@stack.empty?
-        raise "Internal inconsistency: dependency tracker stack not empty at end of compilation"
+        raise 'Internal inconsistency: dependency tracker stack not empty at end of compilation'
       end
 
       # Unregister
@@ -168,8 +168,8 @@ module Nanoc
 
     def data
       {
-        :edges    => @graph.edges,
-        :vertices => @graph.vertices.map { |obj| obj && obj.reference }
+        edges:    @graph.edges,
+        vertices: @graph.vertices.map { |obj| obj && obj.reference },
       }
     end
 

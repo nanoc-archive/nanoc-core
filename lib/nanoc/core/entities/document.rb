@@ -50,7 +50,7 @@ module Nanoc
     end
 
     def binary?
-      self.content.binary?
+      content.binary?
     end
 
     # @return [Symbol] the type of this object as a symbol (`:item`, `:layout`, ...)
@@ -68,7 +68,7 @@ module Nanoc
     #
     # @return [Object] An unique reference to this object
     def reference
-      [ type, self.identifier ]
+      [ type, identifier ]
     end
 
     # @return [String] The checksum for this object. If its contents change,
@@ -88,17 +88,17 @@ module Nanoc
 
     # @see Object#inspect
     def inspect
-      "<#{self.class} identifier=#{self.identifier.inspect}>"
+      "<#{self.class} identifier=#{identifier.inspect}>"
     end
 
     # @see Object#hash
     def hash
-      self.class.hash ^ self.identifier.hash
+      self.class.hash ^ identifier.hash
     end
 
     # @see Object#eql?
     def eql?(other)
-      self.class == other.class && self.identifier == other.identifier
+      self.class == other.class && identifier == other.identifier
     end
 
     # @see Object#==

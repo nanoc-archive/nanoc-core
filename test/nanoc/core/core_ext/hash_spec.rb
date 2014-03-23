@@ -4,7 +4,7 @@ describe 'Hash#symbolize_keys_recursively' do
 
   it 'should convert keys to symbols' do
     hash_old = { 'foo' => 'bar' }
-    hash_new = { :foo  => 'bar' }
+    hash_new = { foo: 'bar' }
     hash_old.symbolize_keys_recursively.must_equal hash_new
   end
 
@@ -25,7 +25,7 @@ describe 'Hash#stringify_keys_recursively' do
   end
 
   it 'should convert symbols to strings' do
-    hash_old = { :foo  => 'bar' }
+    hash_old = { foo: 'bar' }
     hash_new = { 'foo' => 'bar' }
     hash_old.stringify_keys_recursively.must_equal hash_new
   end
@@ -49,7 +49,7 @@ describe 'Hash#freeze_recursively' do
   include Nanoc::TestHelpers
 
   it 'should prevent first-level elements from being modified' do
-    hash = { :a => { :b => :c } }
+    hash = { a: { b: :c } }
     hash.freeze_recursively
 
     assert_raises_frozen_error do
@@ -58,7 +58,7 @@ describe 'Hash#freeze_recursively' do
   end
 
   it 'should prevent second-level elements from being modified' do
-    hash = { :a => { :b => :c } }
+    hash = { a: { b: :c } }
     hash.freeze_recursively
 
     assert_raises_frozen_error do
@@ -83,12 +83,12 @@ describe 'Hash#checksum' do
 
   it 'should work' do
     expectation = '3812512ff54e552be485987c7fec2c96d2d83a7c'
-    { :foo => 123 }.checksum.must_equal expectation
+    { foo: 123 }.checksum.must_equal expectation
   end
 
   it 'should sort keys' do
-    a = { :a => 1, :c => 2, :b => 3 }.checksum
-    b = { :a => 1, :b => 3, :c => 2 }.checksum
+    a = { a: 1, c: 2, b: 3 }.checksum
+    b = { a: 1, b: 3, c: 2 }.checksum
     a.must_equal b
   end
 

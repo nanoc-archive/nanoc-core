@@ -34,7 +34,7 @@ module Nanoc
 
     # @see Hash#freeze_recursively
     def freeze_recursively
-      self.freeze
+      freeze
       @hash.freeze_recursively
     end
 

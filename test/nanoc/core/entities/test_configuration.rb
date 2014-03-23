@@ -3,7 +3,7 @@
 class Nanoc::ConfigurationTest < Nanoc::TestCase
 
   def new_configuration
-    Nanoc::Configuration.new({a: 123})
+    Nanoc::Configuration.new({ a: 123 })
   end
 
   def test_get

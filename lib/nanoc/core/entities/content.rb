@@ -7,7 +7,7 @@ module Nanoc
     attr_reader :filename
 
     def initialize(filename)
-      self.validate_filename(filename)
+      validate_filename(filename)
 
       @filename = filename
     end

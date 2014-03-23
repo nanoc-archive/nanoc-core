@@ -3,7 +3,7 @@
 class Nanoc::ItemTest < Nanoc::TestCase
 
   def test_initialize_with_attributes_with_string_keys
-    item = Nanoc::Item.new("foo", { 'abc' => 'xyz' }, '/foo.md')
+    item = Nanoc::Item.new('foo', { 'abc' => 'xyz' }, '/foo.md')
 
     assert_equal nil,   item.attributes['abc']
     assert_equal 'xyz', item.attributes[:abc]
@@ -18,7 +18,7 @@ class Nanoc::ItemTest < Nanoc::TestCase
   end
 
   def test_frozen_identifier
-    item = Nanoc::Item.new("foo", {}, '/foo')
+    item = Nanoc::Item.new('foo', {}, '/foo')
 
     assert_raises_frozen_error do
       item.identifier.components << 'blah'
@@ -32,8 +32,8 @@ class Nanoc::ItemTest < Nanoc::TestCase
   def test_lookup
     # Create item
     item = Nanoc::Item.new(
-      "content",
-      { :one => 'one in item' },
+      'content',
+      { one: 'one in item' },
       '/path.md'
     )
 
@@ -45,7 +45,7 @@ class Nanoc::ItemTest < Nanoc::TestCase
   end
 
   def test_freeze_should_disallow_changes
-    item = Nanoc::Item.new("foo", { :a => { :b => 123 }}, '/foo')
+    item = Nanoc::Item.new('foo', { a: { b: 123 } }, '/foo')
     item.freeze
 
     assert_raises_frozen_error do

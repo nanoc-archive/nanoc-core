@@ -21,7 +21,7 @@ class NanocRegisterFilterHandler < ::YARD::Handlers::Ruby::AttributeHandler
 
   def process
     target = statement.jump(:const_path_ref)
-    return if target != s(:const_path_ref, s(:var_ref, s(:const, "Nanoc")), s(:const, "Filter"))
+    return if target != s(:const_path_ref, s(:var_ref, s(:const, 'Nanoc')), s(:const, 'Filter'))
 
     class_name = statement.jump(:string_literal).jump(:tstring_content)[0]
     identifier = statement.jump(:symbol_literal).jump(:ident)[0]

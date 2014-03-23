@@ -8,12 +8,20 @@ class Nanoc::ItemViewTest < Nanoc::TestCase
     @snapshot_store = Nanoc::SnapshotStore::InMemory.new
     @content = Nanoc::TextualContent.new('blah blah blah', File.absolute_path('content/somefile.md'))
     @item = Nanoc::Item.new(@content, {}, '/index.md')
-    @rep_1 = Nanoc::ItemRep.new(@item, :default, :snapshot_store => @snapshot_store, config: Nanoc::Configuration.new({}))
-    @rep_2 = Nanoc::ItemRep.new(@item, :foo,     :snapshot_store => @snapshot_store, config: Nanoc::Configuration.new({}))
-    def @rep_1.compiled_content(params={}) ; "default content at #{params[:snapshot].inspect}" ; end
-    def @rep_2.compiled_content(params={}) ; "foo content at #{params[:snapshot].inspect}" ; end
-    def @rep_1.path(params={}) ; "default path at #{params[:snapshot].inspect}" ; end
-    def @rep_2.path(params={}) ; "foo path at #{params[:snapshot].inspect}" ; end
+    @rep_1 = Nanoc::ItemRep.new(@item, :default, snapshot_store: @snapshot_store, config: Nanoc::Configuration.new({}))
+    @rep_2 = Nanoc::ItemRep.new(@item, :foo,     snapshot_store: @snapshot_store, config: Nanoc::Configuration.new({}))
+    def @rep_1.compiled_content(params = {})
+      "default content at #{params[:snapshot].inspect}"
+    end
+    def @rep_2.compiled_content(params = {})
+      "foo content at #{params[:snapshot].inspect}"
+    end
+    def @rep_1.path(params = {})
+      "default path at #{params[:snapshot].inspect}"
+    end
+    def @rep_2.path(params = {})
+      "foo path at #{params[:snapshot].inspect}"
+    end
     @item_rep_store = Nanoc::ItemRepStore.new([ @rep_1, @rep_2 ])
     @subject = Nanoc::ItemView.new(@item, @item_rep_store)
   end
@@ -45,16 +53,16 @@ class Nanoc::ItemViewTest < Nanoc::TestCase
   end
 
   def test_compiled_content_with_custom_rep_and_default_snapshot
-    assert_equal 'foo content at nil', @subject.compiled_content(:rep => :foo)
+    assert_equal 'foo content at nil', @subject.compiled_content(rep: :foo)
   end
 
   def test_compiled_content_with_default_rep_and_custom_snapshot
-    assert_equal 'default content at :blah', @subject.compiled_content(:snapshot => :blah)
+    assert_equal 'default content at :blah', @subject.compiled_content(snapshot: :blah)
   end
 
   def test_compiled_content_with_custom_nonexistant_rep
     assert_raises(Nanoc::Errors::Generic) do
-      @subject.compiled_content(:rep => :lkasdhflahgwfe)
+      @subject.compiled_content(rep: :lkasdhflahgwfe)
     end
   end
 
@@ -63,12 +71,12 @@ class Nanoc::ItemViewTest < Nanoc::TestCase
   end
 
   def test_path_with_custom_rep
-    assert_equal 'foo path at nil', @subject.path(:rep => :foo)
+    assert_equal 'foo path at nil', @subject.path(rep: :foo)
   end
 
   def test_path_with_custom_nonexistant_rep
     assert_raises(Nanoc::Errors::Generic) do
-      assert_equal 'foo path at nil', @subject.path(:rep => :sdfklgh)
+      assert_equal 'foo path at nil', @subject.path(rep: :sdfklgh)
     end
   end
 
@@ -77,7 +85,7 @@ class Nanoc::ItemViewTest < Nanoc::TestCase
   end
 
   def test_path_with_custom_snapshot
-    assert_equal 'default path at :blargh', @subject.path(:snapshot => :blargh)
+    assert_equal 'default path at :blargh', @subject.path(snapshot: :blargh)
   end
 
   def test_binary

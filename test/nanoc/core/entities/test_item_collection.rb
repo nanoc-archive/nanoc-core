@@ -140,22 +140,22 @@ class Nanoc::ItemCollectionTest < Nanoc::TestCase
   end
 
   def test_collect_bang
-    @items.collect! do |i|
+    @items.map! do |i|
       Nanoc::Item.new("New #{i.content.string}", {}, "/new#{i.identifier}")
     end
 
     assert_nil @items['/one.md']
     assert_nil @items['/two.css']
 
-    assert_equal "New Item One", @items['/new/one.md'].content.string
-    assert_equal "New Item Two", @items['/new/two.css'].content.string
+    assert_equal 'New Item One', @items['/new/one.md'].content.string
+    assert_equal 'New Item Two', @items['/new/two.css'].content.string
   end
 
   def test_collect_bang_frozen
     @items.freeze
 
     assert_raises_frozen_error do
-      @items.collect! { |i| }
+      @items.map! { |i| }
     end
   end
 

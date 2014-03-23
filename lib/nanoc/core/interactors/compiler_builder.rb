@@ -8,17 +8,17 @@ module Nanoc
   class CompilerBuilder
 
     def build(site)
-      dependency_tracker     = self.build_dependency_tracker(site)
-      rules_store            = self.build_rules_store(site.config)
-      checksum_store         = self.build_checksum_store
-      compiled_content_cache = self.build_compiled_content_cache
-      rule_memory_store      = self.build_rule_memory_store(site)
-      snapshot_store         = self.build_snapshot_store(site.config)
-      item_rep_writer        = self.build_item_rep_writer(site.config)
-      rule_memory_calculator = self.build_rule_memory_calculator(site, rules_store.rules_collection, rule_memory_store)
-      item_rep_store         = self.build_item_rep_store(site.items, rules_store.rules_collection, rule_memory_calculator, snapshot_store, site.config)
-      outdatedness_checker   = self.build_outdatedness_checker(site, checksum_store, dependency_tracker, item_rep_writer, item_rep_store, rule_memory_calculator)
-      preprocessor           = self.build_preprocessor(site, rules_store.rules_collection)
+      dependency_tracker     = build_dependency_tracker(site)
+      rules_store            = build_rules_store(site.config)
+      checksum_store         = build_checksum_store
+      compiled_content_cache = build_compiled_content_cache
+      rule_memory_store      = build_rule_memory_store(site)
+      snapshot_store         = build_snapshot_store(site.config)
+      item_rep_writer        = build_item_rep_writer(site.config)
+      rule_memory_calculator = build_rule_memory_calculator(site, rules_store.rules_collection, rule_memory_store)
+      item_rep_store         = build_item_rep_store(site.items, rules_store.rules_collection, rule_memory_calculator, snapshot_store, site.config)
+      outdatedness_checker   = build_outdatedness_checker(site, checksum_store, dependency_tracker, item_rep_writer, item_rep_store, rule_memory_calculator)
+      preprocessor           = build_preprocessor(site, rules_store.rules_collection)
 
       Nanoc::Compiler.new(
         site,
@@ -74,7 +74,7 @@ module Nanoc
     def build_item_rep_writer(config)
       # TODO pass options the right way
       # TODO make type customisable (:filesystem)
-      Nanoc::ItemRepWriter.named(:filesystem).new({ :build_dir => config[:build_dir] })
+      Nanoc::ItemRepWriter.named(:filesystem).new({ build_dir: config[:build_dir] })
     end
 
     def build_rule_memory_calculator(site, rules_collection, rule_memory_store)
@@ -87,13 +87,14 @@ module Nanoc
     end
 
     def build_outdatedness_checker(site, checksum_store, dependency_tracker, item_rep_writer, item_rep_store, rule_memory_calculator)
-      Nanoc::OutdatednessChecker.new(
-        :site                   => site,
-        :checksum_store         => checksum_store,
-        :dependency_tracker     => dependency_tracker,
-        :item_rep_writer        => item_rep_writer,
-        :item_rep_store         => item_rep_store,
-        :rule_memory_calculator => rule_memory_calculator)
+      Nanoc::OutdatednessChecker.new({
+        site:                   site,
+        checksum_store:         checksum_store,
+        dependency_tracker:     dependency_tracker,
+        item_rep_writer:        item_rep_writer,
+        item_rep_store:         item_rep_store,
+        rule_memory_calculator: rule_memory_calculator,
+      })
     end
 
     def build_preprocessor(site, rules_collection)

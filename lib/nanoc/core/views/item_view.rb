@@ -26,7 +26,7 @@ module Nanoc
           Nanoc::ItemRepViewForFiltering.new(item_rep, @item_rep_store)
         end
       else
-        raise "Cannot fetch reps"
+        raise 'Cannot fetch reps'
       end
     end
     memoize :reps
@@ -35,7 +35,7 @@ module Nanoc
     #
     # @return [Nanoc::ItemRepViewForFiltering] The representation with the given name
     def rep_named(rep_name)
-      self.reps.find { |r| r.name == rep_name }
+      reps.find { |r| r.name == rep_name }
     end
 
     # Returns the compiled content from a given representation and a given
@@ -56,7 +56,7 @@ module Nanoc
     #   snapshot if no snapshot is specified)
     #
     # @see ItemRep#compiled_content
-    def compiled_content(params={})
+    def compiled_content(params = {})
       rep_for_params!(params).compiled_content(params)
     end
 
@@ -69,15 +69,15 @@ module Nanoc
     #
     # @return [String] The path of the given rep ( or the default rep if no
     #   rep is specified)
-    def path(params={})
+    def path(params = {})
       rep_for_params!(params).path(params)
     end
 
     # TODO document
-    def rep_for_params!(params={})
+    def rep_for_params!(params = {})
       rep_name = params.fetch(:rep, :default)
 
-      rep = self.reps.find { |r| r.name == rep_name }
+      rep = reps.find { |r| r.name == rep_name }
       if rep.nil?
         raise Nanoc::Errors::Generic,
           "No rep named #{rep_name.inspect} was found."
@@ -87,7 +87,9 @@ module Nanoc
     end
 
     # TODO remove me (used in capturing helper)
-    def forced_outdated=(bool) ; resolve.forced_outdated = bool ; end
+    def forced_outdated=(bool)
+      resolve.forced_outdated = bool
+    end
 
   end
 

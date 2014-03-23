@@ -38,7 +38,7 @@ module Nanoc
     #
     # @return [void]
     def write(rep, path)
-      raw_path = self.full_path_for(path)
+      raw_path = full_path_for(path)
 
       temp_path = write_to_temp(rep)
 
@@ -54,7 +54,7 @@ module Nanoc
     end
 
     def exist?(path)
-      File.exist?(self.full_path_for(path))
+      File.exist?(full_path_for(path))
     end
 
     def full_path_for(path)
@@ -69,7 +69,7 @@ module Nanoc
       if rep.snapshot_binary?(:last)
         temp_path = rep.temporary_filenames[:last]
       else
-        temp_path = self.temp_filename
+        temp_path = temp_filename
         File.open(temp_path, 'w') do |io|
           io.write(rep.stored_content_at_snapshot(:last))
         end

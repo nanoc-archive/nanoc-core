@@ -4,7 +4,7 @@ class Nanoc::Filters::ERBTest < Nanoc::TestCase
 
   def test_filter_with_instance_variable
     # Create filter
-    filter = ::Nanoc::Filters::ERB.new({ :location => 'a cheap motel' })
+    filter = ::Nanoc::Filters::ERB.new({ location: 'a cheap motel' })
 
     # Run filter
     result = filter.run('<%= "I was hiding in #{@location}." %>')
@@ -13,7 +13,7 @@ class Nanoc::Filters::ERBTest < Nanoc::TestCase
 
   def test_filter_with_instance_method
     # Create filter
-    filter = ::Nanoc::Filters::ERB.new({ :location => 'a cheap motel' })
+    filter = ::Nanoc::Filters::ERB.new({ location: 'a cheap motel' })
 
     # Run filter
     result = filter.run('<%= "I was hiding in #{location}." %>')
@@ -29,9 +29,9 @@ class Nanoc::Filters::ERBTest < Nanoc::TestCase
 
     # Create filter
     filter = ::Nanoc::Filters::ERB.new({
-      :item     => item,
-      :item_rep => item_rep,
-      :location => 'a cheap motel'
+      item: item,
+      item_rep: item_rep,
+      location: 'a cheap motel',
     })
 
     # Run filter
@@ -47,7 +47,7 @@ class Nanoc::Filters::ERBTest < Nanoc::TestCase
 
   def test_filter_with_yield
     # Create filter
-    filter = ::Nanoc::Filters::ERB.new({ :content => 'a cheap motel' })
+    filter = ::Nanoc::Filters::ERB.new({ content: 'a cheap motel' })
 
     # Run filter
     result = filter.run('<%= "I was hiding in #{yield}." %>')
@@ -56,7 +56,7 @@ class Nanoc::Filters::ERBTest < Nanoc::TestCase
 
   def test_filter_with_yield_without_content
     # Create filter
-    filter = ::Nanoc::Filters::ERB.new({ :location => 'a cheap motel' })
+    filter = ::Nanoc::Filters::ERB.new({ location: 'a cheap motel' })
 
     # Run filter
     assert_raises LocalJumpError do
@@ -66,28 +66,28 @@ class Nanoc::Filters::ERBTest < Nanoc::TestCase
 
   def test_safe_level
     if RUBY_ENGINE == 'rbx'
-      skip "$SAFE is not supported on Rubinius."
+      skip '$SAFE is not supported on Rubinius.'
     elsif RUBY_ENGINE == 'jruby'
-      skip "$SAFE is not supported on JRuby."
+      skip '$SAFE is not supported on JRuby.'
     end
 
     # Set up
     filter = ::Nanoc::Filters::ERB.new
-    File.write('moo', "one miiillion dollars")
+    File.write('moo', 'one miiillion dollars')
 
     # Without
-    res = filter.run('<%= File.read("moo") %>', :safe_level => nil)
+    res = filter.run('<%= File.read("moo") %>', safe_level: nil)
     assert_equal 'one miiillion dollars', res
 
     # With
     assert_raises(SecurityError) do
-      res = filter.run('<%= File.read("moo") %>', :safe_level => 3)
+      res = filter.run('<%= File.read("moo") %>', safe_level: 3)
     end
   end
 
   def test_trim_mode
     # Set up
-    filter = ::Nanoc::Filters::ERB.new({ :location => 'a cheap motel' })
+    filter = ::Nanoc::Filters::ERB.new({ location: 'a cheap motel' })
     $trim_mode_works = false
 
     # Without
@@ -95,13 +95,13 @@ class Nanoc::Filters::ERBTest < Nanoc::TestCase
     refute $trim_mode_works
 
     # With
-    filter.run('% $trim_mode_works = true', :trim_mode => '%')
+    filter.run('% $trim_mode_works = true', trim_mode: '%')
     assert $trim_mode_works
   end
 
   def test_locals
     filter = ::Nanoc::Filters::ERB.new
-    result = filter.run('<%= @local %>', :locals => { :local => 123 })
+    result = filter.run('<%= @local %>', locals: { local: 123 })
     assert_equal '123', result
   end
 

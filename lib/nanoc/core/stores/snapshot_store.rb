@@ -66,7 +66,7 @@ module Nanoc
       def exist?(item_identifier, rep_name, snapshot_name)
         item_identifier = Nanoc::Identifier.coerce(item_identifier)
         key = [ item_identifier.to_s, rep_name, snapshot_name ]
-        @store.has_key?(key)
+        @store.key?(key)
       end
 
     end

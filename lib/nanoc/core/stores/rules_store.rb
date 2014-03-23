@@ -24,7 +24,7 @@ module Nanoc
     #
     # @abstract
     def load_rules
-      raise NotImplementedError, "Subclasses must implement #load_rules"
+      raise NotImplementedError, 'Subclasses must implement #load_rules'
     end
 
   end

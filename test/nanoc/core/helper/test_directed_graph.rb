@@ -84,7 +84,7 @@ class Nanoc::DirectedGraphTest < Nanoc::TestCase
 
   def test_delete_edge
     graph = Nanoc::DirectedGraph.new([ 1, 2, 3 ])
-    graph.add_edge(1,2)
+    graph.add_edge(1, 2)
 
     assert_equal [ 2 ], graph.successors_of(1)
     assert_equal [ 1 ], graph.predecessors_of(2)

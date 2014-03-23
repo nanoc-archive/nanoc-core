@@ -229,7 +229,7 @@ module Nanoc
     class DoublePreprocessBlockError < Generic
 
       def initialize
-        super("A second preprocess block was found, which is not permitted.")
+        super('A second preprocess block was found, which is not permitted.')
       end
 
     end

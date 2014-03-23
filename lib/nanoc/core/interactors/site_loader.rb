@@ -10,12 +10,12 @@ module Nanoc
     # The default configuration for a data source. A data source's
     # configuration overrides these options.
     DEFAULT_DATA_SOURCE_CONFIG = {
-      :type            => 'filesystem',
-      :items_root      => '/',
-      :layouts_root    => '/',
-      :text_extensions => %w( css erb haml htm html js less markdown md php rb sass scss txt xhtml xml coffee hb handlebars mustache ms slim ).sort,
-      :content_dir     => 'content',
-      :layouts_dir     => 'layouts',
+      type:            'filesystem',
+      items_root:      '/',
+      layouts_root:    '/',
+      text_extensions: %w( css erb haml htm html js less markdown md php rb sass scss txt xhtml xml coffee hb handlebars mustache ms slim ).sort,
+      content_dir:     'content',
+      layouts_dir:     'layouts',
     }
 
     # The default configuration for a site. A site's configuration overrides
@@ -23,11 +23,11 @@ module Nanoc
     # that lacks some options, the default value will be taken from
     # `DEFAULT_CONFIG`.
     DEFAULT_CONFIG = {
-      :build_dir          => 'build',
-      :data_sources       => [ {} ],
-      :index_filenames    => [ 'index.html' ],
-      :enable_output_diff => false,
-      :prune              => { :auto_prune => true, :exclude => [ '.git', '.hg', '.svn', 'CVS' ] }
+      build_dir:          'build',
+      data_sources:       [ {} ],
+      index_filenames:    [ 'index.html' ],
+      enable_output_diff: false,
+      prune:              { auto_prune: true, exclude: [ '.git', '.hg', '.svn', 'CVS' ] },
     }
 
     CONFIG_FILENAME = 'nanoc.yaml'
@@ -35,21 +35,22 @@ module Nanoc
     # @return [Nanoc::Site] A new site based on the current working directory
     def load
       # Load
-      self.config
-      self.code_snippets
-      self.data_sources
-      self.data_sources.each { |ds| ds.use }
-      self.items
-      self.layouts
-      self.data_sources.each { |ds| ds.unuse }
+      config
+      code_snippets
+      data_sources
+      data_sources.each { |ds| ds.use }
+      items
+      layouts
+      data_sources.each { |ds| ds.unuse }
 
       # Build site
-      Nanoc::Site.new(
-        :data_sources  => self.data_sources,
-        :items         => self.items,
-        :layouts       => self.layouts,
-        :code_snippets => self.code_snippets,
-        :config        => self.config)
+      Nanoc::Site.new({
+        data_sources:  data_sources,
+        items:         items,
+        layouts:       layouts,
+        code_snippets: code_snippets,
+        config:        config,
+      })
     end
 
     # @return [Boolean] true if the current working directory is a nanoc site, false otherwise

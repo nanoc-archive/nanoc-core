@@ -9,7 +9,7 @@ class Nanoc::FilesystemToolsTest < Nanoc::TestCase
 
   def test_all_files_in_follows_symlinks_to_dirs
     if 'jruby' == RUBY_ENGINE && '1.7.4' == JRUBY_VERSION
-      skip "Symlink behavior on JRuby is known to be broken (see https://github.com/jruby/jruby/issues/1036)"
+      skip 'Symlink behavior on JRuby is known to be broken (see https://github.com/jruby/jruby/issues/1036)'
     end
 
     # Write sample files
@@ -18,7 +18,7 @@ class Nanoc::FilesystemToolsTest < Nanoc::TestCase
       File.write("dir#{i}/foo.md", 'o hai')
     end
     (1..10).each do |i|
-      File.symlink("../dir#{i}", "dir#{i-1}/sub")
+      File.symlink("../dir#{i}", "dir#{i - 1}/sub")
     end
 
     # Check
@@ -48,7 +48,7 @@ class Nanoc::FilesystemToolsTest < Nanoc::TestCase
       File.write("dir#{i}/foo.md", 'o hai')
     end
     (1..15).each do |i|
-      File.symlink("../dir#{i}", "dir#{i-1}/sub")
+      File.symlink("../dir#{i}", "dir#{i - 1}/sub")
     end
 
     assert_raises Nanoc::FilesystemTools::MaxSymlinkDepthExceededError do
@@ -58,7 +58,7 @@ class Nanoc::FilesystemToolsTest < Nanoc::TestCase
 
   def test_all_files_in_relativizes_directory_names
     if 'jruby' == RUBY_ENGINE && '1.7.4' == JRUBY_VERSION
-      skip "Symlink behavior on JRuby is known to be broken (see https://github.com/jruby/jruby/issues/1036)"
+      skip 'Symlink behavior on JRuby is known to be broken (see https://github.com/jruby/jruby/issues/1036)'
     end
 
     FileUtils.mkdir('foo')
@@ -102,7 +102,7 @@ class Nanoc::FilesystemToolsTest < Nanoc::TestCase
     File.write('foo', 'o hai')
     File.symlink('foo', 'symlink-0')
     (1..7).each do |i|
-      File.symlink("symlink-#{i-1}", "symlink-#{i}")
+      File.symlink("symlink-#{i - 1}", "symlink-#{i}")
     end
 
     # 5 is OK

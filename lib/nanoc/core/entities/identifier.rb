@@ -28,7 +28,7 @@ module Nanoc
       end
 
       components = string.split('/').reject { |c| c.empty? }
-      self.new(components)
+      new(components)
     end
 
     # Attempts to coerce the input object into a Nanoc::Identifier. This
@@ -40,7 +40,7 @@ module Nanoc
     # @return [Nanoc::Identifier]
     def self.coerce(input)
       if input.is_a?(String)
-        self.from_string(input)
+        from_string(input)
       elsif input.is_a?(Nanoc::Identifier)
         return input
       else
@@ -64,7 +64,7 @@ module Nanoc
     #   Nanoc::Identifier.new(%w( foo bar index.html )).to_s
     #   # => '/foo/bar/index.html'
     def to_s
-      '/' + self.components.join('/')
+      '/' + components.join('/')
     end
 
     # @param [String] string The string to append
@@ -78,7 +78,7 @@ module Nanoc
     #   identifier.without_ext + '-v123.' + identifier.extension
     #   # => '/foo/bar-v123.md'
     def +(string)
-      self.to_s + string
+      to_s + string
     end
 
     # @!group Creating new instances
@@ -91,7 +91,7 @@ module Nanoc
     #   Nanoc::Identifier.from_string('/foo/bar.md').parent.to_s
     #   # => '/foo'
     def parent
-      parent_components = self.components[0..-2]
+      parent_components = components[0..-2]
       if parent_components.empty?
         nil
       else
@@ -101,7 +101,7 @@ module Nanoc
 
     # FIXME ugly
     def prefix(prefix)
-      self.class.from_string(prefix + self.to_s)
+      self.class.from_string(prefix + to_s)
     end
 
     # @param [String] string The component to append
@@ -114,7 +114,7 @@ module Nanoc
     #   Nanoc::Identifier.from_string('/foo').append_component('bar').to_s
     #   # => '/foo/bar'
     def append_component(string)
-      self.class.new(self.components + [ string ])
+      self.class.new(components + [ string ])
     end
 
     # @param [String] ext
@@ -127,7 +127,7 @@ module Nanoc
     #   Nanoc::Identifier.coerce('/foo/bar.md').with_ext('html').to_s
     #   # => '/foo/bar.html'
     def with_ext(ext)
-      cs = self.without_ext.components.dup
+      cs = without_ext.components.dup
       cs[-1] = cs[-1] + '.' + ext
       self.class.new(cs)
     end
@@ -139,7 +139,7 @@ module Nanoc
     #   Nanoc::Identifier.coerce('/foo/bar.md').without_ext.to_s
     #   # => '/foo/bar'
     def without_ext
-      cs = self.components.dup
+      cs = components.dup
       cs[-1] = cs[-1].sub(/\.\w+$/, '')
       self.class.new(cs)
     end
@@ -152,9 +152,9 @@ module Nanoc
     #   Nanoc::Identifier.from_string('/foo/bar.html').in_dir.to_s
     #   # => '/foo/bar/index.html'
     def in_dir
-      base = self.without_ext.append_component('index')
-      if self.extension
-        base.with_ext(self.extension)
+      base = without_ext.append_component('index')
+      if extension
+        base.with_ext(extension)
       else
         base
       end
@@ -169,10 +169,10 @@ module Nanoc
     #   Nanoc::Identifier.coerce('/foo/bar.adoc').extension
     #   # => 'adoc'
     def extension
-      c = self.components[-1]
+      c = components[-1]
       idx = c.rindex('.')
       if idx
-        c[idx+1..-1]
+        c[idx + 1..-1]
       else
         nil
       end
@@ -199,23 +199,23 @@ module Nanoc
     #   identifier.match?(pattern)
     #   # => false
     def match?(pattern)
-      Nanoc::Pattern.from(pattern).match?(self.to_s)
+      Nanoc::Pattern.from(pattern).match?(to_s)
     end
 
     # @!group Inherited
 
     # @see Object#hash
     def hash
-      self.components.hash
+      components.hash
     end
 
     # @see Object#eql?
     def eql?(other)
       case other
       when Nanoc::Identifier
-        self.components == other.components
+        components == other.components
       else
-        self.to_s == other.to_s
+        to_s == other.to_s
       end
     end
 
@@ -228,15 +228,15 @@ module Nanoc
     def <=>(other)
       case other
       when Nanoc::Identifier
-        self.components <=> other.components
+        components <=> other.components
       else
-        self.to_s <=> other.to_s
+        to_s <=> other.to_s
       end
     end
 
     # @see Object#inspect
     def inspect
-      "<#{self.class} #{self.to_s.inspect}>"
+      "<#{self.class} #{to_s.inspect}>"
     end
 
   end

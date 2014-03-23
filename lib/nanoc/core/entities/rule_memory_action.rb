@@ -13,7 +13,7 @@ module Nanoc
     end
 
     def inspect
-      "<%s %s>" % [ self.class.to_s, self.serialize[1..-1].map { |e| e.inspect }.join(', ') ]
+      '<%s %s>' % [ self.class.to_s, serialize[1..-1].map { |e| e.inspect }.join(', ') ]
     end
 
   end

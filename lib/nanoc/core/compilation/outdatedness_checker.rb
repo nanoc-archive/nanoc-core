@@ -9,7 +9,7 @@ module Nanoc
 
     extend Nanoc::Memoization
 
-    def initialize(params={})
+    def initialize(params = {})
       @site = params[:site] or raise ArgumentError,
         'Nanoc::OutdatednessChecker#initialize needs a :site parameter'
       @checksum_store = params[:checksum_store] or raise ArgumentError,

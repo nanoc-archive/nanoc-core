@@ -42,7 +42,7 @@ class Nanoc::CompilerTest < Nanoc::TestCase
   end
 
   def test_compile_with_two_dependent_reps
-    in_site(:compilation_rule_content => 'filter :erb') do
+    in_site(compilation_rule_content: 'filter :erb') do
       File.write(
         'content/foo.html',
         '<%= @items["/bar.html"].compiled_content %>!!!')
@@ -61,7 +61,7 @@ class Nanoc::CompilerTest < Nanoc::TestCase
   end
 
   def test_compile_with_two_mutually_dependent_reps
-    in_site(:compilation_rule_content => 'filter :erb') do
+    in_site(compilation_rule_content: 'filter :erb') do
       File.write(
         'content/foo.html',
         '<%= @items.find { |i| i.identifier == "/bar.html" }.compiled_content %>')

@@ -15,7 +15,7 @@ begin
   require 'mocha/setup'
   require 'yard'
 rescue => e
-  $stderr.puts "To run the nanoc unit tests, you need minitest and mocha."
+  $stderr.puts 'To run the nanoc unit tests, you need minitest and mocha.'
   raise e
 end
 
@@ -30,7 +30,7 @@ module Nanoc::TestHelpers
 
   LIB_DIR = File.expand_path(File.dirname(__FILE__) + '/../lib')
 
-  def in_site(params={})
+  def in_site(params = {})
     # Build site name
     site_name = params[:name]
     if site_name.nil?
@@ -61,7 +61,7 @@ module Nanoc::TestHelpers
     Nanoc::CompilerBuilder.new.build(site_here).run
   end
 
-  def create_site_here(params={})
+  def create_site_here(params = {})
     # Build rules
     rules_content = <<EOS
 compile '/**/*' do
@@ -161,7 +161,7 @@ EOS
   end
 
   def skip_unless_have_symlink
-    skip "Symlinks are not supported by Ruby on Windows" unless have_symlink?
+    skip 'Symlinks are not supported by Ruby on Windows' unless have_symlink?
   end
 
 end

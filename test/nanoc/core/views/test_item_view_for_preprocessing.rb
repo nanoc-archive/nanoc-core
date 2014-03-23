@@ -6,7 +6,7 @@ class Nanoc::ItemViewForPreprocessingTest < Nanoc::TestCase
     super
 
     @content = Nanoc::TextualContent.new('blah blah blah', File.absolute_path('content/somefile.md'))
-    @item = Nanoc::Item.new(@content, {foo: 123}, '/index.md')
+    @item = Nanoc::Item.new(@content, { foo: 123 }, '/index.md')
     @item_view = Nanoc::ItemViewForPreprocessing.new(@item)
   end
 

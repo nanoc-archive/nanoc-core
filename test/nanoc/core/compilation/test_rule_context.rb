@@ -17,7 +17,7 @@ class Nanoc::RuleContextTest < Nanoc::TestCase
     rep.stubs(:item).returns(item)
 
     # Create context
-    @rule_context = Nanoc::RuleContext.new(:rep => rep, :site => site)
+    @rule_context = Nanoc::RuleContext.new(rep: rep, site: site)
 
     # Check
     assert_equal rep,     @rule_context.rep
@@ -43,15 +43,15 @@ class Nanoc::RuleContextTest < Nanoc::TestCase
     # Mock rep
     rep = mock
     rep.stubs(:item).returns(item)
-    rep.expects(:filter).with(:foo, { :bar => 'baz' })
+    rep.expects(:filter).with(:foo, { bar: 'baz' })
     rep.expects(:layout).with('foo')
     rep.expects(:snapshot).with('awesome')
 
     # Create context
-    @rule_context = Nanoc::RuleContext.new(:rep => rep, :site => site)
+    @rule_context = Nanoc::RuleContext.new(rep: rep, site: site)
 
     # Check
-    rep.filter   :foo, :bar => 'baz'
+    rep.filter   :foo, bar: 'baz'
     rep.layout   'foo'
     rep.snapshot 'awesome'
   end

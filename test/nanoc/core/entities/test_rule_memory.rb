@@ -9,7 +9,7 @@ class Nanoc::RuleMemoryTest < Nanoc::TestCase
       '/stuff.md')
     snapshot_store = Nanoc::SnapshotStore::InMemory.new
     config = Nanoc::Configuration.new({})
-    rep = Nanoc::ItemRep.new(item, :foo, :snapshot_store => snapshot_store, config: config)
+    rep = Nanoc::ItemRep.new(item, :foo, snapshot_store: snapshot_store, config: config)
     Nanoc::RuleMemory.new(rep)
   end
 
@@ -26,8 +26,8 @@ class Nanoc::RuleMemoryTest < Nanoc::TestCase
     expected = [
       [ :filter, :erb, { awesomeness: 123 } ],
       [ :snapshot, :bar, { path: nil, final: true } ],
-      [ :layout, "/default.erb", { somelayoutparam: 444 } ],
-      [ :write, "/foo.html", { snapshot: :last } ], # last snapshotless write
+      [ :layout, '/default.erb', { somelayoutparam: 444 } ],
+      [ :write, '/foo.html', { snapshot: :last } ], # last snapshotless write
     ]
 
     assert_equal expected, actual
@@ -46,8 +46,8 @@ class Nanoc::RuleMemoryTest < Nanoc::TestCase
     expected = [
       [ :filter, :erb, { awesomeness: 123 } ],
       [ :snapshot, :bar, { path: '/stuff.txt', final: false } ],
-      [ :layout, "/default.erb", { somelayoutparam: 444 } ],
-      [ :write, "/foo.html", { snapshot: :donkey } ],
+      [ :layout, '/default.erb', { somelayoutparam: 444 } ],
+      [ :write, '/foo.html', { snapshot: :donkey } ],
     ]
 
     assert_equal expected, actual
@@ -70,9 +70,9 @@ class Nanoc::RuleMemoryTest < Nanoc::TestCase
     mem.add_write('/ccc.txt', nil)
 
     expected = [
-      [ :write, "/aaa.txt", { snapshot: nil } ],
-      [ :write, "/bbb.txt", { snapshot: :foo } ],
-      [ :write, "/ccc.txt", { snapshot: :last } ],
+      [ :write, '/aaa.txt', { snapshot: nil } ],
+      [ :write, '/bbb.txt', { snapshot: :foo } ],
+      [ :write, '/ccc.txt', { snapshot: :last } ],
     ]
 
     assert_equal expected, mem.serialize
@@ -86,9 +86,9 @@ class Nanoc::RuleMemoryTest < Nanoc::TestCase
     mem.add_write('/ccc.txt', :bar)
 
     expected = [
-      [ :write, "/aaa.txt", { snapshot: nil } ],
-      [ :write, "/bbb.txt", { snapshot: :foo } ],
-      [ :write, "/ccc.txt", { snapshot: :bar } ],
+      [ :write, '/aaa.txt', { snapshot: nil } ],
+      [ :write, '/bbb.txt', { snapshot: :foo } ],
+      [ :write, '/ccc.txt', { snapshot: :bar } ],
     ]
 
     assert_equal expected, mem.serialize

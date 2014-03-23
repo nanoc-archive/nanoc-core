@@ -24,13 +24,13 @@ module Nanoc
       end
 
       super({
-        :rep      => rep,
-        :item_rep => rep,
-        :item     => rep.item,
-        :site     => site,
-        :config   => site.config,
-        :items    => site.items,
-        :layouts  => site.layouts
+        rep:      rep,
+        item_rep: rep,
+        item:     rep.item,
+        site:     site,
+        config:   site.config,
+        items:    site.items,
+        layouts:  site.layouts,
       })
     end
 
@@ -75,7 +75,7 @@ module Nanoc
       rep.snapshot(snapshot_name)
     end
 
-    def write(path, params={})
+    def write(path, params = {})
       rep.write(path, params)
     end
 

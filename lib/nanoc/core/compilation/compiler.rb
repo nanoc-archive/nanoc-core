@@ -80,7 +80,7 @@ module Nanoc
     def run
       @preprocessor.run
       @dependency_tracker.start
-      compile_reps(self.item_rep_store.reps)
+      compile_reps(item_rep_store.reps)
       @dependency_tracker.stop
       store
       prune
@@ -99,7 +99,7 @@ module Nanoc
     # @return [void]
     def store
       # Calculate rule memory
-      (self.item_rep_store.reps + @site.layouts).each do |obj|
+      (item_rep_store.reps + @site.layouts).each do |obj|
         @rule_memory_store[obj] = @rule_memory_calculator[obj]
       end
 
@@ -107,7 +107,7 @@ module Nanoc
       (site.items.to_a + site.layouts + site.code_snippets + [ site.config ]).each do |obj|
         @checksum_store[obj] = obj.checksum
       end
-      @checksum_store[self.rules_collection] = @rules_store.rule_data
+      @checksum_store[rules_collection] = @rules_store.rule_data
 
       # Store
       @checksum_store.store
@@ -129,20 +129,20 @@ module Nanoc
     # @api private
     def assigns_for(rep)
       if rep.snapshot_binary?(:last)
-        content_or_filename_assigns = { :filename => rep.temporary_filenames[:last] }
+        content_or_filename_assigns = { filename: rep.temporary_filenames[:last] }
       else
-        content_or_filename_assigns = { :content => rep.stored_content_at_snapshot(:last) }
+        content_or_filename_assigns = { content: rep.stored_content_at_snapshot(:last) }
       end
 
       content_or_filename_assigns.merge({
-        :item       => Nanoc::ItemView.new(rep.item, self.item_rep_store),
-        :rep        => Nanoc::ItemRepViewForFiltering.new(rep, self.item_rep_store),
-        :item_rep   => Nanoc::ItemRepViewForFiltering.new(rep, self.item_rep_store),
-        :items      => Nanoc::ItemCollection.new.tap { |a| site.items.each { |i| a << Nanoc::ItemView.new(i, self.item_rep_store) }},
-        :layouts    => site.layouts.map { |l| Nanoc::LayoutView.new(l) },
-        :config     => site.config,
-        :site       => site,
-        :_compiler  => self
+        item:      Nanoc::ItemView.new(rep.item, item_rep_store),
+        rep:       Nanoc::ItemRepViewForFiltering.new(rep, item_rep_store),
+        item_rep:  Nanoc::ItemRepViewForFiltering.new(rep, item_rep_store),
+        items:     Nanoc::ItemCollection.new.tap { |a| site.items.each { |i| a << Nanoc::ItemView.new(i, item_rep_store) } },
+        layouts:   site.layouts.map { |l| Nanoc::LayoutView.new(l) },
+        config:    site.config,
+        site:      site,
+        _compiler: self,
       })
     end
 
@@ -230,11 +230,11 @@ module Nanoc
     end
 
     def prune
-      if self.site.config[:prune][:auto_prune]
+      if site.config[:prune][:auto_prune]
         identifier = @item_rep_writer.class.identifier
         pruner_class = Nanoc::Pruner.named(identifier)
-        exclude = self.site.config.fetch(:prune, {}).fetch(:exclude, [])
-        pruner_class.new(self.site, :exclude => exclude).run
+        exclude = site.config.fetch(:prune, {}).fetch(:exclude, [])
+        pruner_class.new(site, exclude: exclude).run
       end
     end
 

@@ -15,7 +15,7 @@ module Nanoc
     end
 
     def reps_for_item(item)
-      self.reps_by_item.fetch(item, [])
+      reps_by_item.fetch(item, [])
     end
 
   end

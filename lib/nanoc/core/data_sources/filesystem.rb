@@ -48,9 +48,9 @@ module Nanoc::DataSources
       end
 
       def message
-        "The file #{self.filename} appears to start with an attributes " +
-        "section (three dashes at the top), but it does not seem to be " +
-        "in the correct format."
+        "The file #{filename} appears to start with an attributes " \
+        'section (three dashes at the top), but it does not seem to be ' \
+        'in the correct format.'
       end
 
     end
@@ -66,7 +66,7 @@ module Nanoc::DataSources
       end
 
       def message
-        "Could not parse YAML in #{self.filename}: #{self.original_message}"
+        "Could not parse YAML in #{filename}: #{original_message}"
       end
 
     end
@@ -141,7 +141,7 @@ module Nanoc::DataSources
     #
     # @api private
     def load_objects(dir_name, klass)
-      self.all_base_filenames_in(dir_name).map do |base_filename|
+      all_base_filenames_in(dir_name).map do |base_filename|
         load_object(dir_name, base_filename, klass)
       end
     end
@@ -178,15 +178,15 @@ module Nanoc::DataSources
           content = Nanoc::BinaryContent.new(File.absolute_path(content_filename))
         else
           if has_attributes_file
-            content = Nanoc::TextualContent.new(self.read(content_filename), File.absolute_path(content_filename))
+            content = Nanoc::TextualContent.new(read(content_filename), File.absolute_path(content_filename))
           else
-            content, attributes = self.content_and_attributes_for_file(content_filename)
+            content, attributes = content_and_attributes_for_file(content_filename)
           end
         end
       end
 
       # Get identifier
-      identifier = self.remove_prefix_from_string(dir_name, base_filename)
+      identifier = remove_prefix_from_string(dir_name, base_filename)
 
       # Create layout object
       klass.new(content, attributes, identifier)
@@ -218,7 +218,7 @@ module Nanoc::DataSources
     #
     # @api private
     def all_base_filenames_in(dir_name)
-      self.all_files_in(dir_name).
+      all_files_in(dir_name).
         reject { |fn| fn =~ /(~|\.orig|\.rej|\.bak)$/ }.
         map    { |fn| fn.sub(/\.yaml$/, '') }.
         uniq
@@ -239,7 +239,7 @@ module Nanoc::DataSources
     #
     # @api private
     def content_and_attributes_for_file(filename)
-      data = self.read(filename)
+      data = read(filename)
 
       # Check presence of attributes section
       if data !~ /\A---\s*$/
