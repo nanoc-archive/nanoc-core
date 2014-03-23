@@ -41,10 +41,12 @@ module Nanoc
     def load
       return if @loaded
 
-      # Copy
+      # Create starting copy
       FileUtils.mkdir_p(File.dirname(filename))
       if File.file?(filename)
         FileUtils.cp(filename, tmp_filename)
+      else
+        FileUtils.rm_f(tmp_filename)
       end
 
       # (Re)initialize if necessary
