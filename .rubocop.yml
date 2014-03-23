@@ -4,9 +4,6 @@
 MultilineBlockChain:
   Enabled: false
 
-PerlBackrefs:
-  Enabled: false
-
 
 
 # ----- DISABLED (hard) -----
