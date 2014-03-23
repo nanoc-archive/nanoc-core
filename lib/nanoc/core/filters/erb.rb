@@ -25,7 +25,7 @@ module Nanoc::Filters
       context = ::Nanoc::Context.new(assigns.merge(assigns: assigns))
 
       # Get binding
-      proc = assigns[:content] ? lambda { assigns[:content] } : nil
+      proc = assigns[:content] ? -> { assigns[:content] } : nil
       assigns_binding = context.get_binding(&proc)
 
       # Get result
