@@ -30,10 +30,9 @@ module Nanoc
     # that is not present in the site.
     class UnknownLayout < Generic
 
-      # @param [String] layout_identifier The layout identifier for which no
-      #   layout could be found
-      def initialize(layout_identifier)
-        super("The site does not have a layout with identifier “#{layout_identifier}”.")
+      # @param [String, Regexp, Nanoc::Pattern] patternish A pattern for a layout identifier
+      def initialize(patternish)
+        super("The site does not have a layout that matches the pattern “#{patternish}”.")
       end
 
     end

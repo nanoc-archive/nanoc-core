@@ -84,6 +84,10 @@ module Nanoc
       @item_rep.snapshot(snapshot, params)
     end
 
+    def resolve
+      @item_rep
+    end
+
   private
 
     def layouts
@@ -91,8 +95,8 @@ module Nanoc
     end
 
     def layout_with_identifier(layout_identifier)
-      layout_identifier = Nanoc::Identifier.coerce(layout_identifier)
-      layout = layouts.find { |l| l.identifier == layout_identifier }
+      pattern = Nanoc::Pattern.from(layout_identifier)
+      layout = layouts.find { |l| pattern.match?(l.identifier) }
       raise Nanoc::Errors::UnknownLayout.new(layout_identifier) if layout.nil?
       layout
     end
