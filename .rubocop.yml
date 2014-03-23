@@ -7,9 +7,6 @@ MultilineBlockChain:
 PerlBackrefs:
   Enabled: false
 
-RegexpLiteral:
-  Enabled: false
-
 
 
 # ----- DISABLED (hard) -----
