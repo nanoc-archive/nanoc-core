@@ -11,6 +11,7 @@ class Nanoc::ItemRepViewForFilteringTest < Nanoc::TestCase
     @item_rep = Nanoc::ItemRep.new(@item, :foo, :snapshot_store => @snapshot_store, config: Nanoc::Configuration.new({}))
     def @item_rep.compiled_content(params={}) ; "default content at #{params[:snapshot].inspect}" ; end
     def @item_rep.path(params={}) ; "default path at #{params[:snapshot].inspect}" ; end
+    def @item_rep.compiled? ; true ; end
     @item_rep_store = Nanoc::ItemRepStore.new([ @item_rep ])
 
     @subject = Nanoc::ItemRepViewForFiltering.new(@item_rep, @item_rep_store)
@@ -30,6 +31,10 @@ class Nanoc::ItemRepViewForFilteringTest < Nanoc::TestCase
 
   def test_path
     assert_equal 'default path at :qux', @subject.path(:snapshot => :qux)
+  end
+
+  def test_compiled_eh
+    assert_equal true, @subject.compiled?
   end
 
   def test_item
