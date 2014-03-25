@@ -120,7 +120,7 @@ module Nanoc
 
     def glob_single(pattern)
       items = glob(pattern)
-      if items.size > 0
+      if items.size > 1
         raise Nanoc::Errors::MultipleObjectsMatchingPattern.new('item', pattern)
       end
       items.first
