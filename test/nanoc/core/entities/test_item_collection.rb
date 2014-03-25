@@ -123,6 +123,20 @@ class Nanoc::ItemCollectionTest < Nanoc::TestCase
     assert_nil @items.at('/tenthousand/')
   end
 
+  def test_fetch
+    assert_equal @one, @items.fetch('/one.md')
+    assert_equal @one, @items.fetch('/one.*')
+    assert_equal @one, @items.fetch('/*.md')
+
+    assert_raises(Nanoc::Errors::NoObjectsMatchingPattern) do
+      @items.fetch('aksjldflsaflkhlldfhslgh')
+    end
+
+    assert_raises(Nanoc::Errors::MultipleObjectsMatchingPattern) do
+      @items.fetch('/*')
+    end
+  end
+
   def test_less_than_less_than
     assert_nil @items['/foo.txt']
 

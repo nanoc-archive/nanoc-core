@@ -99,6 +99,15 @@ module Nanoc
     alias_method :slice, :[]
     alias_method :at,    :[]
 
+    def fetch(patternish)
+      res = self[patternish]
+      if res.nil?
+        raise Nanoc::Errors::NoObjectsMatchingPattern.new('items', patternish)
+      else
+        res
+      end
+    end
+
     protected
 
     def item_with_identifier(identifier)
