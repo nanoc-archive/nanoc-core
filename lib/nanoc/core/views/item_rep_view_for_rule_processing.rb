@@ -99,9 +99,9 @@ module Nanoc
 
       matching_layouts = layouts.select { |l| pattern.match?(l.identifier) }
       if matching_layouts.empty?
-        raise Nanoc::Errors::NoObjectsMatchingPattern.new('layouts', layout_identifier)
+        raise Nanoc::Errors::NoObjectsMatchingPattern.new('layout', layout_identifier)
       elsif matching_layouts.size > 1
-        raise Nanoc::Errors::MultipleObjectsMatchingPattern.new('layouts', layout_identifier)
+        raise Nanoc::Errors::MultipleObjectsMatchingPattern.new('layout', layout_identifier)
       end
 
       matching_layouts.first

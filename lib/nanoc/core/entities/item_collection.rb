@@ -102,7 +102,7 @@ module Nanoc
     def fetch(patternish)
       res = self[patternish]
       if res.nil?
-        raise Nanoc::Errors::NoObjectsMatchingPattern.new('items', patternish)
+        raise Nanoc::Errors::NoObjectsMatchingPattern.new('item', patternish)
       else
         res
       end
@@ -126,7 +126,7 @@ module Nanoc
       when 1
         items.first
       else
-        raise Nanoc::Errors::MultipleObjectsMatchingPattern.new('items', pattern)
+        raise Nanoc::Errors::MultipleObjectsMatchingPattern.new('item', pattern)
       end
     end
 
