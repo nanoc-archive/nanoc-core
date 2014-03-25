@@ -120,14 +120,10 @@ module Nanoc
 
     def glob_single(pattern)
       items = glob(pattern)
-      case items.size
-      when 0
-        nil
-      when 1
-        items.first
-      else
+      if items.size > 0
         raise Nanoc::Errors::MultipleObjectsMatchingPattern.new('item', pattern)
       end
+      items.first
     end
 
     def build_mapping
