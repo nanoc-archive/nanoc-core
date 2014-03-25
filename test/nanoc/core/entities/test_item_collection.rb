@@ -84,11 +84,11 @@ class Nanoc::ItemCollectionTest < Nanoc::TestCase
   end
 
   def test_brackets_and_slice_with_multiple
-    assert_raises(Nanoc::Errors::NoSingleValueForPattern) do
+    assert_raises(Nanoc::Errors::MultipleObjectsMatchingPattern) do
       @items['/*']
     end
 
-    assert_raises(Nanoc::Errors::NoSingleValueForPattern) do
+    assert_raises(Nanoc::Errors::MultipleObjectsMatchingPattern) do
       @items.slice('/*')
     end
   end

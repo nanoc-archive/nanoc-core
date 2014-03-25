@@ -117,7 +117,7 @@ module Nanoc
       when 1
         items.first
       else
-        raise Nanoc::Errors::NoSingleValueForPattern.new(pattern)
+        raise Nanoc::Errors::MultipleObjectsMatchingPattern.new('items', pattern)
       end
     end
 

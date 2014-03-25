@@ -45,15 +45,15 @@ class Nanoc::ItemRepViewForRuleProcessingTest < Nanoc::TestCase
     refute_nil @subject.send(:layout_with_identifier, '/bar.erb')
     refute_nil @subject.send(:layout_with_identifier, '/bar.*')
 
-    assert_raises(Nanoc::Errors::UnknownLayout) do
+    assert_raises(Nanoc::Errors::NoObjectsMatchingPattern) do
       @subject.send(:layout_with_identifier, '/qux.erb')
     end
 
-    assert_raises(Nanoc::Errors::UnknownLayout) do
+    assert_raises(Nanoc::Errors::NoObjectsMatchingPattern) do
       @subject.send(:layout_with_identifier, '/qux.*')
     end
 
-    assert_raises(Nanoc::Errors::NoSingleValueForPattern) do
+    assert_raises(Nanoc::Errors::MultipleObjectsMatchingPattern) do
       @subject.send(:layout_with_identifier, '/*.erb')
     end
   end

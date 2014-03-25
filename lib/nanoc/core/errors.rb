@@ -26,17 +26,6 @@ module Nanoc
 
     end
 
-    # Error that is raised during site compilation when an item uses a layout
-    # that is not present in the site.
-    class UnknownLayout < Generic
-
-      # @param [String, Regexp, Nanoc::Pattern] patternish A pattern for a layout identifier
-      def initialize(patternish)
-        super("The site does not have a layout that matches the pattern “#{patternish}”.")
-      end
-
-    end
-
     # Error that is raised during site compilation when an item uses a filter
     # that is not known.
     class UnknownFilter < Generic
@@ -199,16 +188,30 @@ module Nanoc
 
     end
 
+    # Error that is raised when no objects (items or layouts) match the given
+    # pattern.
+    class NoObjectsMatchingPattern < Generic
+
+      # @param [String] type A string describing the type, such as "layout" or "item".
+      #
+      # @param [Nanoc::Pattern, Regexp, String] patternish An object that can be
+      #   coerced into a pattern that resolves into zero objects
+      def initialize(type, patternish)
+        super("The site does not have a #{type} that matches the pattern “#{patternish}”, when exactly one is expected.")
+      end
+
+    end
+
     # Error that is raised when a glob is expected to return a single value, but
     # returns multiple instead.
-    class NoSingleValueForPattern < Generic
+    class MultipleObjectsMatchingPattern < Generic
 
-      # @param [Nanoc::Pattern, String] pattern The pattern that resolves into
-      #   multiple values
-      def initialize(pattern)
-        super("The \"#{pattern}\" pattern resolves into multiple items or " \
-          "layouts, but only a single one is expected. If you really want " \
-          "multiple items or layouts, use ItemCollection#glob.")
+      # @param [String] type A string describing the type, such as "layout" or "item".
+      #
+      # @param [Nanoc::Pattern, Regexp, String] patternish An object that can be
+      #   coerced into a pattern that resolves into multiple objects
+      def initialize(type, patternish)
+        super("The site has more than one #{type} that matches the pattern “#{patternish}”, when exactly one is expected.")
       end
 
     end
