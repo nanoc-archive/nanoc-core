@@ -96,9 +96,15 @@ module Nanoc
 
     def layout_with_identifier(layout_identifier)
       pattern = Nanoc::Pattern.from(layout_identifier)
-      layout = layouts.find { |l| pattern.match?(l.identifier) }
-      raise Nanoc::Errors::UnknownLayout.new(layout_identifier) if layout.nil?
-      layout
+
+      matching_layouts = layouts.select { |l| pattern.match?(l.identifier) }
+      if matching_layouts.empty?
+        raise Nanoc::Errors::UnknownLayout.new(layout_identifier)
+      elsif matching_layouts.size > 1
+        raise Nanoc::Errors::NoSingleValueForPattern.new(layout_identifier)
+      end
+
+      matching_layouts.first
     end
 
   end

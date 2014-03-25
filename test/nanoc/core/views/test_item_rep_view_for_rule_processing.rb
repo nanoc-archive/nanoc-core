@@ -34,18 +34,27 @@ class Nanoc::ItemRepViewForRuleProcessingTest < Nanoc::TestCase
 
   def test_layout_with_identifier
     def @subject.layouts
-      [ Nanoc::Layout.new('blah', {}, '/default.erb') ]
+      [
+        Nanoc::Layout.new('blah', {}, '/foo.erb'),
+        Nanoc::Layout.new('blah', {}, '/bar.erb'),
+      ]
     end
 
-    refute_nil @subject.send(:layout_with_identifier, '/default.erb')
-    refute_nil @subject.send(:layout_with_identifier, '/default.*')
+    refute_nil @subject.send(:layout_with_identifier, '/foo.erb')
+    refute_nil @subject.send(:layout_with_identifier, '/foo.*')
+    refute_nil @subject.send(:layout_with_identifier, '/bar.erb')
+    refute_nil @subject.send(:layout_with_identifier, '/bar.*')
 
     assert_raises(Nanoc::Errors::UnknownLayout) do
-      assert_nil @subject.send(:layout_with_identifier, '/blah.erb')
+      @subject.send(:layout_with_identifier, '/qux.erb')
     end
 
     assert_raises(Nanoc::Errors::UnknownLayout) do
-      assert_nil @subject.send(:layout_with_identifier, '/blah.*')
+      @subject.send(:layout_with_identifier, '/qux.*')
+    end
+
+    assert_raises(Nanoc::Errors::NoSingleValueForPattern) do
+      @subject.send(:layout_with_identifier, '/*.erb')
     end
   end
 
