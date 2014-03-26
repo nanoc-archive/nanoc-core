@@ -111,6 +111,20 @@ class Nanoc::ItemCollectionTest < Nanoc::TestCase
     assert_nil @items.at('//one.md')
   end
 
+  def test_brackets_and_slice_and_at_with_unsupported_object
+    assert_raises(ArgumentError) do
+      @items[:blah]
+    end
+
+    assert_raises(ArgumentError) do
+      @items.slice(:blah)
+    end
+
+    assert_raises(ArgumentError) do
+      @items.at(:blah)
+    end
+  end
+
   def test_brackets_and_slice_and_at_frozen
     @items.freeze
 
