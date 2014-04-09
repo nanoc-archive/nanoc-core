@@ -24,7 +24,7 @@ module Nanoc
     #
     # @param [Symbol] key The name of the attribute to set
     #
-    # @paramv alue The value of the attribute to set
+    # @param value The value of the attribute to set
     #
     # @return [void]
     def []=(key, value)
