@@ -39,6 +39,20 @@ module Nanoc
       resolve.identifier
     end
 
+    # @see Object#==
+    def ==(other)
+      if other.respond_to?(:resolve)
+        resolve == other.resolve
+      else
+        resolve == other
+      end
+    end
+
+    # @see Object#eql?
+    def eql?(other)
+      self == other
+    end
+
   end
 
 end
