@@ -54,7 +54,7 @@ module Nanoc
     def initialize(items_root, layouts_root, config)
       @items_root   = items_root
       @layouts_root = layouts_root
-      @config       = config
+      @config       = config || {}
 
       @references = 0
     end
