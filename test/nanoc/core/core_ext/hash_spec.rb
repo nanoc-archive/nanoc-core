@@ -82,14 +82,14 @@ end
 describe 'Hash#checksum' do
 
   it 'should work' do
-    expectation = '3812512ff54e552be485987c7fec2c96d2d83a7c'
+    expectation = 'fec9ae7163e8b8d57a15d51821d2c68d4a6bb169'
     { foo: 123 }.checksum.must_equal expectation
   end
 
-  it 'should sort keys' do
+  it 'should take key order into account' do
     a = { a: 1, c: 2, b: 3 }.checksum
     b = { a: 1, b: 3, c: 2 }.checksum
-    a.must_equal b
+    a.wont_equal b
   end
 
 end

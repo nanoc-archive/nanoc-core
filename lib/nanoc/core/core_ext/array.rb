@@ -52,6 +52,8 @@ module Nanoc::ArrayExtensions
   #
   # @api private
   def checksum
+    Marshal.dump(self).checksum
+  rescue
     elements = map { |e| e.respond_to?(:checksum) ? e.checksum : e }
     "array[#{elements.join(',')}]".checksum
   end

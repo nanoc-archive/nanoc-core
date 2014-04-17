@@ -58,7 +58,7 @@ end
 describe 'Array#checksum' do
 
   it 'should work' do
-    expectation = '1ef518dc64766269b6813ba8279852b92bb15b81'
+    expectation = '78468f950645150238a26f5b8f2dde39a75a7028'
     [ [ :foo, 123 ]].checksum.must_equal expectation
   end
 

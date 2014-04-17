@@ -54,6 +54,8 @@ module Nanoc::HashExtensions
   #
   # @api private
   def checksum
+    Marshal.dump(self).checksum
+  rescue
     elements = sort.map { |e| e.respond_to?(:checksum) ? e.checksum : e }
     "hash[#{elements.join(',')}]".checksum
   end
