@@ -159,6 +159,10 @@ describe Nanoc::Checksummer do
     let(:document)        { Nanoc::Item.new(content, attributes, identifier) }
     let(:normal_checksum) { 'ef8d87a9bd892a740884e2f06149674622bd2763' }
 
+    it 'should handle array of content and attributes' do
+      subject.calc([content, attributes]).must_equal(normal_checksum)
+    end
+
     it 'should checksum document' do
       subject.calc(document).must_equal(normal_checksum)
     end
