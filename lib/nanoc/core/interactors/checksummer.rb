@@ -48,7 +48,7 @@ module Nanoc
       when Configuration
         calc(obj.wrapped)
       when Document
-        calc([obj.content, obj.attributes])
+        calc("#{calc(obj.content)},#{calc(obj.attributes)}")
       else
         raise UnchecksummableError.new(obj)
       end

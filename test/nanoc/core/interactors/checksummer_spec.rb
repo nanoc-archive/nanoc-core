@@ -157,11 +157,7 @@ describe Nanoc::Checksummer do
     let(:attributes)      { { a: 1, b: 2 } }
     let(:identifier)      { '/foo.md' }
     let(:document)        { Nanoc::Item.new(content, attributes, identifier) }
-    let(:normal_checksum) { 'ef8d87a9bd892a740884e2f06149674622bd2763' }
-
-    it 'should handle array of content and attributes' do
-      subject.calc([content, attributes]).must_equal(normal_checksum)
-    end
+    let(:normal_checksum) { '48e1222896d0247226c82fc553e640bfe91f7156' }
 
     it 'should checksum document' do
       subject.calc(document).must_equal(normal_checksum)
