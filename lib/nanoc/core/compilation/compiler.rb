@@ -105,7 +105,7 @@ module Nanoc
 
       # Calculate checksums
       (site.items.to_a + site.layouts + site.code_snippets + [ site.config ]).each do |obj|
-        @checksum_store[obj] = obj.checksum
+        @checksum_store[obj] = Nanoc::Checksummer.calc(obj)
       end
       @checksum_store[rules_collection] = @rules_store.rule_data
 

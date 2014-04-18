@@ -17,12 +17,6 @@ module Nanoc
       false
     end
 
-    def checksum
-      digest = Digest::SHA1.new
-      digest.update(@string)
-      digest.hexdigest
-    end
-
     def inspect
       "<#{self.class} filename=\"#{filename}\" string=\"#{string}\">"
     end

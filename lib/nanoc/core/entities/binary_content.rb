@@ -10,11 +10,6 @@ module Nanoc
       true
     end
 
-    def checksum
-      stat = File.stat(@filename)
-      stat.size.to_s + '-' + stat.mtime.to_s
-    end
-
     def inspect
       "<#{self.class} filename=\"#{filename}\">"
     end

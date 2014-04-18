@@ -6,7 +6,6 @@ class Nanoc::ContentTest < Nanoc::TestCase
     content = Nanoc::Content.new('/foo.html')
 
     assert_raises(NotImplementedError) { content.binary? }
-    assert_raises(NotImplementedError) { content.checksum }
   end
 
   def test_valid_filename

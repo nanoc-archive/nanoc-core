@@ -28,9 +28,9 @@ module Nanoc
       result =
         case obj.type
         when :item_rep
-          new_rule_memory_for_rep(obj).serialize.inspect
+          Nanoc::Checksummer.calc(new_rule_memory_for_rep(obj).serialize)
         when :layout
-          new_rule_memory_for_layout(obj)
+          Nanoc::Checksummer.calc(new_rule_memory_for_layout(obj))
         else
           raise "Do not know how to calculate the rule memory for #{obj.inspect}"
         end

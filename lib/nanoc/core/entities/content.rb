@@ -16,10 +16,6 @@ module Nanoc
       raise NotImplementedError
     end
 
-    def checksum
-      raise NotImplementedError
-    end
-
     protected
 
     def validate_filename(filename)

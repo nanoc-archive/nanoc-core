@@ -5,37 +5,34 @@ module Nanoc
   # Represents the site configuration.
   class Configuration
 
+    attr_reader :wrapped
+
     # Creates a new configuration with the given hash.
     #
-    # @param [Hash] hash The actual configuration hash
-    def initialize(hash)
-      @hash = hash
+    # @param [Hash] wrapped The actual configuration hash
+    def initialize(wrapped)
+      @wrapped = wrapped
     end
 
     # @see Hash#[]
     def [](key)
-      @hash[key]
+      @wrapped[key]
     end
 
     # @see Hash#fetch
     def fetch(key, value)
-      @hash.fetch(key, value)
+      @wrapped.fetch(key, value)
     end
 
     # @see Hash#[]=
     def []=(key, value)
-      @hash[key] = value
-    end
-
-    # @return [String] The checksum for this configuration
-    def checksum
-      @hash.checksum
+      @wrapped[key] = value
     end
 
     # @see Hash#freeze_recursively
     def freeze_recursively
       freeze
-      @hash.freeze_recursively
+      @wrapped.freeze_recursively
     end
 
     # Returns an object that can be used for uniquely identifying objects.

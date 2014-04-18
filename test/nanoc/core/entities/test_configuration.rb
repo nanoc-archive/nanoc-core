@@ -21,9 +21,4 @@ class Nanoc::ConfigurationTest < Nanoc::TestCase
     assert_equal config[:a], 321
   end
 
-  def test_checksum
-    assert_equal new_configuration.checksum,
-      '887110538e2476ff31d7fa374fe75bbed3a1d856'
-  end
-
 end

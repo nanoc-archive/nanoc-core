@@ -94,6 +94,7 @@ require 'nanoc/core/interactors/item_rep_compilation_selector'
 require 'nanoc/core/interactors/site_loader'
 require 'nanoc/core/interactors/preprocessor'
 require 'nanoc/core/interactors/pruner'
+require 'nanoc/core/interactors/checksummer'
 
 # Load compilation classes
 require 'nanoc/core/compilation/compiler'
