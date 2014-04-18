@@ -56,7 +56,7 @@ describe Nanoc::Checksummer do
     let(:atime)           { 1234567890 }
     let(:mtime)           { 1234567890 }
     let(:data)            { 'stuffs' }
-    let(:normal_checksum) { 'eb709c95ff78652f77adf21b5c5d3fe0494aac83' }
+    let(:normal_checksum) { '36c457097e4d9d16cd1fb469c29d4f970c44568c' }
 
     before do
       file.write(data)
