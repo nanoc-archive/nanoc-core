@@ -68,6 +68,16 @@ describe Nanoc::Checksummer do
       file.unlink
     end
 
+    it 'should get the mtime right' do
+      stat = File.stat(filename)
+      stat.mtime.to_i.must_equal(mtime)
+    end
+
+    it 'should get the file size right' do
+      stat = File.stat(filename)
+      stat.size.must_equal(6)
+    end
+
     it 'should checksum binary content' do
       subject.calc(binary_content).must_equal(normal_checksum)
     end
