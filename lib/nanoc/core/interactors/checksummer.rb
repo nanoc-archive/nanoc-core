@@ -40,7 +40,7 @@ module Nanoc
         calc_dump_or_inspect(obj)
       when BinaryContent
         stat = File.stat(obj.filename)
-        calc("#{stat.size}-#{stat.mtime.to_i}")
+        "bc,#{stat.size},#{stat.mtime.to_i}"
       when TextualContent
         calc(obj.string)
       when CodeSnippet

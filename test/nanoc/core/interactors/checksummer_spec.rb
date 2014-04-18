@@ -56,7 +56,7 @@ describe Nanoc::Checksummer do
     let(:atime)           { 1234567890 }
     let(:mtime)           { 1234567890 }
     let(:data)            { 'stuffs' }
-    let(:normal_checksum) { '36c457097e4d9d16cd1fb469c29d4f970c44568c' }
+    let(:normal_checksum) { 'bc,6,1234567890' }
 
     before do
       file.write(data)
@@ -87,8 +87,7 @@ describe Nanoc::Checksummer do
       let(:mtime) { 1333333333 }
 
       it 'should have a different checksum' do
-        subject.calc(binary_content).must_match(CHECKSUM_REGEX)
-        subject.calc(binary_content).wont_equal(normal_checksum)
+        subject.calc(binary_content).must_equal('bc,6,1333333333')
       end
 
     end
@@ -98,8 +97,7 @@ describe Nanoc::Checksummer do
       let(:data) { 'STUFF!' }
 
       it 'should have the same checksum' do
-        subject.calc(binary_content).must_match(CHECKSUM_REGEX)
-        subject.calc(binary_content).must_equal(normal_checksum)
+        subject.calc(binary_content).must_equal('bc,6,1234567890')
       end
 
     end
@@ -109,8 +107,7 @@ describe Nanoc::Checksummer do
       let(:data) { 'stuff and stuff and stuff!!!' }
 
       it 'should have a different checksum' do
-        subject.calc(binary_content).must_match(CHECKSUM_REGEX)
-        subject.calc(binary_content).wont_equal(normal_checksum)
+        subject.calc(binary_content).must_equal('bc,28,1234567890')
       end
 
     end
