@@ -6,12 +6,10 @@ module Nanoc
   # has changed since the last site compilation.
   #
   # @api private
-  class ChecksumStore < ::Nanoc::Store
+  class ChecksumStore < ::Nanoc::AtomicNonLoadingStore
 
     def initialize
       super('tmp/checksums', 1)
-
-      @checksums = {}
     end
 
     # Returns the old checksum for the given object. This makes sense for
@@ -21,7 +19,7 @@ module Nanoc
     #
     # @return [String] The checksum for the given object
     def [](obj)
-      @checksums[obj.reference]
+      super(obj.reference)
     end
 
     # Sets the checksum for the given object.
@@ -30,22 +28,7 @@ module Nanoc
     #
     # @param [String] checksum The checksum
     def []=(obj, checksum)
-      @checksums[obj.reference] = checksum
-    end
-
-    # @see Nanoc::Store#unload
-    def unload
-      @checksums = {}
-    end
-
-    protected
-
-    def data
-      @checksums
-    end
-
-    def data=(new_data)
-      @checksums = new_data
+      super(obj.reference, checksum)
     end
 
   end

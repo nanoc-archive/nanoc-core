@@ -6,7 +6,7 @@ module Nanoc
   # to prevent it from being needlessly recompiled.
   #
   # @api private
-  class CompiledContentCache < ::Nanoc::Store
+  class CompiledContentCache < ::Nanoc::AtomicNonLoadingStore
 
     def initialize
       super('tmp/compiled_content', 1)
@@ -24,8 +24,8 @@ module Nanoc
     # @return [Hash<Symbol,String>] A hash containing the cached compiled
     #   content for the given item representation
     def [](rep)
-      item_cache = @cache[rep.item.identifier] || {}
-      item_cache[rep.name]
+      item_data = super(rep.item.identifier) || {}
+      item_data[rep.name]
     end
 
     # Sets the compiled content for the given representation.
@@ -38,23 +38,12 @@ module Nanoc
     #
     # @return [void]
     def []=(rep, content)
-      @cache[rep.item.identifier] ||= {}
-      @cache[rep.item.identifier][rep.name] = content
-    end
+      identifier = rep.item.identifier
 
-    # @see Nanoc::Store#unload
-    def unload
-      @cache = {}
-    end
+      old_data = super.[](identifier) || {}
+      new_data = old_data.merge({ rep.name => content })
 
-    protected
-
-    def data
-      @cache
-    end
-
-    def data=(new_data)
-      @cache = new_data
+      super(identifier, new_data)
     end
 
   end
