@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 class Nanoc::IdentifierTest < Nanoc::TestCase
-
   def new_from_string(string)
     Nanoc::Identifier.from_string(string)
   end
@@ -45,6 +44,7 @@ class Nanoc::IdentifierTest < Nanoc::TestCase
     assert_equal %w( foo bar ), Nanoc::Identifier.coerce(identifier).components
   end
 
+  # rubocop:disable Style/CaseEquality
   def test_equal
     a = new_from_string('/foo/bar')
     b = new_from_string('foo/bar')
@@ -118,5 +118,4 @@ class Nanoc::IdentifierTest < Nanoc::TestCase
   def test_plus
     assert_equal '/fooSTUFF', new_from_string('/foo') + 'STUFF'
   end
-
 end

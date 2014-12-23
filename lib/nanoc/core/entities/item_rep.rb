@@ -7,16 +7,13 @@
 # - in compilation context (#[], #path, ...)
 
 module Nanoc
-
   # A single representation (rep) of an item ({Nanoc::Item}). An item can
   # have multiple representations. A representation has its own output file.
   # A single item can therefore have multiple output files, each run through
   # a different set of filters with a different layout.
   class ItemRep
-
     # Contains all private methods. Mixed into {Nanoc::ItemRep}.
     module Private
-
       # @return [Nanoc::SnapshotStore] The snapshot store to store content in
       attr_accessor :snapshot_store
 
@@ -66,21 +63,20 @@ module Nanoc
       def type
         :item_rep
       end
-
     end
 
     include Private
 
     # @return [Nanoc::Item] The item to which this rep belongs
-    attr_reader   :item
+    attr_reader :item
 
     # @return [Symbol] The representation's unique name
-    attr_reader   :name
+    attr_reader :name
 
     # @return [Array] A list of snapshots, represented as arrays where the
     #   first element is the snapshot name (a Symbol) and the last element is
     #   a Boolean indicating whether the snapshot is final or not
-    # TODO simplify
+    # TODO: simplify
     attr_accessor :snapshots
 
     # Creates a new item representation for the given item.
@@ -97,7 +93,7 @@ module Nanoc
       @item   = item
       @name   = name
       @snapshot_store = params.fetch(:snapshot_store)
-      @config         = params.fetch(:config) # TODO get rid of config
+      @config         = params.fetch(:config) # TODO: get rid of config
 
       # Set binary
       @binaryness = { last: @item.content.binary? }
@@ -331,9 +327,9 @@ module Nanoc
     #   snapshot (only available when the snapshot is written)
     #
     # @return [void]
-    def snapshot(snapshot_name, params = {})
-      # TODO make this work with binary ones as well
-      if !self.snapshot_binary?(:last)
+    def snapshot(snapshot_name, _params = {})
+      # TODO: make this work with binary ones as well
+      unless self.snapshot_binary?(:last)
         set_stored_content_at_snapshot(snapshot_name, stored_content_at_snapshot(:last))
       end
     end
@@ -344,7 +340,7 @@ module Nanoc
     #
     # @return [Object] An unique reference to this object
     def reference
-      [ type, item.identifier, name ]
+      [type, item.identifier, name]
     end
 
     def inspect
@@ -365,7 +361,5 @@ module Nanoc
     def filter_named(name)
       Nanoc::Filter.named(name)
     end
-
   end
-
 end

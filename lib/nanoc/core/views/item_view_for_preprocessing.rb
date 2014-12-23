@@ -1,11 +1,9 @@
 # encoding: utf-8
 
 module Nanoc
-
   # A wrapper around {Nanoc::Item} that provides restricted access during
   # preprocessing.
   class ItemViewForPreprocessing < Nanoc::DocumentView
-
     # @return [Boolean] true if the item is binary, false if it is not.
     def binary?
       resolve.binary?
@@ -30,7 +28,5 @@ module Nanoc
     def []=(key, value)
       resolve.attributes[key] = value
     end
-
   end
-
 end

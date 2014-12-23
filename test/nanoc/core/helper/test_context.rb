@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 class Nanoc::ContextTest < Nanoc::TestCase
-
   def test_context_with_instance_variable
     # Create context
     context = Nanoc::Context.new({ foo: 'bar', baz: 'quux' })
@@ -22,5 +21,4 @@ class Nanoc::ContextTest < Nanoc::TestCase
     YARD.parse(LIB_DIR + '/nanoc/core/helper/context.rb')
     assert_examples_correct 'Nanoc::Context#initialize'
   end
-
 end

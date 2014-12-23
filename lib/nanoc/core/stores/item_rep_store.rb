@@ -1,9 +1,7 @@
 # encoding: utf-8
 
 module Nanoc
-
   class ItemRepStore
-
     attr_reader :reps
 
     def initialize(reps)
@@ -11,13 +9,11 @@ module Nanoc
     end
 
     def reps_by_item
-      @_reps_by_item ||= @reps.group_by { |r| r.item }
+      @_reps_by_item ||= @reps.group_by(&:item)
     end
 
     def reps_for_item(item)
       reps_by_item.fetch(item, [])
     end
-
   end
-
 end

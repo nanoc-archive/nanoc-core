@@ -1,12 +1,10 @@
 # encoding: utf-8
 
 module Nanoc
-
   # Generates compilers.
   #
   # @api private
   class CompilerBuilder
-
     def build(site)
       dependency_tracker     = build_dependency_tracker(site)
       rules_store            = build_rules_store(site.config)
@@ -38,7 +36,7 @@ module Nanoc
     protected
 
     def build_dependency_tracker(site)
-      Nanoc::DependencyTracker.new(site.items.to_a + site.layouts).tap { |s| s.load }
+      Nanoc::DependencyTracker.new(site.items.to_a + site.layouts).tap(&:load)
     end
 
     def build_rules_store(config)
@@ -54,15 +52,15 @@ module Nanoc
     end
 
     def build_checksum_store
-      Nanoc::ChecksumStore.new.tap { |s| s.load }
+      Nanoc::ChecksumStore.new.tap(&:load)
     end
 
     def build_compiled_content_cache
-      Nanoc::CompiledContentCache.new.tap { |s| s.load }
+      Nanoc::CompiledContentCache.new.tap(&:load)
     end
 
     def build_rule_memory_store(site)
-      Nanoc::RuleMemoryStore.new(site: site).tap { |s| s.load }
+      Nanoc::RuleMemoryStore.new(site: site).tap(&:load)
     end
 
     def build_snapshot_store(config)
@@ -72,8 +70,8 @@ module Nanoc
     end
 
     def build_item_rep_writer(config)
-      # TODO pass options the right way
-      # TODO make type customisable (:filesystem)
+      # TODO: pass options the right way
+      # TODO: make type customisable (:filesystem)
       Nanoc::ItemRepWriter.named(:filesystem).new({ build_dir: config[:build_dir] })
     end
 
@@ -100,7 +98,5 @@ module Nanoc
     def build_preprocessor(site, rules_collection)
       Nanoc::Preprocessor.new(site, rules_collection)
     end
-
   end
-
 end

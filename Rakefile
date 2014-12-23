@@ -17,11 +17,11 @@ YARD::Rake::YardocTask.new(:doc) do |yard|
   ]
 end
 
-Rubocop::RakeTask.new(:rubocop) do |task|
-  task.patterns = ['lib/**/*.rb']
+RuboCop::RakeTask.new(:rubocop) do |task|
+  task.options  = %w( --display-cop-names --format simple )
 end
 
-task :test do
+task :test_unit do
   require './test/helper.rb'
 
   FileList['./test/**/test_*.rb', './test/**/*_spec.rb'].each do |fn|
@@ -29,4 +29,6 @@ task :test do
   end
 end
 
-task :default => :test
+task test: [:test_unit, :rubocop]
+
+task default: :test

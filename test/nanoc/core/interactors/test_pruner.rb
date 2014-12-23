@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 class Nanoc::PrunerTest < Nanoc::TestCase
-
   def test_abstract
     in_site do
       pruner = Nanoc::Pruner.new(site_here)
@@ -11,12 +10,10 @@ class Nanoc::PrunerTest < Nanoc::TestCase
       end
     end
   end
-
 end
 
-# TODO move this elsewhere
+# TODO: move this elsewhere
 class Nanoc::FilesystemPrunerTest < Nanoc::TestCase
-
   def test_find_compiled_files
     in_site do
       FileUtils.mkdir_p('build/some/random/directories/here')
@@ -83,7 +80,7 @@ class Nanoc::FilesystemPrunerTest < Nanoc::TestCase
       assert File.file?('build/another/random/file.txt')
       assert File.file?('build/another/some')
 
-      pruner = Nanoc::FilesystemPruner.new(site_here, exclude: [ 'some' ])
+      pruner = Nanoc::FilesystemPruner.new(site_here, exclude: ['some'])
       pruner.run
 
       assert File.file?('build/some/random/file.txt')
@@ -91,5 +88,4 @@ class Nanoc::FilesystemPrunerTest < Nanoc::TestCase
       assert File.file?('build/another/some')
     end
   end
-
 end

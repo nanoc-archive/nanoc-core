@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 class Nanoc::ItemTest < Nanoc::TestCase
-
   def test_initialize_with_attributes_with_string_keys
     item = Nanoc::Item.new('foo', { 'abc' => 'xyz' }, '/foo.md')
 
@@ -52,5 +51,4 @@ class Nanoc::ItemTest < Nanoc::TestCase
       item.attributes[:a][:b] = '456'
     end
   end
-
 end

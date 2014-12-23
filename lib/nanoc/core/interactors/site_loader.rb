@@ -1,12 +1,10 @@
 # encoding: utf-8
 
 module Nanoc
-
   # Loads sites.
   #
   # @api private
   class SiteLoader
-
     # The default configuration for a data source. A data source's
     # configuration overrides these options.
     DEFAULT_DATA_SOURCE_CONFIG = {
@@ -24,10 +22,10 @@ module Nanoc
     # `DEFAULT_CONFIG`.
     DEFAULT_CONFIG = {
       build_dir:          'build',
-      data_sources:       [ {} ],
-      index_filenames:    [ 'index.html' ],
+      data_sources:       [{}],
+      index_filenames:    ['index.html'],
       enable_output_diff: false,
-      prune:              { auto_prune: true, exclude: [ '.git', '.hg', '.svn', 'CVS' ] },
+      prune:              { auto_prune: true, exclude: ['.git', '.hg', '.svn', 'CVS'] },
     }
 
     CONFIG_FILENAME = 'nanoc.yaml'
@@ -38,10 +36,10 @@ module Nanoc
       config
       code_snippets
       data_sources
-      data_sources.each { |ds| ds.use }
+      data_sources.each(&:use)
       items
       layouts
-      data_sources.each { |ds| ds.unuse }
+      data_sources.each(&:unuse)
 
       # Build site
       Nanoc::Site.new({
@@ -93,7 +91,7 @@ module Nanoc
           Nanoc::CodeSnippet.new(
             File.read(filename),
             filename
-          ).tap { | cs| cs.load }
+          ).tap(&:load)
         end
       end
     end
@@ -143,7 +141,5 @@ module Nanoc
         Nanoc::Configuration.new(config)
       end
     end
-
   end
-
 end

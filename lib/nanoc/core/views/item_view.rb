@@ -1,10 +1,8 @@
 # encoding: utf-8
 
 module Nanoc
-
   # A wrapper around {Nanoc::Item} that provides restricted access.
   class ItemView < Nanoc::DocumentView
-
     extend Nanoc::Memoization
 
     # @param [Nanoc::Item] item
@@ -73,7 +71,7 @@ module Nanoc
       rep_for_params!(params).path(params)
     end
 
-    # TODO document
+    # TODO: document
     def rep_for_params!(params = {})
       rep_name = params.fetch(:rep, :default)
 
@@ -86,11 +84,9 @@ module Nanoc
       rep
     end
 
-    # TODO remove me (used in capturing helper)
+    # TODO: remove me (used in capturing helper)
     def forced_outdated=(bool)
       resolve.forced_outdated = bool
     end
-
   end
-
 end

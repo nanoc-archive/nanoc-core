@@ -1,9 +1,7 @@
 # encoding: utf-8
 
 module Nanoc
-
   class ItemRepBuilder
-
     def initialize(items, rules_collection, rule_memory_calculator, snapshot_store, config)
       @items                  = items
       @rules_collection       = rules_collection
@@ -23,7 +21,7 @@ module Nanoc
         end
 
         # Create reps
-        rep_names = matching_rules.map { |r| r.rep_name }.uniq
+        rep_names = matching_rules.map(&:rep_name).uniq
         rep_names.each do |rep_name|
           rep = ItemRep.new(item, rep_name, snapshot_store: @snapshot_store, config: @config)
 
@@ -38,7 +36,5 @@ module Nanoc
 
       Nanoc::ItemRepStore.new(reps)
     end
-
   end
-
 end

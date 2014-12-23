@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 class Nanoc::ItemRepViewForRecordingTest < Nanoc::TestCase
-
   def setup
     super
 
@@ -43,5 +42,4 @@ class Nanoc::ItemRepViewForRecordingTest < Nanoc::TestCase
   def test_inspect
     assert_match(/Nanoc::ItemRep*/, @subject.inspect)
   end
-
 end

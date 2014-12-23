@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 module Nanoc
-
   # Represents a fake iem representation that does not actually perform any
   # actual filtering, layouting or snapshotting, but instead keeps track of
   # what would happen if a real item representation would have been used
@@ -15,7 +14,6 @@ module Nanoc
   #
   # @api private
   class ItemRepViewForRecording
-
     extend Forwardable
 
     def_delegators :@item_rep, :name, :binary, :binary?, :compiled_content, :snapshot?, :path, :assigns, :assigns=
@@ -67,7 +65,7 @@ module Nanoc
         params.fetch(:final, true))
     end
 
-    # TODO document
+    # TODO: document
     def write(path, params = {})
       @rule_memory.add_write(
         path,
@@ -78,7 +76,5 @@ module Nanoc
     def content
       {}
     end
-
   end
-
 end

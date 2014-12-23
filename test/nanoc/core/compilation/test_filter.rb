@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 class Nanoc::FilterTest < Nanoc::TestCase
-
   def test_initialize
     # Create filter
     filter = Nanoc::Filter.new
@@ -79,7 +78,6 @@ class Nanoc::FilterTest < Nanoc::TestCase
   end
 
   class ItemWrapper
-
     def initialize(item, rep)
       @item = item
       @rep  = rep
@@ -90,9 +88,8 @@ class Nanoc::FilterTest < Nanoc::TestCase
     end
 
     def reps
-      [ @rep ]
+      [@rep]
     end
-
   end
 
   def test_depend_on_compiled
@@ -105,15 +102,15 @@ class Nanoc::FilterTest < Nanoc::TestCase
 
     wrapped_item = ItemWrapper.new(item, rep)
 
-    Nanoc::NotificationCenter.on(:visit_started, self) do |item|
-      item.attributes[:count] = item.attributes[:count] + 1
+    Nanoc::NotificationCenter.on(:visit_started, self) do |item2|
+      item2.attributes[:count] = item2.attributes[:count] + 1
     end
-    Nanoc::NotificationCenter.on(:visit_ended, self) do |item|
-      item.attributes[:count] = item.attributes[:count] + 10
+    Nanoc::NotificationCenter.on(:visit_ended, self) do |item2|
+      item2.attributes[:count] = item2.attributes[:count] + 10
     end
 
     filter = Nanoc::Filter.new({})
-    filter.depend_on([ wrapped_item ])
+    filter.depend_on([wrapped_item])
 
     assert_equal 1 + 10, item.attributes[:count]
   ensure
@@ -133,8 +130,7 @@ class Nanoc::FilterTest < Nanoc::TestCase
 
     filter = Nanoc::Filter.new({})
     assert_raises(Nanoc::Errors::UnmetDependency) do
-      filter.depend_on([ wrapped_item ])
+      filter.depend_on([wrapped_item])
     end
   end
-
 end

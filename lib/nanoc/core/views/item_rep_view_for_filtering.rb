@@ -1,10 +1,8 @@
 # encoding: utf-8
 
 module Nanoc
-
   # A wrapper around {Nanoc::ItemRep} that provides restricted access during filtering.
   class ItemRepViewForFiltering
-
     extend Forwardable
 
     def_delegators :@item_rep, :name, :compiled_content, :compiled?, :path
@@ -31,7 +29,5 @@ module Nanoc
     def inspect
       "<Nanoc::ItemRep* item.identifier=#{resolve.item.identifier.to_s.inspect} name=#{name.inspect}>"
     end
-
   end
-
 end

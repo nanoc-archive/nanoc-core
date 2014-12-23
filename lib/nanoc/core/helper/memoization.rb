@@ -1,10 +1,8 @@
 # encoding: utf-8
 
 module Nanoc
-
   # Adds support for memoizing functions.
   module Memoization
-
     # Memoizes the method with the given name. The modified method will cache
     # the results of the original method, so that calling a method twice with
     # the same arguments will short-circuit and return the cached results
@@ -50,7 +48,7 @@ module Nanoc
         @__memoization_cache[method_name] ||= {}
 
         # Recalculate if necessary
-        if !@__memoization_cache[method_name].key?(args)
+        unless @__memoization_cache[method_name].key?(args)
           result = send(original_method_name, *args)
           @__memoization_cache[method_name][args] = result
         end
@@ -59,7 +57,5 @@ module Nanoc
         @__memoization_cache[method_name][args]
       end
     end
-
   end
-
 end

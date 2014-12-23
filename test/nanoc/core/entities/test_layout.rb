@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 class Nanoc::LayoutTest < Nanoc::TestCase
-
   def test_initialize
     layout = Nanoc::Layout.new('content', { 'foo' => 'bar' }, '/foo')
     assert_equal({ foo: 'bar' }, layout.attributes)
@@ -34,5 +33,4 @@ class Nanoc::LayoutTest < Nanoc::TestCase
     # Check attributes
     assert_equal(nil, layout.attributes[:filter])
   end
-
 end

@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 class Nanoc::OutdatednessCheckerTest < Nanoc::TestCase
-
   def test_not_outdated
     # Compile once
     in_site(name: 'foo') do
@@ -259,7 +258,7 @@ class Nanoc::OutdatednessCheckerTest < Nanoc::TestCase
     end
   end
 
-  # TODO make sure outdatedness of non-outdated items is correct
+  # TODO: make sure outdatedness of non-outdated items is correct
 
   def test_outdated_if_code_snippets_outdated
     # Compile once
@@ -427,5 +426,4 @@ class Nanoc::OutdatednessCheckerTest < Nanoc::TestCase
       end
     end
   end
-
 end

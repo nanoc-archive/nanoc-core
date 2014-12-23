@@ -1,10 +1,8 @@
 # encoding: utf-8
 
 module Nanoc
-
   # Nanoc::CodeSnippet represent a piece of custom code of a nanoc site.
   class CodeSnippet
-
     # A string containing the actual code in this code snippet.
     #
     # @return [String]
@@ -37,13 +35,11 @@ module Nanoc
     #
     # @return [Object] An unique reference to this object
     def reference
-      [ :code_snippet, filename ]
+      [:code_snippet, filename]
     end
 
     def inspect
       "<#{self.class} filename=\"#{filename}\">"
     end
-
   end
-
 end

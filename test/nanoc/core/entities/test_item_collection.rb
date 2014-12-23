@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 class Nanoc::ItemCollectionTest < Nanoc::TestCase
-
   def setup
     super
 
@@ -35,9 +34,9 @@ class Nanoc::ItemCollectionTest < Nanoc::TestCase
 
   def test_glob
     assert_equal [],                         @items.glob('/three.*').map { |i| i.content.string }
-    assert_equal [ 'Item One' ],             @items.glob('/one.*').map   { |i| i.content.string }
-    assert_equal [ 'Item Two' ],             @items.glob('/two.*').map   { |i| i.content.string }
-    assert_equal [ 'Item One', 'Item Two' ], @items.glob('/*o*.*').map   { |i| i.content.string }
+    assert_equal ['Item One'],             @items.glob('/one.*').map   { |i| i.content.string }
+    assert_equal ['Item Two'],             @items.glob('/two.*').map   { |i| i.content.string }
+    assert_equal ['Item One', 'Item Two'], @items.glob('/*o*.*').map   { |i| i.content.string }
   end
 
   def test_brackets_and_slice_and_at_with_string_identifier
@@ -183,13 +182,13 @@ class Nanoc::ItemCollectionTest < Nanoc::TestCase
     @items.freeze
 
     assert_raises_frozen_error do
-      @items.map! { |i| }
+      @items.map! { |_i| }
     end
   end
 
   def test_concat
     new_item = Nanoc::Item.new('New item', {}, '/new.md')
-    @items.concat([ new_item ])
+    @items.concat([new_item])
     assert_equal new_item, @items['/new.md']
   end
 
@@ -216,5 +215,4 @@ class Nanoc::ItemCollectionTest < Nanoc::TestCase
     @items.select! { |i| i.identifier == '/two.css' }
     assert_nil @items['/one.md']
   end
-
 end

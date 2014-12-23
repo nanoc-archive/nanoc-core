@@ -1,9 +1,7 @@
 # encoding: utf-8
 
 module Nanoc
-
   class Pattern
-
     def self.from(obj)
       case obj
       when Nanoc::StringPattern, Nanoc::RegexpPattern
@@ -17,31 +15,27 @@ module Nanoc
       end
     end
 
-    def initialize(obj)
+    def initialize(_obj)
       raise NotImplementedError
     end
 
-    def match?(identifier)
+    def match?(_identifier)
       raise NotImplementedError
     end
-
   end
 
   class StringPattern
-
     def initialize(string)
       @string = string
     end
 
     def match?(identifier)
-      # TODO allow matching /foo.{md,txt}
+      # TODO: allow matching /foo.{md,txt}
       File.fnmatch(@string, identifier.to_s, File::FNM_PATHNAME)
     end
-
   end
 
   class RegexpPattern
-
     def initialize(regexp)
       @regexp = regexp
     end
@@ -49,7 +43,5 @@ module Nanoc
     def match?(identifier)
       identifier.to_s =~ @regexp
     end
-
   end
-
 end

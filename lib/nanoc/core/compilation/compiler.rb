@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 module Nanoc
-
   # Responsible for compiling a site’s item representations.
   #
   # The compilation process makes use of notifications (see
@@ -31,13 +30,12 @@ module Nanoc
   #   item representation and that the requested attributes or content have
   #   been fetched (either successfully or with failure)
   class Compiler
-
     # @group Accessors
 
     # @return [Nanoc::Site] The site this compiler belongs to
     attr_reader :site
 
-    # FIXME ugly
+    # FIXME: ugly
     attr_reader :item_rep_store
     attr_reader :item_rep_writer
     attr_reader :outdatedness_checker
@@ -104,7 +102,7 @@ module Nanoc
       end
 
       # Calculate checksums
-      (site.items.to_a + site.layouts + site.code_snippets + [ site.config ]).each do |obj|
+      (site.items.to_a + site.layouts + site.code_snippets + [site.config]).each do |obj|
         @checksum_store[obj] = Nanoc::Checksummer.calc(obj)
       end
       @checksum_store[rules_collection] = @rules_store.rule_data
@@ -237,7 +235,5 @@ module Nanoc
         pruner_class.new(site, exclude: exclude).run
       end
     end
-
   end
-
 end

@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 describe 'Hash#symbolize_keys_recursively' do
-
   it 'should convert keys to symbols' do
     hash_old = { 'foo' => 'bar' }
     hash_new = { foo: 'bar' }
@@ -13,11 +12,9 @@ describe 'Hash#symbolize_keys_recursively' do
     hash_new = hash_old
     hash_old.symbolize_keys_recursively.must_equal hash_new
   end
-
 end
 
 describe 'Hash#stringify_keys_recursively' do
-
   it 'should leave strings as strings' do
     hash_old = { 'foo' => 'bar' }
     hash_new = { 'foo' => 'bar' }
@@ -41,11 +38,9 @@ describe 'Hash#stringify_keys_recursively' do
     hash_new = { ''  => 'bar' }
     hash_old.stringify_keys_recursively.must_equal hash_new
   end
-
 end
 
 describe 'Hash#freeze_recursively' do
-
   include Nanoc::TestHelpers
 
   it 'should prevent first-level elements from being modified' do
@@ -76,5 +71,4 @@ describe 'Hash#freeze_recursively' do
     assert a[:x].frozen?
     assert_equal a, a[:x]
   end
-
 end

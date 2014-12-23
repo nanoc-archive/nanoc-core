@@ -1,13 +1,11 @@
 # encoding: utf-8
 
 module Nanoc
-
   # Contains methods that will be executed by the site’s `Rules` file.
   #
   # Several methods accept patterns. These patterns can be either globs or
   # regular expressions.
   class CompilerDSL
-
     # Creates a new compiler DSL for the given collection of rules.
     #
     # @api private
@@ -97,7 +95,7 @@ module Nanoc
     #     layout '/*.haml',  :haml, :format => :html5
     def layout(pattern, filter_name, params = {})
       key = Nanoc::Pattern.from(pattern)
-      value = [ filter_name, params ]
+      value = [filter_name, params]
       @rules_collection.layout_filter_mapping[key] = value
     end
 
@@ -114,12 +112,10 @@ module Nanoc
     #     include_rules 'rules/assets'
     #     include_rules 'rules/content'
     def include_rules(name)
-      filename = [ "#{name}", "#{name}.rb", "./#{name}", "./#{name}.rb" ].find { |f| File.file?(f) }
+      filename = ["#{name}", "#{name}.rb", "./#{name}", "./#{name}.rb"].find { |f| File.file?(f) }
       raise Nanoc::Errors::NoRulesFileFound.new if filename.nil?
 
       instance_eval(File.read(filename), filename)
     end
-
   end
-
 end

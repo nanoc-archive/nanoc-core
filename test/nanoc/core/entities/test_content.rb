@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 class Nanoc::ContentTest < Nanoc::TestCase
-
   def test_abstract
     content = Nanoc::Content.new('/foo.html')
 
@@ -16,5 +15,4 @@ class Nanoc::ContentTest < Nanoc::TestCase
       Nanoc::Content.new('foo.html')
     end
   end
-
 end

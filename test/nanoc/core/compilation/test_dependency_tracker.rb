@@ -1,10 +1,9 @@
 # encoding: utf-8
 
 class Nanoc::DependencyTrackerTest < Nanoc::TestCase
-
   def test_initialize
     # Mock items
-    items = [ mock, mock ]
+    items = [mock, mock]
 
     # Create
     tracker = Nanoc::DependencyTracker.new(items)
@@ -16,7 +15,7 @@ class Nanoc::DependencyTrackerTest < Nanoc::TestCase
 
   def test_record_dependency
     # Mock items
-    items = [ mock, mock ]
+    items = [mock, mock]
 
     # Create
     tracker = Nanoc::DependencyTracker.new(items)
@@ -25,12 +24,12 @@ class Nanoc::DependencyTrackerTest < Nanoc::TestCase
     tracker.record_dependency(items[0], items[1])
 
     # Verify dependencies
-    assert_set_equal [ items[1] ], tracker.objects_causing_outdatedness_of(items[0])
+    assert_set_equal [items[1]], tracker.objects_causing_outdatedness_of(items[0])
   end
 
   def test_record_dependency_no_self
     # Mock items
-    items = [ mock, mock ]
+    items = [mock, mock]
 
     # Create
     tracker = Nanoc::DependencyTracker.new(items)
@@ -40,12 +39,12 @@ class Nanoc::DependencyTrackerTest < Nanoc::TestCase
     tracker.record_dependency(items[0], items[1])
 
     # Verify dependencies
-    assert_set_equal [ items[1] ], tracker.objects_causing_outdatedness_of(items[0])
+    assert_set_equal [items[1]], tracker.objects_causing_outdatedness_of(items[0])
   end
 
   def test_record_dependency_no_doubles
     # Mock items
-    items = [ mock, mock ]
+    items = [mock, mock]
 
     # Create
     tracker = Nanoc::DependencyTracker.new(items)
@@ -56,12 +55,12 @@ class Nanoc::DependencyTrackerTest < Nanoc::TestCase
     tracker.record_dependency(items[0], items[1])
 
     # Verify dependencies
-    assert_set_equal [ items[1] ], tracker.objects_causing_outdatedness_of(items[0])
+    assert_set_equal [items[1]], tracker.objects_causing_outdatedness_of(items[0])
   end
 
   def test_objects_causing_outdatedness_of
     # Mock items
-    items = [ mock, mock, mock ]
+    items = [mock, mock, mock]
 
     # Create
     tracker = Nanoc::DependencyTracker.new(items)
@@ -71,12 +70,12 @@ class Nanoc::DependencyTrackerTest < Nanoc::TestCase
     tracker.record_dependency(items[1], items[2])
 
     # Verify dependencies
-    assert_set_equal [ items[1] ], tracker.objects_causing_outdatedness_of(items[0])
+    assert_set_equal [items[1]], tracker.objects_causing_outdatedness_of(items[0])
   end
 
   def test_objects_outdated_due_to
     # Mock items
-    items = [ mock, mock, mock ]
+    items = [mock, mock, mock]
 
     # Create
     tracker = Nanoc::DependencyTracker.new(items)
@@ -86,12 +85,12 @@ class Nanoc::DependencyTrackerTest < Nanoc::TestCase
     tracker.record_dependency(items[1], items[2])
 
     # Verify dependencies
-    assert_set_equal [ items[0] ], tracker.objects_outdated_due_to(items[1])
+    assert_set_equal [items[0]], tracker.objects_outdated_due_to(items[1])
   end
 
   def test_start_and_stop
     # Mock items
-    items = [ mock, mock ]
+    items = [mock, mock]
 
     # Create
     tracker = Nanoc::DependencyTracker.new(items)
@@ -105,18 +104,18 @@ class Nanoc::DependencyTrackerTest < Nanoc::TestCase
     tracker.stop
 
     # Verify dependencies
-    assert_set_equal [ items[1] ], tracker.objects_causing_outdatedness_of(items[0])
+    assert_set_equal [items[1]], tracker.objects_causing_outdatedness_of(items[0])
     assert_empty tracker.objects_causing_outdatedness_of(items[1])
   end
 
   def test_store_and_load_simple
     # Mock items
-    items = [ mock('0'), mock('1'), mock('2'), mock('3') ]
+    items = [mock('0'), mock('1'), mock('2'), mock('3')]
     items.each { |i| i.stubs(:type).returns(:item) }
-    items[0].stubs(:reference).returns([ :item, '/aaa/' ])
-    items[1].stubs(:reference).returns([ :item, '/bbb/' ])
-    items[2].stubs(:reference).returns([ :item, '/ccc/' ])
-    items[3].stubs(:reference).returns([ :item, '/ddd/' ])
+    items[0].stubs(:reference).returns([:item, '/aaa/'])
+    items[1].stubs(:reference).returns([:item, '/bbb/'])
+    items[2].stubs(:reference).returns([:item, '/ccc/'])
+    items[3].stubs(:reference).returns([:item, '/ddd/'])
 
     # Create
     tracker = Nanoc::DependencyTracker.new(items)
@@ -137,24 +136,24 @@ class Nanoc::DependencyTrackerTest < Nanoc::TestCase
     tracker.load
 
     # Check loaded graph
-    assert_set_equal [ items[1] ],           tracker.objects_causing_outdatedness_of(items[0])
-    assert_set_equal [ items[2], items[3] ], tracker.objects_causing_outdatedness_of(items[1])
+    assert_set_equal [items[1]],           tracker.objects_causing_outdatedness_of(items[0])
+    assert_set_equal [items[2], items[3]], tracker.objects_causing_outdatedness_of(items[1])
     assert_empty tracker.objects_causing_outdatedness_of(items[2])
     assert_empty tracker.objects_causing_outdatedness_of(items[3])
   end
 
   def test_store_and_load_with_removed_items
     # Mock items
-    items = [ mock('0'), mock('1'), mock('2'), mock('3') ]
+    items = [mock('0'), mock('1'), mock('2'), mock('3')]
     items.each { |i| i.stubs(:type).returns(:item) }
-    items[0].stubs(:reference).returns([ :item, '/aaa/' ])
-    items[1].stubs(:reference).returns([ :item, '/bbb/' ])
-    items[2].stubs(:reference).returns([ :item, '/ccc/' ])
-    items[3].stubs(:reference).returns([ :item, '/ddd/' ])
+    items[0].stubs(:reference).returns([:item, '/aaa/'])
+    items[1].stubs(:reference).returns([:item, '/bbb/'])
+    items[2].stubs(:reference).returns([:item, '/ccc/'])
+    items[3].stubs(:reference).returns([:item, '/ddd/'])
 
     # Create new and old lists
-    old_items = [ items[0], items[1], items[2], items[3] ]
-    new_items = [ items[0], items[1], items[2]           ]
+    old_items = [items[0], items[1], items[2], items[3]]
+    new_items = [items[0], items[1], items[2]]
 
     # Create
     tracker = Nanoc::DependencyTracker.new(old_items)
@@ -175,18 +174,18 @@ class Nanoc::DependencyTrackerTest < Nanoc::TestCase
     tracker.load
 
     # Check loaded graph
-    assert_set_equal [ items[1] ],       tracker.objects_causing_outdatedness_of(items[0])
-    assert_set_equal [ items[2], nil ],  tracker.objects_causing_outdatedness_of(items[1])
+    assert_set_equal [items[1]],       tracker.objects_causing_outdatedness_of(items[0])
+    assert_set_equal [items[2], nil],  tracker.objects_causing_outdatedness_of(items[1])
     assert_empty tracker.objects_causing_outdatedness_of(items[2])
   end
 
   def test_store_with_nils_in_dst
     # Mock items
-    items = [ mock('0'), mock('1'), mock('2') ]
+    items = [mock('0'), mock('1'), mock('2')]
     items.each { |i| i.stubs(:type).returns(:item) }
-    items[0].stubs(:reference).returns([ :item, '/aaa/' ])
-    items[1].stubs(:reference).returns([ :item, '/bbb/' ])
-    items[2].stubs(:reference).returns([ :item, '/ccc/' ])
+    items[0].stubs(:reference).returns([:item, '/aaa/'])
+    items[1].stubs(:reference).returns([:item, '/bbb/'])
+    items[2].stubs(:reference).returns([:item, '/ccc/'])
 
     # Create
     tracker = Nanoc::DependencyTracker.new(items)
@@ -206,17 +205,17 @@ class Nanoc::DependencyTrackerTest < Nanoc::TestCase
     tracker.load
 
     # Check loaded graph
-    assert_set_equal [ items[1] ], tracker.objects_causing_outdatedness_of(items[0])
-    assert_set_equal [ nil ],      tracker.objects_causing_outdatedness_of(items[1])
+    assert_set_equal [items[1]], tracker.objects_causing_outdatedness_of(items[0])
+    assert_set_equal [nil],      tracker.objects_causing_outdatedness_of(items[1])
   end
 
   def test_store_with_nils_in_src
     # Mock items
-    items = [ mock('0'), mock('1'), mock('2') ]
+    items = [mock('0'), mock('1'), mock('2')]
     items.each { |i| i.stubs(:type).returns(:item) }
-    items[0].stubs(:reference).returns([ :item, '/aaa/' ])
-    items[1].stubs(:reference).returns([ :item, '/bbb/' ])
-    items[2].stubs(:reference).returns([ :item, '/ccc/' ])
+    items[0].stubs(:reference).returns([:item, '/aaa/'])
+    items[1].stubs(:reference).returns([:item, '/bbb/'])
+    items[2].stubs(:reference).returns([:item, '/ccc/'])
 
     # Create
     tracker = Nanoc::DependencyTracker.new(items)
@@ -236,13 +235,13 @@ class Nanoc::DependencyTrackerTest < Nanoc::TestCase
     tracker.load
 
     # Check loaded graph
-    assert_set_equal [ items[1] ], tracker.objects_causing_outdatedness_of(items[0])
+    assert_set_equal [items[1]], tracker.objects_causing_outdatedness_of(items[0])
     assert_empty tracker.objects_causing_outdatedness_of(items[1])
   end
 
   def test_forget_dependencies_for
     # Mock items
-    items = [ mock, mock, mock ]
+    items = [mock, mock, mock]
 
     # Create
     tracker = Nanoc::DependencyTracker.new(items)
@@ -250,11 +249,10 @@ class Nanoc::DependencyTrackerTest < Nanoc::TestCase
     # Record some dependencies
     tracker.record_dependency(items[0], items[1])
     tracker.record_dependency(items[1], items[2])
-    assert_set_equal [ items[1] ], tracker.objects_causing_outdatedness_of(items[0])
+    assert_set_equal [items[1]], tracker.objects_causing_outdatedness_of(items[0])
 
     # Forget dependencies
     tracker.forget_dependencies_for(items[0])
     assert_empty tracker.objects_causing_outdatedness_of(items[0])
   end
-
 end

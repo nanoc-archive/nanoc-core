@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 class Nanoc::ItemRepTest < Nanoc::TestCase
-
   class TextualFilter < ::Nanoc::Filter
     identifier :text_filter
     type :text
@@ -13,7 +12,7 @@ class Nanoc::ItemRepTest < Nanoc::TestCase
   end
 
   def new_item
-    item = Nanoc::Item.new(
+    Nanoc::Item.new(
       Nanoc::TextualContent.new('blah blah blah', File.absolute_path('content/somefile.md')),
       {},
       '/stuff.md')
@@ -24,7 +23,7 @@ class Nanoc::ItemRepTest < Nanoc::TestCase
   end
 
   def test_created_modified_compiled
-    # TODO implement
+    # TODO: implement
   end
 
   def test_compiled_content_with_only_last_available
@@ -177,10 +176,10 @@ class Nanoc::ItemRepTest < Nanoc::TestCase
     rep = Nanoc::ItemRep.new(item, :foo, snapshot_store: new_snapshot_store, config: Nanoc::Configuration.new({}))
 
     # Create fake filter
-    def rep.filter_named(name)
+    def rep.filter_named(_name)
       @filter ||= Class.new(::Nanoc::Filter) do
         type text: :binary
-        def run(content, params = {})
+        def run(content, _params = {})
           File.write(output_filename, content)
         end
       end
@@ -206,7 +205,7 @@ class Nanoc::ItemRepTest < Nanoc::TestCase
     end
 
     # Create fake filter
-    def rep.filter_named(name)
+    def rep.filter_named(_name)
       @filter ||= Class.new(::Nanoc::Filter) do
         type :binary
       end
@@ -245,9 +244,9 @@ class Nanoc::ItemRepTest < Nanoc::TestCase
 
     # Create filter
     Class.new(::Nanoc::Filter) do
-      type       binary: :text
+      type binary: :text
       identifier :binary_to_text
-      def run(content, params = {})
+      def run(content, _params = {})
         content + ' textified'
       end
     end
@@ -270,10 +269,10 @@ class Nanoc::ItemRepTest < Nanoc::TestCase
 
     assert rep.snapshot_binary?(:last)
 
-    def rep.filter_named(name)
+    def rep.filter_named(_name)
       Class.new(::Nanoc::Filter) do
         type binary: :text
-        def run(content, params = {})
+        def run(_content, _params = {})
           'Some textual content'
         end
       end
@@ -281,10 +280,10 @@ class Nanoc::ItemRepTest < Nanoc::TestCase
     rep.filter(:binary_to_text, {}, {})
     assert !rep.snapshot_binary?(:last)
 
-    def rep.filter_named(name)
+    def rep.filter_named(_name)
       Class.new(::Nanoc::Filter) do
         type :text
-        def run(content, params = {})
+        def run(_content, _params = {})
           'Some textual content'
         end
       end
@@ -304,10 +303,10 @@ class Nanoc::ItemRepTest < Nanoc::TestCase
     rep = create_rep_for(item, :foo)
 
     assert rep.snapshot_binary?(:last)
-    def rep.filter_named(name)
+    def rep.filter_named(_name)
       @filter ||= Class.new(::Nanoc::Filter) do
         type binary: :text
-        def run(content, params = {})
+        def run(_content, _params = {})
           'Some textual content'
         end
       end
@@ -321,7 +320,7 @@ class Nanoc::ItemRepTest < Nanoc::TestCase
 
   def test_new_content_should_be_frozen
     filter_class = Class.new(::Nanoc::Filter) do
-      def run(content, params = {})
+      def run(content, _params = {})
         content.gsub!('foo', 'moo')
         content
       end
@@ -330,7 +329,7 @@ class Nanoc::ItemRepTest < Nanoc::TestCase
     item = Nanoc::Item.new('foo bar', {}, '/foo.md')
     rep = Nanoc::ItemRep.new(item, :default, snapshot_store: new_snapshot_store, config: Nanoc::Configuration.new({}))
     rep.instance_eval { @filter_class = filter_class }
-    def rep.filter_named(name)
+    def rep.filter_named(_name)
       @filter_class
     end
 
@@ -341,7 +340,7 @@ class Nanoc::ItemRepTest < Nanoc::TestCase
 
   def test_filter_should_freeze_content
     filter_class = Class.new(::Nanoc::Filter) do
-      def run(content, params = {})
+      def run(content, _params = {})
         content.gsub!('foo', 'moo')
       end
     end
@@ -349,7 +348,7 @@ class Nanoc::ItemRepTest < Nanoc::TestCase
     item = Nanoc::Item.new('foo bar', {}, '/foo.md')
     rep = Nanoc::ItemRep.new(item, :default, snapshot_store: new_snapshot_store, config: Nanoc::Configuration.new({}))
     rep.instance_eval { @filter_class = filter_class }
-    def rep.filter_named(name)
+    def rep.filter_named(_name)
       @filter_class
     end
 
@@ -375,7 +374,7 @@ class Nanoc::ItemRepTest < Nanoc::TestCase
     Nanoc::NotificationCenter.post(:visit_ended,   items[0])
     dt.stop
 
-    assert_equal [ items[1] ], dt.objects_causing_outdatedness_of(items[0])
+    assert_equal [items[1]], dt.objects_causing_outdatedness_of(items[0])
   end
 
   def test_access_compiled_content_of_binary_item
@@ -417,5 +416,4 @@ class Nanoc::ItemRepTest < Nanoc::TestCase
   def create_rep_for(item, name)
     Nanoc::ItemRep.new(item, name, snapshot_store: new_snapshot_store, config: Nanoc::Configuration.new({}))
   end
-
 end

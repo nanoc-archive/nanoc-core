@@ -1,9 +1,7 @@
 # encoding: utf-8
 
 class Nanoc::MemoizationTest < Nanoc::TestCase
-
   class Sample1
-
     extend Nanoc::Memoization
 
     def initialize(value)
@@ -14,11 +12,9 @@ class Nanoc::MemoizationTest < Nanoc::TestCase
       @value * 10 + n
     end
     memoize :run
-
   end
 
   class Sample2
-
     extend Nanoc::Memoization
 
     def initialize(value)
@@ -29,7 +25,6 @@ class Nanoc::MemoizationTest < Nanoc::TestCase
       @value * 100 + n
     end
     memoize :run
-
   end
 
   def test_simple
@@ -45,5 +40,4 @@ class Nanoc::MemoizationTest < Nanoc::TestCase
       assert_equal 100 * 25 + 7, sample2b.run(7)
     end
   end
-
 end

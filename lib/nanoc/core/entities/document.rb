@@ -1,10 +1,8 @@
 # encoding: utf-8
 
 module Nanoc
-
   # Has content, attributes and an identifier.
   class Document
-
     extend Nanoc::Memoization
 
     # @return [Nanoc::Identifier]
@@ -34,7 +32,7 @@ module Nanoc
       elsif content.is_a?(Nanoc::TextualContent) || content.is_a?(Nanoc::BinaryContent)
         @content = content
       else
-        # FIXME does it make sense to have a nil path?
+        # FIXME: does it make sense to have a nil path?
         @content = Nanoc::TextualContent.new(content.to_s, nil)
       end
 
@@ -68,7 +66,7 @@ module Nanoc
     #
     # @return [Object] An unique reference to this object
     def reference
-      [ type, identifier ]
+      [type, identifier]
     end
 
     # @see Object#freeze
@@ -98,7 +96,5 @@ module Nanoc
     def ==(other)
       self.eql?(other)
     end
-
   end
-
 end

@@ -1,13 +1,11 @@
 # encoding: utf-8
 
 module Nanoc
-
   # Provides a context in which compilation and routing rules can be executed.
   # It provides access to the item representation that is being compiled.
   #
   # @api private
   class RuleContext < Context
-
     # @option params [Nanoc::ItemRep] :rep The item representation that will
     #   be processed in this rule context
     #
@@ -78,7 +76,5 @@ module Nanoc
     def write(path, params = {})
       rep.write(path, params)
     end
-
   end
-
 end

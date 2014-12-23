@@ -1,13 +1,10 @@
 # encoding: utf-8
 
 module Nanoc
-
-  # TODO document
+  # TODO: document
   class Checksummer
-
-    # TODO document
+    # TODO: document
     class UnchecksummableError < Nanoc::Errors::Generic
-
       def initialize(obj)
         @obj = obj
       end
@@ -15,27 +12,26 @@ module Nanoc
       def message
         "Don’t know how to create checksum for a #{obj.class}"
       end
-
     end
 
-    # TODO document
+    # TODO: document
     def self.instance
-      @_instance ||= self.new
+      @_instance ||= new
     end
 
-    # TODO document
+    # TODO: document
     def self.calc(obj)
       instance.calc(obj)
     end
 
-    # TODO document
+    # TODO: document
     def calc(obj)
       case obj
       when String
         digest = Digest::SHA1.new
         digest.update(obj)
         digest.hexdigest
-        # TODO don’t need hexdigest per se
+        # TODO: don’t need hexdigest per se
       when Array, Hash
         calc_dump_or_inspect(obj)
       when BinaryContent
@@ -61,7 +57,5 @@ module Nanoc
     rescue
       calc(obj.inspect)
     end
-
   end
-
 end

@@ -1,12 +1,10 @@
 # encoding: utf-8
 
 module Nanoc
-
   # Loads the rules.
   #
   # @abstract Subclasses must implement {#load_rules}.
   class RulesStore
-
     extend DDPlugin::Plugin
 
     # @return [RulesCollction] The rules collection
@@ -26,7 +24,5 @@ module Nanoc
     def load_rules
       raise NotImplementedError, 'Subclasses must implement #load_rules'
     end
-
   end
-
 end

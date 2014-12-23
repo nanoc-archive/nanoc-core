@@ -3,9 +3,7 @@
 require 'nanoc/core/entities/content'
 
 module Nanoc
-
   class BinaryContent < Content
-
     def binary?
       true
     end
@@ -13,7 +11,5 @@ module Nanoc
     def inspect
       "<#{self.class} filename=\"#{filename}\">"
     end
-
   end
-
 end

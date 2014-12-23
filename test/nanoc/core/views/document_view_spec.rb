@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 describe Nanoc::DocumentView do
-
   let(:content) do
     Nanoc::TextualContent.new('blah blah blah', File.absolute_path('content/somefile.md'))
   end
@@ -23,15 +22,12 @@ describe Nanoc::DocumentView do
   end
 
   describe '#resolve' do
-
     it 'should work' do
       subject.resolve.must_equal(item)
     end
-
   end
 
   describe '#== and #eql?' do
-
     it 'should work when comparing to objects of the same type' do
       (subject == Nanoc::DocumentView.new(item)).must_equal(true)
     end
@@ -47,7 +43,5 @@ describe Nanoc::DocumentView do
     it 'should fail when comparing to objects of same type but different identifier' do
       (subject == other_item).must_equal(false)
     end
-
   end
-
 end

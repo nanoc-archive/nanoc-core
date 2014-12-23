@@ -1,10 +1,8 @@
 # encoding: utf-8
 
 module Nanoc
-
   # Represents the site configuration.
   class Configuration
-
     attr_reader :wrapped
 
     # Creates a new configuration with the given hash.
@@ -41,7 +39,5 @@ module Nanoc
     def reference
       :config
     end
-
   end
-
 end

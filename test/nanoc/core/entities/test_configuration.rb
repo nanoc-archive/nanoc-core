@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 class Nanoc::ConfigurationTest < Nanoc::TestCase
-
   def new_configuration
     Nanoc::Configuration.new({ a: 123 })
   end
@@ -20,5 +19,4 @@ class Nanoc::ConfigurationTest < Nanoc::TestCase
     config[:a] = 321
     assert_equal config[:a], 321
   end
-
 end

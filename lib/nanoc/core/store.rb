@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 module Nanoc
-
   # An abstract superclass for classes that need to store data to the
   # filesystem, such as checksums, cached compiled content and dependency
   # graphs.
@@ -15,7 +14,6 @@ module Nanoc
   #
   # @api private
   class Store
-
     # @return [String] The name of the file where data will be loaded from and
     #   stored to.
     attr_reader :filename
@@ -52,7 +50,7 @@ module Nanoc
     # @abstract This method must be implemented by the subclass.
     #
     # @return [void]
-    def data=(new_data)
+    def data=(_new_data)
       raise NotImplementedError.new('Nanoc::Store subclasses must implement #data and #data=')
     end
 
@@ -67,7 +65,7 @@ module Nanoc
       end
 
       # Check file existance
-      if !File.file?(filename)
+      unless File.file?(filename)
         no_data_found
         @loaded = true
         return
@@ -134,7 +132,5 @@ module Nanoc
     def pstore
       @pstore ||= PStore.new(filename)
     end
-
   end
-
 end
