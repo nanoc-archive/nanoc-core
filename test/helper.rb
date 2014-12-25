@@ -10,14 +10,9 @@ SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
 SimpleCov.start
 
 # Load unit testing stuff
-begin
-  require 'minitest/autorun'
-  require 'mocha/setup'
-  require 'yard'
-rescue => e
-  $stderr.puts 'To run the nanoc unit tests, you need minitest and mocha.'
-  raise e
-end
+require 'minitest/autorun'
+require 'mocha/setup'
+require 'yard'
 
 # Load nanoc
 require 'nanoc-core'
