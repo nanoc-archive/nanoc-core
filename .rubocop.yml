@@ -8,10 +8,12 @@ Style/EmptyElse:
 
 # ----- TWEAKED -----
 
+# lib/nanoc-core.rb is an exception, necessary in order to `require 'nanoc-core'`
 Style/FileName:
   Exclude:
     - lib/nanoc-core.rb
 
+# Some tests use global variables. Icky, I know.
 Style/GlobalVars:
   Exclude:
     - test/**/*.rb
@@ -20,6 +22,10 @@ Style/GlobalVars:
 Style/ClassAndModuleChildren:
   Exclude:
     - test/**/*.rb
+
+# The `consistent` enforced style is cleaner, and prevents huge indentations.
+IndentHash:
+  EnforcedStyle: consistent
 
 
 
@@ -84,10 +90,6 @@ Documentation:
 
 # if/unless at the end of the line makes it too easy to oversee.
 IfUnlessModifier:
-  Enabled: false
-
-# This causes the hashes to be ridiculously indented.
-IndentHash:
   Enabled: false
 
 # Personal preference is to have decent constructors for exceptions rather than
