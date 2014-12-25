@@ -146,7 +146,7 @@ EOS
     Nanoc.on_windows?
   end
 
-  def symlink_supported?
+  def symlinks_supported?
     File.symlink(nil, nil)
   rescue NotImplementedError
     return false
@@ -155,7 +155,7 @@ EOS
   end
 
   def skip_unless_symlinks_supported
-    skip 'Symlinks are not supported by Ruby on Windows' unless symlink_supported?
+    skip 'Symlinks are not supported by Ruby on Windows' unless symlinks_supported?
   end
 end
 
