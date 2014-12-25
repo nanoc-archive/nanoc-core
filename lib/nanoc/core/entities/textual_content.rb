@@ -3,9 +3,7 @@
 require 'nanoc/core/entities/content'
 
 module Nanoc
-
   class TextualContent < Content
-
     attr_reader :string
 
     def initialize(string, filename)
@@ -20,7 +18,5 @@ module Nanoc
     def inspect
       "<#{self.class} filename=\"#{filename}\" string=\"#{string}\">"
     end
-
   end
-
 end

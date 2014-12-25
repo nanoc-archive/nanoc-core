@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 class Nanoc::RuleContextTest < Nanoc::TestCase
-
   def test_objects
     # Mock everything
     config = mock
@@ -51,9 +50,8 @@ class Nanoc::RuleContextTest < Nanoc::TestCase
     @rule_context = Nanoc::RuleContext.new(rep: rep, site: site)
 
     # Check
-    rep.filter   :foo, bar: 'baz'
-    rep.layout   'foo'
+    rep.filter :foo, bar: 'baz'
+    rep.layout 'foo'
     rep.snapshot 'awesome'
   end
-
 end

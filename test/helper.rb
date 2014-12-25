@@ -27,7 +27,6 @@ require 'stringio'
 require 'tmpdir'
 
 module Nanoc::TestHelpers
-
   LIB_DIR = File.expand_path(File.dirname(__FILE__) + '/../lib')
 
   def in_site(params = {})
@@ -113,7 +112,7 @@ EOS
     P(object).tags(:example).each do |example|
       # Classify
       lines = example.text.lines.map do |line|
-        [ line =~ /^\s*# ?=>/ ? :result : :code, line ]
+        [line =~ /^\s*# ?=>/ ? :result : :code, line]
       end
 
       # Join
@@ -125,7 +124,7 @@ EOS
           pieces << line
         end
       end
-      lines = pieces.map { |p| p.last }
+      lines = pieces.map(&:last)
 
       # Test
       b = binding
@@ -152,24 +151,21 @@ EOS
     Nanoc.on_windows?
   end
 
-  def have_symlink?
-    File.symlink nil, nil
+  def symlink_supported?
+    File.symlink(nil, nil)
   rescue NotImplementedError
     return false
   rescue
     return true
   end
 
-  def skip_unless_have_symlink
-    skip 'Symlinks are not supported by Ruby on Windows' unless have_symlink?
+  def skip_unless_symlinks_supported
+    skip 'Symlinks are not supported by Ruby on Windows' unless symlink_supported?
   end
-
 end
 
 class Nanoc::TestCase < Minitest::Test
-
   include Nanoc::TestHelpers
-
 end
 
 # Unexpected system exit is unexpected
@@ -179,6 +175,6 @@ end
 #
 class Time
   def inspect
-    strftime("%a %b %d %H:%M:%S.#{"%06d" % usec} %Z %Y")
+    strftime("%a %b %d %H:%M:%S.#{format('%06d', usec)} %Z %Y")
   end
 end

@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 class Nanoc::RulesCollectionTest < Nanoc::TestCase
-
   def new_snapshot_store
     Nanoc::SnapshotStore::InMemory.new
   end
@@ -32,7 +31,7 @@ class Nanoc::RulesCollectionTest < Nanoc::TestCase
     layout = Nanoc::Layout.new('stuff', {}, '/blah')
 
     # Test
-    assert_equal([ :erb, { foo: 'bar' } ], rules.filter_for_layout(layout))
+    assert_equal([:erb, { foo: 'bar' }], rules.filter_for_layout(layout))
   end
 
   def test_filter_for_layout_with_nonexistant_layout
@@ -80,5 +79,4 @@ class Nanoc::RulesCollectionTest < Nanoc::TestCase
       assert_equal(char, filter_and_args[1][:char])
     end
   end
-
 end

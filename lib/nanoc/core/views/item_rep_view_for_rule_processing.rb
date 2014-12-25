@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 module Nanoc
-
   # Represents an item representation, but provides an interface that is
   # easier to use when writing compilation and routing rules. It is also
   # responsible for fetching the necessary information from the compiler, such
@@ -10,7 +9,6 @@ module Nanoc
   # The API provided by item representation proxies allows layout identifiers
   # to be given as literals instead of as references to {Nanoc::Layout}.
   class ItemRepViewForRuleProcessing
-
     extend Forwardable
 
     def_delegators :@item_rep, :name, :binary, :binary?, :compiled_content, :snapshot?, :path
@@ -106,7 +104,5 @@ module Nanoc
 
       matching_layouts.first
     end
-
   end
-
 end

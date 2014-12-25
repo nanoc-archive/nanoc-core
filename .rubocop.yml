@@ -1,34 +1,75 @@
-# ----- DISABLED (hard) -----
+# ----- TO BE ENABLED ----
 
-# Hash parameters should not have braces, but this cop is unable to distinguish
-# between has parameters and methods that take a hash as a param.
-BracesAroundHashParameters:
+# Offense count: 3
+Style/EmptyElse:
   Enabled: false
+
+
+
+# ----- TWEAKED -----
+
+Style/FileName:
+  Exclude:
+    - lib/nanoc-core.rb
+
+Style/GlobalVars:
+  Exclude:
+    - test/**/*.rb
+
+# Can possibly be fixed, but low prio
+Style/ClassAndModuleChildren:
+  Exclude:
+    - test/**/*.rb
+
+
+
+# ----- DISABLED (hard) -----
 
 # nanoc relies on eval in several cases (code snippets and some helpers).
 Eval:
+  Enabled: false
+
+# nanoc suppresses exceptions for valid reasons in a few cases.
+HandleExceptions:
+  Enabled: false
+
+
+
+# ----- DISABLED (code quality) -----
+#
+# There are tools for checking code quality (file/method/line/class length, complexity, …) and these shouldn’t be part of the regular Rubocop style checks.
+
+LineLength:
+  Enabled: false
+
+MethodLength:
+  Enabled: false
+
+ClassLength:
+  Enabled: false
+
+PerceivedComplexity:
+  Enabled: false
+
+CyclomaticComplexity:
+  Enabled: false
+
+Metrics/ParameterLists:
+  Enabled: false
+
+Metrics/AbcSize:
   Enabled: false
 
 
 
 # ----- DISABLED (opinionated) -----
 
-# Already defined modules and classes can be reused in compact style, but newly
-# introduced modules and classes are always in nested style.
-ClassAndModuleChildren:
+# Hash parameters should not have braces, but this cop is unable to distinguish
+# between has parameters and methods that take a hash as a param.
+BracesAroundHashParameters:
   Enabled: false
 
-# This leads to lines that ridiculously deeply indented far too quickly.
-IndentHash:
-  Enabled: false
-
-# Trailing commas make diffs simpler. One might argue that requiring trailing
-# commas is a limitation of the diff mechanism, but that is the one we have and
-# it is not going away.
-TrailingComma:
-  Enabled: false
-
-# Parameters are indented one soft tab instead.
+# Parameters are indented one soft tab instead, which reduces indentation.
 AlignParameters:
   Enabled: false
 
@@ -37,65 +78,16 @@ AlignParameters:
 AsciiComments:
   Enabled: false
 
-# Personal convention is to use “memo” and an appropriate name for the element.
-SingleLineBlockParams:
-  Enabled: false
-
-# Mostly long hardcoded strings which I’d rather not break up (yet).
-#
-# Re-enable in nanoc 4.x.
-LineLength:
-  Enabled: false
-
-# Other tools exist for checking code quality. This cop is probably good to
-# have, but nanoc 3.x will not get any major refactorings anymore anyway.
-#
-# Possibly re-enable in nanoc 4.x.
-ClassLength:
-  Enabled: false
-
-# Personal convention is to use colon-less annotations.
-CommentAnnotation:
-  Enabled: false
-
-# Other tools exist for checking code quality. This cop is probably good to
-# have, but nanoc 3.x will not get any major refactorings anymore anyway.
-#
-# Possibly re-enable in nanoc 4.x.
-CyclomaticComplexity:
-  Enabled: false
-
 # It does not make sense to enforce everything to have documentation.
 Documentation:
-  Enabled: false
-
-# Personal preference is putting the dot at the end of the line, so the reader
-# knows that the expression does not end on this line.
-DotPosition:
-  Enabled: false
-
-# Personal preference is to have symmetric blank lines inside module and class
-# definitions.
-EmptyLinesAroundBody:
-  Enabled: false
-
-# I prefer negated if because unless is hard to parse mentally.
-FavorUnlessOverNegatedIf:
-  Enabled: false
-
-# nanoc suppresses exceptions for valid reasons in a few cases.
-HandleExceptions:
   Enabled: false
 
 # if/unless at the end of the line makes it too easy to oversee.
 IfUnlessModifier:
   Enabled: false
 
-# Other tools exist for checking code quality. This cop is probably good to
-# have, but nanoc 3.x will not get any major refactorings anymore anyway.
-#
-# Possibly re-enable in nanoc 4.x.
-MethodLength:
+# This causes the hashes to be ridiculously indented.
+IndentHash:
   Enabled: false
 
 # Personal preference is to have decent constructors for exceptions rather than
@@ -108,12 +100,17 @@ RaiseArgs:
 SignalException:
   Enabled: false
 
-# Personal preference is to have space inside square brackets.
-SpaceInsideBrackets:
-  Enabled: false
-
 # Some methods that appear to be accessors (return a single value or set a
 # single value) should still not be considered to be accessors. This is a purely
 # semantic difference.
 TrivialAccessors:
+  Enabled: false
+
+# Trailing commas improve diffs. One could argue that diff algorithms should be
+# able to handle this, but they cannot, so this is disabled.
+TrailingComma:
+  Enabled: false
+
+# This does not always semantically make sense.
+GuardClause:
   Enabled: false

@@ -1,13 +1,11 @@
 # encoding: utf-8
 
 module Nanoc
-
   # Calculates rule memories for objects that can be run through a rule (item
   # representations and layouts).
   #
   # @api private
   class RuleMemoryCalculator
-
     extend Nanoc::Memoization
 
     # @param [Nanoc::Site] site
@@ -67,13 +65,13 @@ module Nanoc
     def snapshots_for(rep)
       mem = new_rule_memory_for_rep(rep)
 
-      from_snapshots = mem.
-        select { |s| s.is_a?(Nanoc::RuleMemoryActions::Snapshot) }.
-        map    { |s| [ s.snapshot_name, s.final? ] }
+      from_snapshots = mem
+                       .select { |s| s.is_a?(Nanoc::RuleMemoryActions::Snapshot) }
+                       .map    { |s| [s.snapshot_name, s.final?] }
 
-      from_writes = mem.
-        select { |s| s.is_a?(Nanoc::RuleMemoryActions::Write) && s.snapshot? }.
-        map    { |s| [ s.snapshot_name, true ] }
+      from_writes = mem
+                    .select { |s| s.is_a?(Nanoc::RuleMemoryActions::Write) && s.snapshot? }
+                    .map    { |s| [s.snapshot_name, true] }
 
       from_snapshots + from_writes
     end
@@ -82,18 +80,18 @@ module Nanoc
     #
     # @return [Enumerable] A list of paths
     def write_paths_for(rep)
-      new_rule_memory_for_rep(rep).
-        select { |s| s.is_a?(Nanoc::RuleMemoryActions::Write) || s.is_a?(Nanoc::RuleMemoryActions::Snapshot) }.
-        map    { |s| s.path.to_s }
+      new_rule_memory_for_rep(rep)
+        .select { |s| s.is_a?(Nanoc::RuleMemoryActions::Write) || s.is_a?(Nanoc::RuleMemoryActions::Snapshot) }
+        .map    { |s| s.path.to_s }
     end
 
     # @param [Nanoc::ItemRep] rep
     #
     # @return [Hash<Symbol,String>] A map of snapshot names onto paths
     def snapshot_write_paths_for(rep)
-      new_rule_memory_for_rep(rep).
-        select { |s| s.is_a?(Nanoc::RuleMemoryActions::Write) || s.is_a?(Nanoc::RuleMemoryActions::Snapshot) }.
-        each_with_object({}) { |s, memo| memo[s.snapshot_name] = s.path.to_s }
+      new_rule_memory_for_rep(rep)
+        .select { |s| s.is_a?(Nanoc::RuleMemoryActions::Write) || s.is_a?(Nanoc::RuleMemoryActions::Snapshot) }
+        .each_with_object({}) { |s, memo| memo[s.snapshot_name] = s.path.to_s }
     end
 
     # @param [Nanoc::Item] obj The object for which to check the rule memory
@@ -103,7 +101,5 @@ module Nanoc
     def rule_memory_differs_for(obj)
       !@rule_memory_store[obj].eql?(self[obj])
     end
-
   end
-
 end

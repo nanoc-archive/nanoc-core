@@ -1,14 +1,13 @@
 # encoding: utf-8
 
 class Nanoc::SiteTest < Nanoc::TestCase
-
   def test_freeze
     site = Nanoc::Site.new(
       config:        Nanoc::Configuration.new({ foo: 123 }),
-      code_snippets: [ Nanoc::CodeSnippet.new('$stuff = :cool', 'blah.rb') ],
+      code_snippets: [Nanoc::CodeSnippet.new('$stuff = :cool', 'blah.rb')],
       data_sources:  [],
-      items:         [ Nanoc::Item.new('foo', {}, '/foo.txt') ],
-      layouts:       [ Nanoc::Layout.new('foo', {}, '/foo.txt') ],
+      items:         [Nanoc::Item.new('foo', {}, '/foo.txt')],
+      layouts:       [Nanoc::Layout.new('foo', {}, '/foo.txt')],
     )
 
     site.freeze
@@ -60,14 +59,12 @@ class Nanoc::SiteTest < Nanoc::TestCase
 
       # Check
       assert_equal 1,          site.data_sources.size
-      assert_equal [ '/foo' ], site.items.map { |i| i.identifier.to_s }
+      assert_equal ['/foo'], site.items.map { |i| i.identifier.to_s }
     end
   end
-
 end
 
 describe 'Nanoc::Site#data_sources' do
-
   include Nanoc::TestHelpers
 
   it 'should raise for unknown data sources' do
@@ -101,5 +98,4 @@ describe 'Nanoc::Site#data_sources' do
       assert data_sources.first.config[:bbb] = 'two'
     end
   end
-
 end

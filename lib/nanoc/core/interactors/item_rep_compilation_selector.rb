@@ -1,14 +1,12 @@
 # encoding: utf-8
 
 module Nanoc
-
   class ItemRepCompilationSelector
-
     def initialize(reps)
       @reps = reps
     end
 
-    # TODO it would be cool to have the previous graph of hard dependencies here
+    # TODO: it would be cool to have the previous graph of hard dependencies here
     # so that reps can be selected in a more intelligent manner
 
     def each(&block)
@@ -32,11 +30,9 @@ module Nanoc
       end
 
       # Check whether everything was handled
-      if !content_dependency_graph.vertices.empty?
+      unless content_dependency_graph.vertices.empty?
         raise Nanoc::Errors::RecursiveCompilation.new(content_dependency_graph.vertices)
       end
     end
-
   end
-
 end

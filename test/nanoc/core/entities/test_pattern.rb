@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 class Nanoc::PatternTest < Nanoc::TestCase
-
   def test_from_pattern
     pattern1 = Nanoc::Pattern.from('/foo/x[ab]z/bar.*')
     pattern2 = Nanoc::Pattern.from(pattern1)
@@ -23,5 +22,4 @@ class Nanoc::PatternTest < Nanoc::TestCase
     assert pattern.match?('/foo/bar/qux')
     refute pattern.match?('/foo/xyz/qux')
   end
-
 end

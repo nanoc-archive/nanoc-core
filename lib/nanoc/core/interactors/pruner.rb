@@ -1,11 +1,9 @@
 # encoding: utf-8
 
 module Nanoc
-
   # Responsible for finding and deleting files in the site’s output directory
   # that are not managed by nanoc.
   class Pruner
-
     extend DDPlugin::Plugin
 
     # @return [Nanoc::Site] The site this pruner belongs to
@@ -28,21 +26,19 @@ module Nanoc
     def run
       raise NotImplementedError
     end
-
   end
 
   class FilesystemPruner < Pruner
-
     identifier :filesystem
 
     def find_compiled_files
       compiler = Nanoc::CompilerBuilder.new.build(site)
       writer = compiler.item_rep_writer
 
-      compiler.item_rep_store.reps.
-        flat_map { |r| r.written_paths }.
-        select { |f| writer.exist?(f) }.
-        map { |f| writer.full_path_for(f) }
+      compiler.item_rep_store.reps
+        .flat_map(&:written_paths)
+        .select { |f| writer.exist?(f) }
+        .map { |f| writer.full_path_for(f) }
     end
 
     def find_present_files_and_dirs
@@ -54,7 +50,7 @@ module Nanoc
         present_dirs  << f if File.directory?(f)
       end
 
-      [ present_files, present_dirs ]
+      [present_files, present_dirs]
     end
 
     # @see Nanoc::Pruner#run
@@ -96,7 +92,7 @@ module Nanoc
       if @dry_run
         puts file
       else
-        # TODO log file deletion
+        # TODO: log file deletion
         FileUtils.rm(file)
       end
     end
@@ -105,7 +101,7 @@ module Nanoc
       if @dry_run
         puts dir
       else
-        # TODO log file deletion
+        # TODO: log file deletion
         Dir.rmdir(dir)
       end
     end
@@ -121,7 +117,5 @@ module Nanoc
       end
       components.reverse
     end
-
   end
-
 end

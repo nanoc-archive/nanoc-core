@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 class Nanoc::RuleMemoryActionTest < Nanoc::TestCase
-
   def test_abstract
     action = Nanoc::RuleMemoryAction.new
 
@@ -9,5 +8,4 @@ class Nanoc::RuleMemoryActionTest < Nanoc::TestCase
     assert_raises(NotImplementedError) { action.to_s }
     assert_raises(NotImplementedError) { action.inspect }
   end
-
 end

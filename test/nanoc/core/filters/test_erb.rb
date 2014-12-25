@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 class Nanoc::Filters::ERBTest < Nanoc::TestCase
-
   def test_filter_with_instance_variable
     # Create filter
     filter = ::Nanoc::Filters::ERB.new({ location: 'a cheap motel' })
@@ -104,5 +103,4 @@ class Nanoc::Filters::ERBTest < Nanoc::TestCase
     result = filter.run('<%= @local %>', locals: { local: 123 })
     assert_equal '123', result
   end
-
 end

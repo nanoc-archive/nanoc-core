@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 module Nanoc
-
   # Responsible for remembering dependencies between items and layouts. It is
   # used to speed up compilation by only letting an item be recompiled when it
   # is outdated or any of its dependencies (or dependencies’ dependencies,
@@ -20,9 +19,8 @@ module Nanoc
   #
   # @api private
   #
-  # TODO split out some stuff into a DependencyGraph class
+  # TODO: split out some stuff into a DependencyGraph class
   class DependencyTracker < ::Nanoc::Store
-
     # @return [Array<Nanoc::Item, Nanoc::Layout>] The list of items and
     #   layouts that are being tracked by the dependency tracker
     attr_reader :objects
@@ -35,7 +33,7 @@ module Nanoc
       super('tmp/dependencies', 4)
 
       @objects = objects
-      @graph   = Nanoc::DirectedGraph.new([ nil ] + @objects)
+      @graph   = Nanoc::DirectedGraph.new([nil] + @objects)
       @stack   = []
     end
 
@@ -55,7 +53,7 @@ module Nanoc
           raise 'Cannot depend on item views'
         end
 
-        if !@stack.empty?
+        unless @stack.empty?
           Nanoc::NotificationCenter.post(:dependency_created, @stack.last, obj)
           record_dependency(@stack.last, obj)
         end
@@ -63,7 +61,7 @@ module Nanoc
       end
 
       # Register end of visits
-      Nanoc::NotificationCenter.on(:visit_ended, self) do |obj|
+      Nanoc::NotificationCenter.on(:visit_ended, self) do |_obj|
         @stack.pop
       end
     end
@@ -73,7 +71,7 @@ module Nanoc
     # @return [void]
     def stop
       # Sanity check
-      if !@stack.empty?
+      unless @stack.empty?
         raise 'Internal inconsistency: dependency tracker stack not empty at end of compilation'
       end
 
@@ -161,7 +159,7 @@ module Nanoc
 
     # @see Nanoc::Store#unload
     def unload
-      @graph = Nanoc::DirectedGraph.new([ nil ] + @objects)
+      @graph = Nanoc::DirectedGraph.new([nil] + @objects)
     end
 
     protected
@@ -175,7 +173,7 @@ module Nanoc
 
     def data=(new_data)
       # Create new graph
-      @graph = Nanoc::DirectedGraph.new([ nil ] + @objects)
+      @graph = Nanoc::DirectedGraph.new([nil] + @objects)
 
       # Load vertices
       previous_objects = new_data[:vertices].map do |reference|
@@ -199,7 +197,5 @@ module Nanoc
         end
       end
     end
-
   end
-
 end

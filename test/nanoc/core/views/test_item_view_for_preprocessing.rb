@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 class Nanoc::ItemViewForPreprocessingTest < Nanoc::TestCase
-
   def setup
     super
 
@@ -31,5 +30,4 @@ class Nanoc::ItemViewForPreprocessingTest < Nanoc::TestCase
     assert_equal @item_view[:foo], 456
     assert_equal @item.attributes[:foo], 456
   end
-
 end

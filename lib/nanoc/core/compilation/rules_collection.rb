@@ -1,12 +1,10 @@
 # encoding: utf-8
 
 module Nanoc
-
   # Keeps track of the rules in a site.
   #
   # @api private
   class RulesCollection
-
     extend Nanoc::Memoization
 
     # @return [Array<Nanoc::Rule>] The list of item compilation rules that
@@ -83,7 +81,5 @@ module Nanoc
     def inspect
       "<#{self.class}>"
     end
-
   end
-
 end

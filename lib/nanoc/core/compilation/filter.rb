@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 module Nanoc
-
   # Nanoc::Filter is responsible for filtering items. It is the superclass
   # for all textual filters.
   #
@@ -27,7 +26,6 @@ module Nanoc
   #
   # @abstract Subclass and override {#run} to implement a custom filter.
   class Filter < Context
-
     # The path to the directory where temporary binary items are stored
     TMP_BINARY_ITEMS_DIR = 'tmp/binary_items'
 
@@ -40,7 +38,6 @@ module Nanoc
     extend DDPlugin::Plugin
 
     class << self
-
       # Sets the new type for the filter. The type can be `:binary` (default)
       # or `:text`. The given argument can either be a symbol indicating both
       # “from” and “to” types, or a hash where the only key is the “from” type
@@ -76,7 +73,6 @@ module Nanoc
       def to_binary?
         (@to || :text) == :binary
       end
-
     end
 
     # Creates a new filter that has access to the given assigns.
@@ -102,7 +98,7 @@ module Nanoc
     # @return [String, void] If the filter output binary content, the return
     #   value is undefined; if the filter outputs textual content, the return
     #   value will be the filtered content.
-    def run(content_or_filename, params = {})
+    def run(_content_or_filename, _params = {})
       raise NotImplementedError.new('Nanoc::Filter subclasses must implement #run')
     end
 
@@ -147,7 +143,7 @@ module Nanoc
     #
     # @return [void]
     def depend_on(items)
-      unwrapped_items = items.map { |i| i.resolve }
+      unwrapped_items = items.map(&:resolve)
 
       # Notify
       unwrapped_items.each do |item|
@@ -161,7 +157,5 @@ module Nanoc
         raise Nanoc::Errors::UnmetDependency.new(rep) if rep
       end
     end
-
   end
-
 end

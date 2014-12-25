@@ -1,13 +1,12 @@
 # encoding: utf-8
 
 class Nanoc::RuleMemoryActions::SnapshotTest < Nanoc::TestCase
-
   def action
     Nanoc::RuleMemoryActions::Snapshot.new(:before_layout, '/raw.txt', true)
   end
 
   def test_serialize
-    expected = [ :snapshot, :before_layout, { path: '/raw.txt', final: true } ]
+    expected = [:snapshot, :before_layout, { path: '/raw.txt', final: true }]
     assert_equal action.serialize, expected
   end
 
@@ -20,5 +19,4 @@ class Nanoc::RuleMemoryActions::SnapshotTest < Nanoc::TestCase
     expected = "<Nanoc::RuleMemoryActions::Snapshot :before_layout, {:path=>\"/raw.txt\", :final=>true}>"
     assert_equal action.inspect, expected
   end
-
 end

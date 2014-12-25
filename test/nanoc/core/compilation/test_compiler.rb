@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 class Nanoc::CompilerTest < Nanoc::TestCase
-
   def new_snapshot_store
     Nanoc::SnapshotStore::InMemory.new
   end
@@ -20,7 +19,7 @@ class Nanoc::CompilerTest < Nanoc::TestCase
 
       compile_site_here
 
-      assert_equal [ 'build/index.html' ], Dir['build/*']
+      assert_equal ['build/index.html'], Dir['build/*']
       assert File.file?('build/index.html')
       assert File.read('build/index.html') == 'o hello'
     end
@@ -89,7 +88,7 @@ class Nanoc::CompilerTest < Nanoc::TestCase
 
       # At this point, even the already compiled items in the previous pass
       # should have their compiled content assigned, so this should work:
-      compiler.item_rep_store.reps.each { |r| r.compiled_content }
+      compiler.item_rep_store.reps.each(&:compiled_content)
     end
   end
 
@@ -309,7 +308,7 @@ class Nanoc::CompilerTest < Nanoc::TestCase
 
       compile_site_here
 
-      assert_equal [ 'build/index.html' ], Dir['build/*'].sort
+      assert_equal ['build/index.html'], Dir['build/*'].sort
     end
   end
 
@@ -321,7 +320,7 @@ class Nanoc::CompilerTest < Nanoc::TestCase
 
       compile_site_here
 
-      assert_equal [ 'build/crap', 'build/index.html' ], Dir['build/*'].sort
+      assert_equal ['build/crap', 'build/index.html'], Dir['build/*'].sort
     end
   end
 
@@ -333,7 +332,7 @@ class Nanoc::CompilerTest < Nanoc::TestCase
 
       compile_site_here
 
-      assert_equal [ 'build/index.html' ], Dir['build/*'].sort
+      assert_equal ['build/index.html'], Dir['build/*'].sort
     end
   end
 
@@ -389,9 +388,8 @@ class Nanoc::CompilerTest < Nanoc::TestCase
 
       compile_site_here
 
-      assert_equal [ 'build/index.html' ], Dir['build/*'].sort
+      assert_equal ['build/index.html'], Dir['build/*'].sort
       assert_match(/My name is What\?!/, File.read('build/index.html'))
     end
   end
-
 end

@@ -1,10 +1,10 @@
-source "http://rubygems.org"
+source 'http://rubygems.org'
 
 gemspec
 
 gem 'rubocop'
-gem 'coveralls', :require => false
-gem 'simplecov', :require => false
+gem 'coveralls', require: false
+gem 'simplecov', require: false
 
 platforms :rbx do
   gem 'rubysl'

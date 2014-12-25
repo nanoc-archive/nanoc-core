@@ -1,9 +1,7 @@
 # encoding: utf-8
 
 module Nanoc
-
   class RuleMemory
-
     include Enumerable
 
     attr_reader :steps
@@ -41,7 +39,7 @@ module Nanoc
     end
 
     def serialize
-      map { |s| s.serialize }
+      map(&:serialize)
     end
 
     def each(&block)
@@ -71,7 +69,5 @@ module Nanoc
         @_snapshot_names << name
       end
     end
-
   end
-
 end

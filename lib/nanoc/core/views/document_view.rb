@@ -1,11 +1,9 @@
 # encoding: utf-8
 
 module Nanoc
-
   # A wrapper around {Nanoc::Document} that provides restricted access. Document
   # views should be used in assigns when filtering and layouting.
   class DocumentView
-
     # @param [Nanoc::Document] wrapped
     def initialize(wrapped)
       @wrapped = wrapped
@@ -52,7 +50,5 @@ module Nanoc
     def eql?(other)
       self == other
     end
-
   end
-
 end

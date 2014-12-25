@@ -1,29 +1,25 @@
 # encoding: utf-8
 
 module Nanoc
-
-  # TODO rename (it does not just write)
-  # TODO merge pruner into this and make pruner part of base
+  # TODO: rename (it does not just write)
+  # TODO: merge pruner into this and make pruner part of base
   class ItemRepWriter
-
     extend DDPlugin::Plugin
 
     def initialize(config)
       @config = config
     end
 
-    def write(rep, path)
+    def write(_rep, _path)
       raise NotImplementedError
     end
 
-    def exist?(path)
+    def exist?(_path)
       raise NotImplementedError
     end
-
   end
 
   class FilesystemItemRepWriter < ItemRepWriter
-
     identifier :filesystem
 
     # Writes the item rep's compiled content to the rep's output file.
@@ -86,7 +82,5 @@ module Nanoc
 
       File.expand_path(new_filename)
     end
-
   end
-
 end

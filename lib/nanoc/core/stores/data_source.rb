@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 module Nanoc
-
   # Responsible for loading site data. It is the (abstract) superclass for all
   # data sources. Subclasses must at least implement the data reading methods
   # ({#items} and {#layouts}); all other methods involving data manipulation
@@ -25,7 +24,6 @@ module Nanoc
   #   {#create_item} and {#create_layout} methods should be implemented as
   #   well.
   class DataSource
-
     # @return [String] The root path where items returned by this data source
     #   should be mounted.
     attr_reader :items_root
@@ -187,7 +185,7 @@ module Nanoc
     # @param [String] identifier
     #
     # @return [void]
-    def create_item(content, attributes, identifier)
+    def create_item(_content, _attributes, _identifier)
       raise NotImplementedError, '#create_item'
     end
 
@@ -205,10 +203,8 @@ module Nanoc
     # @param [String] identifier
     #
     # @return [void]
-    def create_layout(content, attributes, identifier)
+    def create_layout(_content, _attributes, _identifier)
       raise NotImplementedError, '#create_layout'
     end
-
   end
-
 end

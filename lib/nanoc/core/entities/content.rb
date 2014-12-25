@@ -1,9 +1,7 @@
 # encoding: utf-8
 
 module Nanoc
-
   class Content
-
     attr_reader :filename
 
     def initialize(filename)
@@ -23,7 +21,5 @@ module Nanoc
         raise ArgumentError, "Filename should be absolute (got #{filename})"
       end
     end
-
   end
-
 end

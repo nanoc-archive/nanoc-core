@@ -1,12 +1,10 @@
 # encoding: utf-8
 
 module Nanoc
-
   # Responsible for determining whether an item or a layout is outdated.
   #
   # @api private
   class OutdatednessChecker
-
     extend Nanoc::Memoization
 
     def initialize(params = {})
@@ -207,7 +205,5 @@ module Nanoc
     def object_modified?(obj)
       !checksums_available?(obj) || !checksums_identical?(obj)
     end
-
   end
-
 end

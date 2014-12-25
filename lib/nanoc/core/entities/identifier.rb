@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 module Nanoc
-
   # Used for identifying items and layouts.
   #
   # An identifier resembles a filesystem path quite closely: it is a list of
@@ -12,7 +11,6 @@ module Nanoc
   #     /doc/tutorial.md
   #     /index.html
   class Identifier
-
     # @return [Array<String>] The components of this identifier.
     attr_reader :components
 
@@ -27,7 +25,7 @@ module Nanoc
         raise Nanoc::Errors::IdentifierCannotEndWithSlashError.new(string)
       end
 
-      components = string.split('/').reject { |c| c.empty? }
+      components = string.split('/').reject(&:empty?)
       new(components)
     end
 
@@ -53,7 +51,7 @@ module Nanoc
       @components = components
 
       @components.freeze
-      @components.each { |c| c.freeze }
+      @components.each(&:freeze)
     end
 
     # @return [String] The string representation of this identifier, starting
@@ -99,7 +97,7 @@ module Nanoc
       end
     end
 
-    # FIXME ugly
+    # FIXME: ugly
     def prefix(prefix)
       self.class.from_string(prefix + to_s)
     end
@@ -114,7 +112,7 @@ module Nanoc
     #   Nanoc::Identifier.from_string('/foo').append_component('bar').to_s
     #   # => '/foo/bar'
     def append_component(string)
-      self.class.new(components + [ string ])
+      self.class.new(components + [string])
     end
 
     # @param [String] ext
@@ -238,7 +236,5 @@ module Nanoc
     def inspect
       "<#{self.class} #{to_s.inspect}>"
     end
-
   end
-
 end

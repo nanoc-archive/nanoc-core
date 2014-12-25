@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 class Nanoc::ItemRepViewForFilteringTest < Nanoc::TestCase
-
   def setup
     super
 
@@ -18,7 +17,7 @@ class Nanoc::ItemRepViewForFilteringTest < Nanoc::TestCase
     def @item_rep.compiled?
       true
     end
-    @item_rep_store = Nanoc::ItemRepStore.new([ @item_rep ])
+    @item_rep_store = Nanoc::ItemRepStore.new([@item_rep])
 
     @subject = Nanoc::ItemRepViewForFiltering.new(@item_rep, @item_rep_store)
   end
@@ -51,5 +50,4 @@ class Nanoc::ItemRepViewForFilteringTest < Nanoc::TestCase
   def test_inspect
     assert_match(/Nanoc::ItemRep*/, @subject.inspect)
   end
-
 end

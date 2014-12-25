@@ -1,12 +1,9 @@
 # encoding: utf-8
 
 module Nanoc
-
   # A collection of items. Allows fetchin items using identifiers, e.g. `@items['/blah/']`.
   class ItemCollection
-
     module Mutating
-
       def <<(item)
         @items << item
       end
@@ -39,7 +36,6 @@ module Nanoc
       def select!(&block)
         self.reject! { |i| !block.call(i) }
       end
-
     end
 
     include Enumerable
@@ -133,7 +129,5 @@ module Nanoc
       end
       @mapping.freeze
     end
-
   end
-
 end

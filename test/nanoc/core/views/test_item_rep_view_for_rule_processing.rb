@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 class Nanoc::ItemRepViewForRuleProcessingTest < Nanoc::TestCase
-
   def setup
     super
 
@@ -57,5 +56,4 @@ class Nanoc::ItemRepViewForRuleProcessingTest < Nanoc::TestCase
       @subject.send(:layout_with_identifier, '/*.erb')
     end
   end
-
 end

@@ -1,10 +1,8 @@
 # encoding: utf-8
 
 module Nanoc
-
   # Contains the processing information for a item.
   class Rule
-
     # @return [Pattern] pattern A pattern that will be used to determine
     #   whether this rule is applicable to certain items.
     attr_reader :pattern
@@ -61,7 +59,5 @@ module Nanoc
     def apply_to(rep_proxy, site)
       Nanoc::RuleContext.new(rep: rep_proxy, site: site).instance_eval(&@block)
     end
-
   end
-
 end

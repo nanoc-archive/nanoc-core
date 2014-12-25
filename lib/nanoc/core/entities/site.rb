@@ -1,10 +1,8 @@
 # encoding: utf-8
 
 module Nanoc
-
   # The in-memory representation of a nanoc site.
   class Site
-
     # @return [Nanoc::Configuration]
     attr_reader :config
 
@@ -38,15 +36,13 @@ module Nanoc
       config.freeze_recursively
 
       items.freeze
-      items.each         { |i|  i.freeze  }
+      items.each(&:freeze)
 
       layouts.freeze
-      layouts.each       { |l|  l.freeze  }
+      layouts.each(&:freeze)
 
       code_snippets.freeze
-      code_snippets.each { |cs| cs.freeze }
+      code_snippets.each(&:freeze)
     end
-
   end
-
 end

@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 class Nanoc::DataSources::FilesystemTest < Nanoc::TestCase
-
   def setup
     super
 
@@ -175,7 +174,7 @@ class Nanoc::DataSources::FilesystemTest < Nanoc::TestCase
 
   def test_parse_utf8_bom
     File.open('test.html', 'w') do |io|
-      io.write [ 0xEF, 0xBB, 0xBF ].map { |i| i.chr }.join
+      io.write [0xEF, 0xBB, 0xBF].map(&:chr).join
       io.write "---\n"
       io.write "utf8bomawareness: high\n"
       io.write "---\n"
@@ -204,7 +203,7 @@ class Nanoc::DataSources::FilesystemTest < Nanoc::TestCase
   end
 
   def test_read_utf8_bom
-    File.write('test.html', [ 0xEF, 0xBB, 0xBF ].map { |i| i.chr }.join + 'stuff')
+    File.write('test.html', [0xEF, 0xBB, 0xBF].map(&:chr).join + 'stuff')
 
     assert_equal 'stuff', @data_source.read('test.html')
   end
@@ -256,5 +255,4 @@ class Nanoc::DataSources::FilesystemTest < Nanoc::TestCase
       @data_source.config[:layouts_dir] = 'layouts'
     end
   end
-
 end

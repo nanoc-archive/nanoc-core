@@ -1,13 +1,12 @@
 # encoding: utf-8
 
 class Nanoc::RuleMemoryActions::FilterTest < Nanoc::TestCase
-
   def action
     Nanoc::RuleMemoryActions::Filter.new(:foo, { awesome: true })
   end
 
   def test_serialize
-    expected = [ :filter, :foo, { awesome: true } ]
+    expected = [:filter, :foo, { awesome: true }]
     assert_equal action.serialize, expected
   end
 
@@ -20,5 +19,4 @@ class Nanoc::RuleMemoryActions::FilterTest < Nanoc::TestCase
     expected = '<Nanoc::RuleMemoryActions::Filter :foo, {:awesome=>true}>'
     assert_equal action.inspect, expected
   end
-
 end

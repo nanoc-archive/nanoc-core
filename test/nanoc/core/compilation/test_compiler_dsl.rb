@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 class Nanoc::CompilerDSLTest < Nanoc::TestCase
-
   def setup
     super
     @rules_collection = Nanoc::RulesCollection.new
@@ -9,11 +8,11 @@ class Nanoc::CompilerDSLTest < Nanoc::TestCase
   end
 
   def test_compile
-    # TODO implement
+    # TODO: implement
   end
 
   def test_layout
-    # TODO implement
+    # TODO: implement
   end
 
   def test_write
@@ -120,5 +119,4 @@ EOS
       @compiler_dsl.instance_eval { compiler }
     end
   end
-
 end

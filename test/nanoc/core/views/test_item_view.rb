@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 class Nanoc::ItemViewTest < Nanoc::TestCase
-
   def setup
     super
 
@@ -22,7 +21,7 @@ class Nanoc::ItemViewTest < Nanoc::TestCase
     def @rep_2.path(params = {})
       "foo path at #{params[:snapshot].inspect}"
     end
-    @item_rep_store = Nanoc::ItemRepStore.new([ @rep_1, @rep_2 ])
+    @item_rep_store = Nanoc::ItemRepStore.new([@rep_1, @rep_2])
     @subject = Nanoc::ItemView.new(@item, @item_rep_store)
   end
 
@@ -31,8 +30,8 @@ class Nanoc::ItemViewTest < Nanoc::TestCase
   end
 
   def test_reps
-    expected = [ @rep_1, @rep_2 ].to_set
-    assert_equal expected, @subject.reps.to_set.map { |r| r.resolve }.to_set
+    expected = [@rep_1, @rep_2].to_set
+    assert_equal expected, @subject.reps.to_set.map(&:resolve).to_set
   end
 
   def test_reps_without_store
@@ -91,5 +90,4 @@ class Nanoc::ItemViewTest < Nanoc::TestCase
   def test_binary
     refute @subject.binary?
   end
-
 end

@@ -1,9 +1,7 @@
 # encoding: utf-8
 
 module Nanoc
-
   class Preprocessor
-
     def initialize(site, rules_collection)
       @site             = site
       @rules_collection = rules_collection
@@ -26,7 +24,5 @@ module Nanoc
         layouts: @site.layouts,
       })
     end
-
   end
-
 end
