@@ -189,10 +189,10 @@ class Nanoc::DataSources::FilesystemTest < Nanoc::TestCase
   def test_read_other_encoding
     File.write('foo.txt', 'Hëllö'.encode('ISO-8859-1'))
 
-    error = assert_raises(ArgumentError) do
+    error = assert_raises(RuntimeError) do
       @data_source.read('foo.txt')
     end
-    assert_equal 'invalid byte sequence in UTF-8', error.message
+    assert_equal 'Could not read foo.txt: data is not valid utf-8', error.message
 
     begin
       @data_source.config[:encoding] = 'ISO-8859-1'

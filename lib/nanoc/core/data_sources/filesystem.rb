@@ -285,6 +285,9 @@ module Nanoc
         encoding = (@config && @config[:encoding]) || 'utf-8'
         data.force_encoding(encoding)
         data.encode!('utf-8')
+        unless data.valid_encoding?
+          raise "Could not read #{filename}: data is not valid #{encoding}"
+        end
 
         # Remove UTF-8 BOM
         data.gsub!("\xEF\xBB\xBF", '')
