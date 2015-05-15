@@ -1,7 +1,1 @@
-/doc/yardoc/
-/coverage/
-/.yardoc/
-/.bundle/
-*.gem
-*~
 .DS_Store
